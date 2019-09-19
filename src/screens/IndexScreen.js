@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-
+import Header from '../components/Header';
 const IndexScreen = () => {
   return (
     <View>
-      <Text style={styles.header}>Index</Text>
+      <Header title="Index" />
     </View>
   );
 }
