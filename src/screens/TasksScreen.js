@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import Header from '../components/Header';
 
 const TasksScreen = () => {
   return (
     <View>
-      <Text>Tasks</Text>
+      <Header title="Tasks" />
     </View>
   );
 }
