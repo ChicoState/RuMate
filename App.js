@@ -13,6 +13,9 @@ const TabNavigator = createBottomTabNavigator({
   Tasks: TasksScreen,
 },{
   initialRouteName: 'Home',
+  defaultNavigationOptions: {
+
+  }
 });
 
 const StackNavigator = createStackNavigator({
@@ -20,8 +23,8 @@ const StackNavigator = createStackNavigator({
   Main: TabNavigator
 },{
   initialRouteName: 'Login',
-  defaultNavigationOptions: {
-    // title: 'RuMate'
+  defaultNavigationOptions:  { 
+    title: 'RuMate',
     headerLeft: null,
     gesturesEnabled: false
   }
