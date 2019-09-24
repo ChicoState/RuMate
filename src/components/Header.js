@@ -12,7 +12,8 @@ const Header = ({title}) => {
 const styles = StyleSheet.create({
   header: {
     paddingVertical: 50,
-    fontSize: 20
+    fontSize: 20,
+    alignSelf: 'center'
   }
 });
 
