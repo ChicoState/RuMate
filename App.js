@@ -6,11 +6,23 @@ import { createStackNavigator } from 'react-navigation-stack';
 import HomeScreen from './src/screens/HomeScreen';
 import TasksScreen from './src/screens/TasksScreen';
 import LoginScreen from './src/screens/LoginScreen';
+import CreateTaskScreen from './src/screens/CreateTaskScreen';
 useScreens();
+
+const TaskStackNavigator = createStackNavigator({
+  Task: TasksScreen,
+  CreateTask: CreateTaskScreen,
+},{
+    initialRouteName: 'Task',
+    defaultNavigationOptions: {
+
+    }
+});
 
 const TabNavigator = createBottomTabNavigator({
   Home: HomeScreen,
-  Tasks: TasksScreen,
+  //Tasks: TasksScreen,
+  Tasks: TaskStackNavigator,
 },{
   initialRouteName: 'Home',
   defaultNavigationOptions: {
