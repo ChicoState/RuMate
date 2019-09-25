@@ -10,18 +10,8 @@ import LoginScreen from './src/screens/LoginScreen';
 import CreateTaskScreen from './src/screens/CreateTaskScreen';
 useScreens();
 
-const TaskStackNavigator = createStackNavigator({
-  Task: TasksScreen,
-  CreateTask: CreateTaskScreen,
-},{
-    initialRouteName: 'Task',
-    defaultNavigationOptions: {
-
-    }
-});
-
+// Add extra tabs here
 const TabNavigator = createBottomTabNavigator({
-<<<<<<< HEAD
   Home: {
     screen: HomeScreen,
     defaultNavigationOptions: {
@@ -37,21 +27,19 @@ const TabNavigator = createBottomTabNavigator({
       tabBarLabel: "Tasks"
     }
   },
-=======
-  Home: HomeScreen,
-  //Tasks: TasksScreen,
-  Tasks: TaskStackNavigator,
+  // next screen here
 },{
   initialRouteName: 'Home',
   defaultNavigationOptions: {
 
   }
->>>>>>> 6e3ae4c1332fdd971c317b03dd7c6c3b4e59d053
 });
 
+// Add extra stack screens here
 const StackNavigator = createStackNavigator({
   Login: LoginScreen,
-  Main: TabNavigator
+  Main: TabNavigator,
+  CreateTask: CreateTaskScreen,
 },{
   initialRouteName: 'Login',
   defaultNavigationOptions:  { 
