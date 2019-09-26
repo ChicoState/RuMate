@@ -1,4 +1,5 @@
 import React from 'react';
+import { Text, StyleSheet, Button } from 'react-native';
 import { useScreens } from 'react-native-screens';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
@@ -28,6 +29,9 @@ const TabNavigator = createBottomTabNavigator({
     }
   },
   // next screen here
+  // screen: {
+  //  
+  // }
 },{
   initialRouteName: 'Home',
   defaultNavigationOptions: {
@@ -35,21 +39,46 @@ const TabNavigator = createBottomTabNavigator({
   }
 });
 
-// Add extra stack screens here
-const StackNavigator = createStackNavigator({
-  Login: LoginScreen,
-  Main: TabNavigator,
+const taskNavigator = createStackNavigator({
   CreateTask: CreateTaskScreen,
-},{
-  initialRouteName: 'Login',
-  defaultNavigationOptions:  { 
-    title: 'RuMate',
-    headerLeft: null,
-    gesturesEnabled: false
+}, {
+  defaultNavigationOptions: {
+    headerLeft: ({ scene }) => {
+      // destructure navigate function off of props.scene
+      const { navigate } = scene.descriptor.navigation;
+      return (
+        <Button style={styles.headerLeft}
+          title="Back"
+          onPress={() => {
+            // navigate back to tasks screen
+            navigate('Tasks');
+          }}
+        />
+      );
+    }
   }
 });
 
-const App = createAppContainer(StackNavigator);
+// Add extra screens here
+const mainStackNavigator = createStackNavigator({
+  Login: LoginScreen,
+  Main: TabNavigator,
+  CreateTask: taskNavigator,
+},{
+  initialRouteName: 'Login',
+  defaultNavigationOptions: {
+    headerLeft: null,
+    header: null
+  }
+});
+
+const App = createAppContainer(mainStackNavigator);
+
+const styles = StyleSheet.create({
+  headerLeft: {
+    fontSize: 20
+  }
+});
 
 export default () => {
   return (
