@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   View, 
   Text,
   StyleSheet, 
   TextInput,
   TouchableOpacity } from 'react-native';
+import { Stitch, AnonymousCredential, RemoteMongoClient } from 'mongodb-stitch-react-native-sdk';
+
 import Header from '../components/Header';
 
 const LoginScreen = ({navigation}) => {
@@ -12,6 +14,12 @@ const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState("");
   // password string initally empty
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    // mongodb init goes here eventually.
+  }, []);
+
+
   return (
     <View>
       <Header style={styles.header} title="Login to RuMate"/>
@@ -31,6 +39,7 @@ const LoginScreen = ({navigation}) => {
         * (don't use <Button /> unless 
         sepcifically wanted) */}
       <TouchableOpacity onPress={() => {
+        // IFF authenticate -> navigate
         navigation.navigate('Main');
       }}>
         <View style={styles.submit}>
