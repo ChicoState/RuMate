@@ -55,6 +55,10 @@ const taskNavigator = createStackNavigator({
           }}
         />
       );
+    },
+    gesturesEnabled: ({ scene }) => {
+      const { navigate } = scene.descriptor.navigation;
+      navigate('Tasks');
     }
   }
 });
