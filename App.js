@@ -15,27 +15,17 @@ useScreens();
 const TabNavigator = createBottomTabNavigator({
   Home: {
     screen: HomeScreen,
-    defaultNavigationOptions: {
-      showIcon: true,
-      tabBarIcon: ({ tintColor }) => {
-        <Icon name="home" size={20} />
-      }
-    }
   },
   Tasks: {
     screen: TasksScreen,
-    defaultNavigationOptions: {
-      tabBarLabel: "Tasks"
-    }
   },
-  // next screen here
-  // screen: {
-  //  
-  // }
+// next screen here {
+//  screen: 
+// },
 },{
   initialRouteName: 'Home',
   defaultNavigationOptions: {
-
+    gesturesEnabled: false
   }
 });
 
@@ -56,10 +46,6 @@ const taskNavigator = createStackNavigator({
         />
       );
     },
-    gesturesEnabled: ({ scene }) => {
-      const { navigate } = scene.descriptor.navigation;
-      navigate('Tasks');
-    }
   }
 });
 
@@ -72,7 +58,8 @@ const mainStackNavigator = createStackNavigator({
   initialRouteName: 'Login',
   defaultNavigationOptions: {
     headerLeft: null,
-    header: null
+    header: null,
+    gesturesEnabled: false
   }
 });
 
