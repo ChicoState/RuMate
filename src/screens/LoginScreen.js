@@ -5,7 +5,6 @@ import {
   StyleSheet, 
   TextInput,
   TouchableOpacity } from 'react-native';
-import { Stitch, AnonymousCredential, RemoteMongoClient } from 'mongodb-stitch-react-native-sdk';
 
 import Header from '../components/Header';
 
