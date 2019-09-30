@@ -10,6 +10,23 @@ import LoginScreen from './src/screens/LoginScreen';
 import CreateTaskScreen from './src/screens/CreateTaskScreen';
 useScreens();
 
+//TODO: DL - this is very inefficient to include the entire firebase SDK
+//we will need to update to only include specific SDK's once we have a better
+//idea of which ones we need
+var firebase = require("firebase");
+
+var firebaseConfig = {
+  apiKey: "AIzaSyA_ZWMR-MFG_ZHNK4_WuEeHoLP9vzsY_Vk",
+  authDomain: "rumate-faaeb.firebaseapp.com",
+  databaseURL: "https://rumate-faaeb.firebaseio.com",
+  projectId: "rumate-faaeb",
+  storageBucket: "",
+  messagingSenderId: "484837108351",
+  appId: "1:484837108351:web:53a875e9546d00aa2dad4a"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
 // Add extra tabs here
 const TabNavigator = createBottomTabNavigator({
   Home: {
