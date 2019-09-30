@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "expo": "^34.0.1",
+    "firebase": "^7.0.0",
+    "firebase-admin": "^8.6.0",
     "mongodb-stitch": "^3.4.0",
     "mongodb-stitch-browser-sdk": "^4.5.0",
     "mongodb-stitch-react-native-sdk": "^4.5.0",
