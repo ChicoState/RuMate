@@ -5,7 +5,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 var firebase = require("firebase");
 
 function addEntry(the_name, the_date, the_description) {
-    firebase.database().ref('/tasks').set({
+    var tasksList = firebase.database().ref().child('/tasks').push();
+    tasksList.set({
         name: the_name,
         date: the_date,
         description: the_description
