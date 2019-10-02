@@ -5,7 +5,7 @@ import {
   StyleSheet, 
   TextInput,
   TouchableOpacity } from 'react-native';
-
+import Expo from 'expo';
 import Header from '../components/Header';
 
 const LoginScreen = ({navigation}) => {
@@ -13,7 +13,10 @@ const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState("");
   // password string initally empty
   const [password, setPassword] = useState("");
-
+  // google auth state
+  const [signedIn, setSignedIn] = useState(false);
+  // google photo?
+  const [photo, setPhoto] = useState("");
   useEffect(() => {
     // mongodb init goes here eventually.
   }, []);
@@ -51,6 +54,13 @@ const LoginScreen = ({navigation}) => {
         <Text>Login w/ Google</Text>
        {/* <GoogleAuth /> */}
       </TouchableOpacity>
+      
+      <TouchableOpacity style={styles.submit}>
+        <Text>Login w/ Facebook</Text>
+       {/* <GoogleAuth /> */}
+      </TouchableOpacity>
+
+
     </View>
   );
 }
