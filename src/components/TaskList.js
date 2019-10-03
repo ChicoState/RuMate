@@ -52,8 +52,6 @@ export default class TaskList extends Component {
 
       let tasks = snapshot.val();
 
-      console.log(tasks);
-
       let newState = [];
 
       for(let item in tasks){
