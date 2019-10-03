@@ -1,6 +1,5 @@
 import React,  {Component} from 'react';
 import { View, TouchableOpacity, FlatList, StyleSheet, Text,} from 'react-native';
-import FlatListData from '../components/FlatListData.js'
 var firebase = require("firebase");
 
 class FlatListItem extends Component {
@@ -40,7 +39,7 @@ export default class TaskList extends Component {
         }
     }
 
-  componentDidMount() {
+  componentWillMount() {
     const taskref = firebase.database().ref(`tasks/`);
 
     taskref.on("value", snapshot => {
