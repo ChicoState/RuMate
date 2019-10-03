@@ -6,27 +6,56 @@ class FlatListItem extends Component {
 
     render() {
       return (
-        <View style={{
-          flex: 1,
-          backgroundColor: "#858585",
-          borderRadius: 4,
-          borderWidth: 0.5,
-          borderColor: 'black',
-          marginHorizontal: 2,
-          marginVertical: 1,
-          fontSize: 32
-        }}>
-          <Text style={styles.FlatListItem}> {this.props.item.name}           {this.props.item.description}         {this.props.item.date}</Text>
+        <View style={styles.itemBlock}>
+          <View style={styles.nameBlock}>
+            <Text style={styles.taskName}>{this.props.item.name} </Text>
+          </View>
+          <View style={styles.taskBlock}>
+            <Text style={styles.taskDescription}>{this.props.item.description} </Text>
+            <Text style={styles.taskDate}>{this.props.item.date} </Text>
+          </View>
         </View>
       );
     }
 }
 
 const styles = StyleSheet.create({
-  flatListItem: {
-    color: 'white',
-    padding: 10,
-    fontSize: 30
+  container: {
+    flex: 1,
+    marginTop: 0,
+    marginBottom: 20
+  },
+  itemBlock: {
+    flex: 1,
+    flexDirection: 'row',
+    paddingBottom: 10,
+    backgroundColor: "#71bd89",
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'black',
+    marginHorizontal: 3,
+    marginVertical: 1,
+    justifyContent: 'space-between'
+  },
+  nameBlock: {
+    flex: 3,
+    flexWrap: 'wrap'
+  },
+  taskBlock: {
+    flex: 4,
+    marginLeft:10,
+  },
+  taskName: {
+    marginLeft: 10,
+    fontSize: 25,
+    justifyContent: 'center'
+  },
+  taskDescription: {
+    fontSize: 20,
+    flexWrap: 'wrap'
+  },
+  taskDate: {
+    fontSize: 15
   }
 });
 
@@ -66,7 +95,7 @@ export default class TaskList extends Component {
 
 render() {
   return (
-    <View style={{flex: 1, marginTop: 22}}>
+    <View>
       <FlatList
         data={this.state.flatlistData}
         getItemLayout={(data, index) => (
