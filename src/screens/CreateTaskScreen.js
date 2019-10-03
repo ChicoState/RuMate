@@ -1,56 +1,66 @@
-import React, {useState} from 'react';
-import { View, Text, TextInput } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import React, {Component} from 'react';
+import { View, Text } from 'react-native';
 import DatePicker from 'react-native-datepicker';
-import { SearchBar } from 'react-native-elements';
+import { SearchBar, Button } from 'react-native-elements';
 
 var firebase = require("firebase");
 
-function addEntry(the_name, the_date, the_description) {
-    /*var tasksList = firebase.database().ref().child('/tasks').push();
-    tasksList.set({
-        name: the_name,
-        date: the_date,
-        description: the_description,
-        completed: false
-    });
-    */
-   console.log(name);
-}
+export default class CreateTaskScreen extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            name: "",
+            date: "",
+            description: "",
+            complete: false
+        };
+    }
 
-function setDate(the_date) {
-    date = the_date;
-}
+    nameSearch() {
+        console.log(this.state.name);
+    }
 
-function setDescription(the_description) {
-    description = the_description;
-}
+    addEntry(the_name, the_date, the_description) {
+        var tasksList = firebase.database().ref().child('/tasks').push();
+        tasksList.set({
+            name: the_name,
+            date: the_date,
+            description: the_description,
+            completed: false
+        });
+    }
 
-function nameSearch(the_text) {
-    if (the_text == "d")
-        console.log("hello");
-    else
-        console.log("hahahha");
-}
+    render() {
+        return (
+            <View>
+                <SearchBar 
+                    value={this.state.name} 
+                    onChangeText={(name) => this.setState({name})} 
+                    onEndEditing={(name) => this.nameSearch({name})} 
+                    placeholder="assignee name"
+                />
 
-const CreateTaskScreen = () => {
-    const [name, setName] = useState("");
-    const [date, setDate] = useState("");
-    const [description, setDescription] = useState("");
-    return (
-        <View>
-            <SearchBar value={name} onChangeText={setName} placeholder="assignee name"></SearchBar>
-            <DatePicker onDateChange={setDate} confirmBtnText="Confirm" cancelBtnText="Cancel"
-            format="MM-DD-YYYY"
-            />
-            <TextInput value={description} onChangeText={setDescription} placeholder="task description"/>
-            <TouchableOpacity onPress={() => {
-                addEntry(name, date, description);
-            }}>
-                <Text>Enter</Text>
-            </TouchableOpacity>
-        </View>
-    )
-}
+                <SearchBar 
+                    value={this.state.description} 
+                    onChangeText={(description) => this.setState({description})} 
+                    placeholder="task description"
+                />
 
-export default CreateTaskScreen;
+                <DatePicker 
+                    onDateChange={(date) => this.setState({date})} 
+                    confirmBtnText="Confirm" 
+                    cancelBtnText="Cancel"
+                    format="MM-DD-YYYY"
+                    date={this.state.date}
+                />
+                
+                <Button
+                    title="Enter"
+                    onPress={() => {this.addEntry(this.state.name, this.state.date, this.state.description);}}
+                >
+                    <Text>Enter</Text>
+                </Button>
+            </View>
+        )
+    }
+}
