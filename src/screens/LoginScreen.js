@@ -4,8 +4,10 @@ import {
   Text,
   StyleSheet, 
   TextInput,
-  TouchableOpacity } from 'react-native';
-import Expo from 'expo';
+  TouchableOpacity,
+  AsyncStorage
+} from 'react-native';
+import * as AppAuth from 'expo-app-auth';
 import Header from '../components/Header';
 
 const LoginScreen = ({navigation}) => {
@@ -17,9 +19,68 @@ const LoginScreen = ({navigation}) => {
   const [signedIn, setSignedIn] = useState(false);
   // google photo?
   const [photo, setPhoto] = useState("");
+
   useEffect(() => {
-    // mongodb init goes here eventually.
+    getCachedAuthAsync();
   }, []);
+
+  const authConfig = {
+    issuer: 'https://accounts.google.com',
+    clientId: "362986953273-olsgvlh1k8cn9fltlivfagkbtnkm01md.apps.googleusercontent.com",
+    scopes: ['email', 'profile', 'openid'],
+  }
+  
+  const StorageKey = '@RuMate:GoogleOAuthKey';
+
+  const signInAsync = async () => {
+    const authState = await AppAuth.authAsync(authConfig);
+    await cacheAuthAsync(authState);
+    console.log('signInAsync', authState);
+    setSignedIn(true);
+    return authState;
+  }
+  
+  const cacheAuthAsync = authState => {
+    return AsyncStorage.setItem(StorageKey, JSON.stringify(authState));
+  }
+
+  const getCachedAuthAsync = async () => {
+    const value = await AsyncStorage.getItem(StorageKey);
+    const authState = JSON.parse(value);
+    console.log('getCachedAuthAsync', authState);
+    if (authState) {
+      if (tokenExpired(authState)) {
+        return refreshAuthAsync(authState);
+      } else {
+        return authState;
+      }
+    }
+    return null;
+  }
+
+  const tokenExpired = ({ accessTokenExpirationDate }) => {
+    return new Date(accessTokenExpirationDate) < new Date();
+  }
+
+  const refreshAuthAsync = async refreshToken => {
+    const authState = await AppAuth.refreshAsync(authConfig, refreshToken);
+    console.log('refreshAuthAsync', authState);
+    await cacheAuthAsync(authState);
+    return authState;
+  }
+
+  const singOutAsync = async ({ accessToken }) => {
+    try {
+      await AppAuth.revokeAsync(authConfig, {
+        token: accessToken,
+        isClientIdProvided: true,
+      });
+      await AsyncStorage.removeItem(StorageKey);
+      return null;
+    } catch ({ message }) {
+      alert(`Failed to sign out: ${message}`);
+    }
+  }
 
   const validate = (password, email) => {
     console.log(password);
@@ -49,10 +110,7 @@ const LoginScreen = ({navigation}) => {
             * (don't use <Button /> unless 
             sepcifically wanted) */}
           <TouchableOpacity onPress={() => {
-            // IFF authenticate -> navigate
-            // alert("Non functional")
-            // if (validate(password, email))
-            //   navigation.navigate('Main');
+            
           }}>
             <View style={styles.submit}>
               <Text>Submit</Text>
@@ -60,7 +118,13 @@ const LoginScreen = ({navigation}) => {
           </TouchableOpacity>
     
           {/* Login w/ google option */}
-          <TouchableOpacity style={styles.submit}>
+          <TouchableOpacity style={styles.submit}
+            onPress={() => {
+              // sing in
+              signInAsync();
+            }}
+          >
+        
             <Text>Login w/ Google</Text>
            {/* <GoogleAuth /> */}
           </TouchableOpacity>
