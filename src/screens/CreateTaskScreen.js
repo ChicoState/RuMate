@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Text, Stylesheet, TextInput } from 'react-native';
+import { View, Text, SearchBar, TextInput } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 var firebase = require("firebase");
@@ -9,7 +9,8 @@ function addEntry(the_name, the_date, the_description) {
     tasksList.set({
         name: the_name,
         date: the_date,
-        description: the_description
+        description: the_description,
+        completed: false
     });
 }
 
