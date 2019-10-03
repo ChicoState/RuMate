@@ -34,7 +34,7 @@ const LoginScreen = ({navigation}) => {
    */
   const authConfig = {
     issuer: 'https://accounts.google.com',
-    clientId: "362986953273-olsgvlh1k8cn9fltlivfagkbtnkm01md.apps.googleusercontent.com",
+    clientId: "484837108351-tvqgaavu2jdsojkn7ouv1tpsoqlti1iv.apps.googleusercontent.com",
     scopes: ['email', 'profile', 'openid'],
   }
   
