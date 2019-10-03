@@ -1,8 +1,10 @@
 import React,  {Component} from 'react';
 import { View, TouchableOpacity, FlatList, StyleSheet, Text,} from 'react-native';
-import flatlistData from '../components/FlatListData.js'
+import FlatListData from '../components/FlatListData.js'
+var firebase = require("firebase");
 
 class FlatListItem extends Component {
+
     render() {
       return (
         <View style={{
@@ -13,8 +15,9 @@ class FlatListItem extends Component {
           borderColor: 'black',
           marginHorizontal: 2,
           marginVertical: 1,
+          fontSize: 32
         }}>
-          <Text style={styles.FlatListItem}> {this.props.item.name}      Task: {this.props.item.description}</Text>
+          <Text style={styles.FlatListItem}> {this.props.item.name}           {this.props.item.description}         {this.props.item.date}</Text>
         </View>
       );
     }
@@ -28,20 +31,58 @@ const styles = StyleSheet.create({
   }
 });
 
+var flatlistData = [];
 export default class TaskList extends Component {
+  constructor(props) {
+        super(props);
+        this.state = {
+          flatlistData: [],
+        }
+    }
+
+  componentDidMount() {
+    const taskref = firebase.database().ref(`tasks/`);
+
+    taskref.on("value", snapshot => {
+
+      let tasks = snapshot.val();
+
+      console.log(tasks);
+
+      let newState = [];
+
+      for(let item in tasks){
+        newState.push({
+          name: tasks[item].name,
+          description: tasks[item].description,
+          date: tasks[item].date,
+        });
+      }
+
+      this.setState({
+        flatlistData: newState
+      });
+
+  });
+}
+
+
 render() {
   return (
     <View style={{flex: 1, marginTop: 22}}>
       <FlatList
-        data={flatlistData}
+        data={this.state.flatlistData}
+        getItemLayout={(data, index) => (
+          {length: 20, offset: 20 * index, index}
+          )}
         renderItem={({ item, index })=>{
           return (
-            <FlatListItem item={item} index={index}>
-
+            <FlatListItem
+            item={item}
+            index={index}>
             </FlatListItem>);
         }}
-      >
-      </FlatList>
+      />
     </View>
   );
 }
