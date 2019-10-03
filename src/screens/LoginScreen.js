@@ -24,6 +24,14 @@ const LoginScreen = ({navigation}) => {
     getCachedAuthAsync();
   }, []);
 
+  /**
+   * All of these functions down to
+   * isSignedIn were pulled form AppAuth
+   * Documentation here: 
+   *  https://docs.expo.io/versions/v35.0.0/sdk/app-auth/
+   * Refer to that link to get an understanding of
+   * what the heck is going on. 
+   */
   const authConfig = {
     issuer: 'https://accounts.google.com',
     clientId: "362986953273-olsgvlh1k8cn9fltlivfagkbtnkm01md.apps.googleusercontent.com",
@@ -76,17 +84,11 @@ const LoginScreen = ({navigation}) => {
         isClientIdProvided: true,
       });
       await AsyncStorage.removeItem(StorageKey);
+      setSignedIn(false);
       return null;
     } catch ({ message }) {
       alert(`Failed to sign out: ${message}`);
     }
-  }
-
-  const validate = (password, email) => {
-    console.log(password);
-    if (password && email)
-      return true;
-    return false;
   }
 
   const isSignedIn = () => {
@@ -109,12 +111,12 @@ const LoginScreen = ({navigation}) => {
           {/* custom login button 
             * (don't use <Button /> unless 
             sepcifically wanted) */}
-          <TouchableOpacity onPress={() => {
-            
-          }}>
-            <View style={styles.submit}>
-              <Text>Submit</Text>
-            </View>
+          <TouchableOpacity style={styles.submit} 
+            onPress={() => {
+              navigation.navigate('Main');
+            }}
+          >
+            <Text>Submit</Text>
           </TouchableOpacity>
     
           {/* Login w/ google option */}
@@ -124,17 +126,8 @@ const LoginScreen = ({navigation}) => {
               signInAsync();
             }}
           >
-        
             <Text>Login w/ Google</Text>
-           {/* <GoogleAuth /> */}
           </TouchableOpacity>
-          
-          <TouchableOpacity style={styles.submit}>
-            <Text>Login w/ Facebook</Text>
-           {/* <GoogleAuth /> */}
-          </TouchableOpacity>
-    
-    
         </View>
       );
     } else {
@@ -142,7 +135,7 @@ const LoginScreen = ({navigation}) => {
     }
   }
 
-  return(
+  return (
     <View>
       {isSignedIn()}
     </View>
