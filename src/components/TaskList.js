@@ -6,27 +6,33 @@ class FlatListItem extends Component {
 
     render() {
       return (
-        <View style={{
-          flex: 1,
-          backgroundColor: "#858585",
-          borderRadius: 4,
-          borderWidth: 0.5,
-          borderColor: 'black',
-          marginHorizontal: 2,
-          marginVertical: 1,
-          fontSize: 32
-        }}>
-          <Text style={styles.FlatListItem}> {this.props.item.name}           {this.props.item.description}         {this.props.item.date}</Text>
+        <View style={styles.itemBlock}>
+          <Text style={styles.taskName}>   {this.props.item.name} </Text>
+          <Text style={styles.taskDescription}>   {this.props.item.description} </Text>
+          <Text style={styles.taskDate}>   {this.props.item.date} </Text>
         </View>
       );
     }
 }
 
 const styles = StyleSheet.create({
-  flatListItem: {
-    color: 'white',
-    padding: 10,
-    fontSize: 30
+  itemBlock: {
+    flex: 1,
+    backgroundColor: "#71bd89",
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'black',
+    marginHorizontal: 2,
+    marginVertical: 1,
+  },
+  taskName: {
+    fontSize: 32
+  },
+  taskDescription: {
+    fontSize: 12
+  },
+  taskDate: {
+    fontSize: 12
   }
 });
 
