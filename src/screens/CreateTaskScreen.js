@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { View, Text } from 'react-native';
 import DatePicker from 'react-native-datepicker';
-import { SearchBar, Button } from 'react-native-elements';
+import { SearchBar, Button, Header } from 'react-native-elements';
 
 var firebase = require("firebase");
 
@@ -12,12 +12,25 @@ export default class CreateTaskScreen extends Component {
             name: "",
             date: "",
             description: "",
-            complete: false
+            complete: false,
+            searchResults: []
         };
     }
 
     nameSearch() {
-        console.log(this.state.name);
+        var users_ref = firebase.database().ref('/users');
+
+        let cur_data = [];
+
+        users_ref.on('value', function(snapshot) {
+            snapshot.forEach(function(childSnap) {
+                cur_data.push(childSnap.val().name);
+            });
+        });
+
+        this.setState({
+            searchResults : cur_data
+        });
     }
 
     addEntry(the_name, the_date, the_description) {
@@ -33,6 +46,9 @@ export default class CreateTaskScreen extends Component {
     render() {
         return (
             <View>
+                <Header
+                    centerComponent={{text: 'Create a task', style: { fontSize: 20}}}
+                />
                 <SearchBar 
                     value={this.state.name} 
                     onChangeText={(name) => this.setState({name})} 
@@ -44,6 +60,7 @@ export default class CreateTaskScreen extends Component {
                     value={this.state.description} 
                     onChangeText={(description) => this.setState({description})} 
                     placeholder="task description"
+                    searchIcon={false}
                 />
 
                 <DatePicker 
