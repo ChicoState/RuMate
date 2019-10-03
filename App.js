@@ -13,7 +13,13 @@ useScreens();
 //TODO: DL - this is very inefficient to include the entire firebase SDK
 //we will need to update to only include specific SDK's once we have a better
 //idea of which ones we need
-import firebase from 'firebase';
+
+// Firebase App (the core Firebase SDK) is always required and
+// must be listed before other Firebase SDKs
+import * as firebase from "firebase/app";
+// Add the Firebase services that you want to use
+import "firebase/auth";
+import "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA_ZWMR-MFG_ZHNK4_WuEeHoLP9vzsY_Vk",
