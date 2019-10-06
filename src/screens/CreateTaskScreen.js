@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { View, Text } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import { SearchBar, Button, Header } from 'react-native-elements';
+import Dialog from 'react-native-dialog';
 
 var firebase = require("firebase");
 
@@ -13,7 +14,8 @@ export default class CreateTaskScreen extends Component {
             date: "",
             description: "",
             complete: false,
-            searchResults: []
+            searchResults: [],
+            dialogVisible: false
         };
     }
 
@@ -34,6 +36,17 @@ export default class CreateTaskScreen extends Component {
     }
 
     addEntry(the_name, the_date, the_description) {
+
+        //TODO - DL: find a way to make the default date be today's date so that a user
+        //does not need to specify the date if it's just today
+        if (the_name == "" || the_description == "" || the_date == "")
+        {
+            this.setState({
+                dialogVisible: true
+            });
+            return;
+        }
+
         var tasksList = firebase.database().ref().child('/tasks').push();
         tasksList.set({
             name: the_name,
@@ -41,6 +54,19 @@ export default class CreateTaskScreen extends Component {
             description: the_description,
             completed: false
         });
+
+        this.setState({
+            name: "",
+            date: "",
+            description: "",
+            completed: false
+        });
+    }
+
+    closeDialog = () => {
+        this.setState({
+            dialogVisible: false
+        })
     }
 
     render() {
@@ -77,6 +103,20 @@ export default class CreateTaskScreen extends Component {
                 >
                     <Text>Enter</Text>
                 </Button>
+
+                <Dialog.Container
+                visible={this.state.dialogVisible}
+                >
+                    <Dialog.Title>Insufficient Data</Dialog.Title>
+                    <Dialog.Description>Not every field has a valid entry value. Enter a value for every
+                        field and try again.
+                    </Dialog.Description>
+                    <Dialog.Button
+                    label='OK'
+                    onPress={this.closeDialog}
+                    >    
+                    </Dialog.Button>
+                </Dialog.Container>
             </View>
         )
     }
