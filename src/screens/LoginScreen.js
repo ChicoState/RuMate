@@ -5,94 +5,86 @@ import {
   StyleSheet, 
   TextInput,
   TouchableOpacity,
-  AsyncStorage
 } from 'react-native';
-import * as AppAuth from 'expo-app-auth';
+import * as firebase from "firebase/app";
+// Add the Firebase services that you want to use
+import "firebase/auth";
+import "firebase/firestore";
+
 import Header from '../components/Header';
 
 const LoginScreen = ({navigation}) => {
+  const [register, setRegister] = useState(false);
   // set initial email state to empty string
   const [email, setEmail] = useState("");
   // password string initally empty
   const [password, setPassword] = useState("");
+  const [confPassword, setConfPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
   // google auth state
   const [signedIn, setSignedIn] = useState(false);
   // google photo?
   const [photo, setPhoto] = useState("");
-
   useEffect(() => {
-    getCachedAuthAsync();
+    firebase.auth();
   }, []);
 
-  /**
-   * All of these functions down to
-   * isSignedIn were pulled form AppAuth
-   * Documentation here: 
-   *  https://docs.expo.io/versions/v35.0.0/sdk/app-auth/
-   * Refer to that link to get an understanding of
-   * what the heck is going on. 
-   */
-  const authConfig = {
-    issuer: 'https://accounts.google.com',
-    clientId: "484837108351-tvqgaavu2jdsojkn7ouv1tpsoqlti1iv.apps.googleusercontent.com",
-    scopes: ['email', 'profile', 'openid'],
-  }
-  
-  const StorageKey = '@RuMate:GoogleOAuthKey';
-
-  const signInAsync = async () => {
-    const authState = await AppAuth.authAsync(authConfig);
-    await cacheAuthAsync(authState);
-    console.log('signInAsync', authState);
-    setSignedIn(true);
-    return authState;
-  }
-  
-  const cacheAuthAsync = authState => {
-    return AsyncStorage.setItem(StorageKey, JSON.stringify(authState));
-  }
-
-  const getCachedAuthAsync = async () => {
-    const value = await AsyncStorage.getItem(StorageKey);
-    const authState = JSON.parse(value);
-    console.log('getCachedAuthAsync', authState);
-    if (authState) {
-      if (tokenExpired(authState)) {
-        return refreshAuthAsync(authState);
-      } else {
-        return authState;
-      }
+  const passMatch = () => {
+    if (password != confPassword) {
+      return (
+        <>
+          <Text>Passwords must match!</Text>
+        </>
+      )
     }
-    return null;
-  }
-
-  const tokenExpired = ({ accessTokenExpirationDate }) => {
-    return new Date(accessTokenExpirationDate) < new Date();
-  }
-
-  const refreshAuthAsync = async refreshToken => {
-    const authState = await AppAuth.refreshAsync(authConfig, refreshToken);
-    console.log('refreshAuthAsync', authState);
-    await cacheAuthAsync(authState);
-    return authState;
-  }
-
-  const singOutAsync = async ({ accessToken }) => {
-    try {
-      await AppAuth.revokeAsync(authConfig, {
-        token: accessToken,
-        isClientIdProvided: true,
-      });
-      await AsyncStorage.removeItem(StorageKey);
-      setSignedIn(false);
-      return null;
-    } catch ({ message }) {
-      alert(`Failed to sign out: ${message}`);
-    }
+    return (<></>);
   }
 
   const isSignedIn = () => {
     if (!signedIn) {
+      if (register) {
+        
+        return (
+          <View>
+            <Header style={styles.header} title="Register on RuMate"/>
+            <Text>Email: </Text>
+            <TextInput style={styles.input}
+              value={email}
+              onChangeText={setEmail}
+              placeholder="e-mail"
+            />
+
+            <Text>Password: </Text>
+            <TextInput style={styles.input}
+              value={password}
+              onChangeText={setPassword}
+              placeholder="password"
+            />
+
+            <Text>Confirm Password: </Text>
+            <TextInput style={styles.input}
+              value={confPassword}
+              onChangeText={setConfPassword}
+              placeholder="confirm"
+            />
+            {passMatch()}
+            <TouchableOpacity style={styles.submit}
+              onPress={() => {
+                if (password == confPassword) {
+                  firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    // ...
+                  });
+                }
+              }}
+            >
+            <Text>Submit</Text>
+          </TouchableOpacity>
+          </View>
+        );
+      }
       return (
         <View>
           <Header style={styles.header} title="Login to RuMate"/>
@@ -112,21 +104,41 @@ const LoginScreen = ({navigation}) => {
             * (don't use <Button /> unless 
             sepcifically wanted) */}
           <TouchableOpacity style={styles.submit} 
-            onPress={() => {
-              navigation.navigate('Main');
+            onPress = {  () => {
+              firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+                // Handle Errors here.
+                // const error = await response.json();
+                const myError = error.code;
+                console.log(myError);
+                // ...
+              }).then((myError) => {
+                if (myError)
+                  setSignedIn(true);
+              });
             }}
           >
             <Text>Submit</Text>
           </TouchableOpacity>
     
           {/* Login w/ google option */}
-          <TouchableOpacity style={styles.submit}
+          {/* <TouchableOpacity style={styles.submit}
             onPress={() => {
-              // sing in
-              signInAsync();
+              // sign in
+              console.log("running")
+              const provider = new firebase.auth.GoogleAuthProvider();
+              firebase.auth().signInWithPopup(provider)
             }}
           >
             <Text>Login w/ Google</Text>
+          </TouchableOpacity> */}
+          
+          <TouchableOpacity style={styles.submit}
+            onPress={() => {
+              //register
+              setRegister(!register);
+            }}
+          >
+            <Text>Register</Text>
           </TouchableOpacity>
         </View>
       );
