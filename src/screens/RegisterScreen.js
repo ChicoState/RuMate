@@ -8,3 +8,5 @@ const RegisterScreen = () => {
     </View>
   );
 }
+
+export default RegisterScreen;
