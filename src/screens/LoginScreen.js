@@ -13,7 +13,7 @@ import "firebase/firestore";
 
 import Header from '../components/Header';
 
-const passMatch = () => {
+const passMatch = (password, confPassword) => {
   if (password != confPassword) {
     return (
       <>
@@ -39,10 +39,10 @@ const LoginScreen = ({navigation}) => {
   useEffect(() => {
     firebase.auth();
   }, []);
+
   const isSignedIn = () => {
     if (!signedIn) {
       if (register) {
-        
         return (
           <View>
             <Header style={styles.header} title="Register on RuMate"/>
@@ -66,7 +66,7 @@ const LoginScreen = ({navigation}) => {
               onChangeText={setConfPassword}
               placeholder="confirm"
             />
-            {passMatch()}
+            {passMatch(password, confPassword)}
             <TouchableOpacity style={styles.submit}
               onPress={() => {
                 if (password == confPassword) {
@@ -75,12 +75,29 @@ const LoginScreen = ({navigation}) => {
                     var errorCode = error.code;
                     var errorMessage = error.message;
                     // ...
+                  }).then((errorMessage, errorCode) => {
+                    if (errorMessage) {
+                      console.log(errorMessage, "\n");
+                      console.log(errorCode);
+                    } else {
+                      setRegister(!register);
+                      alert("Welcome" + email);
+                    }
                   });
+                  
                 }
               }}
             >
-            <Text>Submit</Text>
-          </TouchableOpacity>
+              <Text>Submit</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.submit}
+              onPress = {() => {
+                setRegister(!register);
+              }}
+            >
+              <Text>Back</Text>
+            </TouchableOpacity>
           </View>
         );
       }
@@ -99,9 +116,7 @@ const LoginScreen = ({navigation}) => {
             onChangeText={setPassword}
             placeholder="password"
           />
-          {/* custom login button 
-            * (don't use <Button /> unless 
-            sepcifically wanted) */}
+          {/* custom login button */}
           <TouchableOpacity style={styles.submit} 
             onPress = {  () => {
               firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
@@ -118,18 +133,6 @@ const LoginScreen = ({navigation}) => {
           >
             <Text>Submit</Text>
           </TouchableOpacity>
-    
-          {/* Login w/ google option */}
-          {/* <TouchableOpacity style={styles.submit}
-            onPress={() => {
-              // sign in
-              console.log("running")
-              const provider = new firebase.auth.GoogleAuthProvider();
-              firebase.auth().signInWithPopup(provider)
-            }}
-          >
-            <Text>Login w/ Google</Text>
-          </TouchableOpacity> */}
           
           <TouchableOpacity style={styles.submit}
             onPress={() => {
@@ -145,7 +148,7 @@ const LoginScreen = ({navigation}) => {
       navigation.navigate('Main');
     }
   }
-  
+
   return (
     <View>
       {isSignedIn()}
