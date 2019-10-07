@@ -13,6 +13,18 @@ import "firebase/firestore";
 
 import Header from '../components/Header';
 
+const passMatch = () => {
+  if (password != confPassword) {
+    return (
+      <>
+        <Text>Passwords must match!</Text>
+      </>
+    )
+  }
+  return (<></>);
+}
+
+
 const LoginScreen = ({navigation}) => {
   const [register, setRegister] = useState(false);
   // set initial email state to empty string
@@ -20,7 +32,6 @@ const LoginScreen = ({navigation}) => {
   // password string initally empty
   const [password, setPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
-  const [loginError, setLoginError] = useState("");
   // google auth state
   const [signedIn, setSignedIn] = useState(false);
   // google photo?
@@ -28,18 +39,6 @@ const LoginScreen = ({navigation}) => {
   useEffect(() => {
     firebase.auth();
   }, []);
-
-  const passMatch = () => {
-    if (password != confPassword) {
-      return (
-        <>
-          <Text>Passwords must match!</Text>
-        </>
-      )
-    }
-    return (<></>);
-  }
-
   const isSignedIn = () => {
     if (!signedIn) {
       if (register) {
@@ -53,14 +52,14 @@ const LoginScreen = ({navigation}) => {
               onChangeText={setEmail}
               placeholder="e-mail"
             />
-
+  
             <Text>Password: </Text>
             <TextInput style={styles.input}
               value={password}
               onChangeText={setPassword}
               placeholder="password"
             />
-
+  
             <Text>Confirm Password: </Text>
             <TextInput style={styles.input}
               value={confPassword}
@@ -146,7 +145,7 @@ const LoginScreen = ({navigation}) => {
       navigation.navigate('Main');
     }
   }
-
+  
   return (
     <View>
       {isSignedIn()}
