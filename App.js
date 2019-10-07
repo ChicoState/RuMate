@@ -21,6 +21,7 @@ import * as firebase from "firebase/app";
 // Add the Firebase services that you want to use
 import "firebase/auth";
 import "firebase/firestore";
+import BillsScreen from './src/screens/BillsScreen';
 
 const firebaseConfig = {
   apiKey: "AIzaSyA_ZWMR-MFG_ZHNK4_WuEeHoLP9vzsY_Vk",
@@ -40,7 +41,10 @@ const TabNavigator = createBottomTabNavigator({
   },
   Tasks: {
     screen: TasksScreen,
-  }
+  },
+  Bills: {
+    screen: BillsScreen,
+  },
 },{
   initialRouteName: 'Home',
 });
