@@ -46,7 +46,7 @@ const LoginScreen = ({navigation}) => {
   const [password, setPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
   // google auth state
-  const [signedIn, setSignedIn] = useState(false);
+  const [signedIn, setSignedIn] = useState(true);
   // google photo?
   const [photo, setPhoto] = useState("");
 
@@ -160,7 +160,7 @@ const LoginScreen = ({navigation}) => {
         </View>
       );
     } else {
-      navigation.navigate('Main');
+      navigation.navigate('Main', {email, signedIn});
     }
   }
 
