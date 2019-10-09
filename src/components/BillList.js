@@ -6,22 +6,18 @@ const renderBills = () => {
 
 }
 
-const renderAddBills = () => {
-
-}
-
 const BillList = () => {
-
   return (
     <View>
-      {renderAddBills()}
       {renderBills()}
     </View>
   );
 }
 
 styles = StyleSheet.create({
-
+  plusButton: {
+    fontSize: 20
+  }
 });
 
 export default BillList;
