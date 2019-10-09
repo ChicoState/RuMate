@@ -21,7 +21,20 @@ const passMatch = (password, confPassword) => {
       </>
     )
   }
-  return (<></>);
+  return (null);
+}
+
+const passLength = (password) => {
+  if (password) {
+    if (password.length < 6) {
+      return (
+        <>
+          <Text>Password must be more than 6 characters!</Text>
+        </>
+      )
+    }
+  }
+  return (null);
 }
 
 
@@ -36,6 +49,7 @@ const LoginScreen = ({navigation}) => {
   const [signedIn, setSignedIn] = useState(false);
   // google photo?
   const [photo, setPhoto] = useState("");
+
   useEffect(() => {
     firebase.auth();
   }, []);
@@ -52,14 +66,12 @@ const LoginScreen = ({navigation}) => {
               onChangeText={setEmail}
               placeholder="e-mail"
             />
-  
             <Text>Password: </Text>
             <TextInput style={styles.input}
               value={password}
               onChangeText={setPassword}
               placeholder="password"
             />
-  
             <Text>Confirm Password: </Text>
             <TextInput style={styles.input}
               value={confPassword}
@@ -67,30 +79,33 @@ const LoginScreen = ({navigation}) => {
               placeholder="confirm"
             />
             {passMatch(password, confPassword)}
+            {passLength(password)}
             <TouchableOpacity style={styles.submit}
               onPress={() => {
-                if (password == confPassword) {
+                if (password == confPassword && password.length >= 6) {
                   firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
                     // Handle Errors here.
                     var errorCode = error.code;
                     var errorMessage = error.message;
                     // ...
-                  }).then((errorMessage, errorCode) => {
                     if (errorMessage) {
-                      console.log(errorMessage, "\n");
-                      console.log(errorCode);
-                    } else {
-                      setRegister(!register);
-                      alert("Welcome" + email);
+                      alert(errorMessage);
                     }
-                  });
-                  
+                  }).then(() => {
+                      setRegister(!register);
+                      alert("Welcome " + email + "!");
+                      let newUser = firebase.database().ref().child('/users').push();
+                      newUser.set({
+                        email,
+                        uid: firebase.auth().currentUser.uid,
+                      });
+                    }
+                  );
                 }
               }}
             >
               <Text>Submit</Text>
             </TouchableOpacity>
-
             <TouchableOpacity style={styles.submit}
               onPress = {() => {
                 setRegister(!register);
