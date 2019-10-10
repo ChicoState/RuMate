@@ -2,30 +2,26 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import BillList from '../components/BillList';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import Header from '../components/Header';
+import {Header} from 'react-native-elements';
 
-const renderAddBill = () => {
+const renderAddBill = (navigation) => {
   return (
     <View>
-      <TouchableOpacity 
-        onPress={() => {
-          // navigation.navigate('CreateBill')
-        }}
-      >
-        <Text>Add Bill</Text>
-      </TouchableOpacity>
+      <Header
+        centerComponent={{text: "Bills", style: {fontSize: 20}}}
+        rightComponent={{icon: 'add-circle', onPress: () => navigation.navigate('CreateBill') }}
+      />
     </View>
   );
 }
 
-const BillsScreen = () => {
+const BillsScreen = ({navigation}) => {
   const [user, setUser] = useState("");
   return (
     <View>
-      <Header title="Bills" />
+      {renderAddBill(navigation)}
       <Text> My Bills: </Text>
-      {renderAddBill()}
-      <BillList user={() => {}} />
+      <BillList />
     </View>
   );
 }
