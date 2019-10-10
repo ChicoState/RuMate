@@ -15,13 +15,22 @@ const renderAddBill = (navigation) => {
   );
 }
 
+const renderBillList = () => {
+  return (
+    <View>
+      <BillList />
+    </View>
+  );
+}
+
+
 const BillsScreen = ({navigation}) => {
   const [user, setUser] = useState("");
   return (
     <View>
       {renderAddBill(navigation)}
       <Text> My Bills: </Text>
-      <BillList />
+      {renderBillList()}
     </View>
   );
 }

@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Bill from '../components/Bill';
+
 
 const renderBills = () => {
-
+  // firebase pull
 }
 
 const BillList = () => {
