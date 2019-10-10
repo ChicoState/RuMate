@@ -65,11 +65,11 @@ const taskNavigator = createStackNavigator({
 
 const appStackNavigator = createStackNavigator({
   Register: RegisterScreen,
-  Main: TabNavigator,
+  Home: TabNavigator,
   Tasks: taskNavigator,
   CreateBill: CreateBillScreen,
 },{
-  initialRouteName: 'Main',
+  initialRouteName: 'Home',
   defaultNavigationOptions: {
     header: null
   }
