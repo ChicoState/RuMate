@@ -7,7 +7,6 @@ const HomeScreen = ({ navigation }) => {
     <View>
       <Header title="Home" />
       <Text>Welcome {}</Text>
-      {console.log(navigation.state.params)}
     </View>
   );
 }
