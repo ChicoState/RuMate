@@ -40,10 +40,10 @@ const passLength = (password) => {
 const LoginScreen = ({navigation}) => {
   const [register, setRegister] = useState(false);
   // set initial email state to empty string
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("Test@noyou.com");
   // password string initally empty
-  const [password, setPassword] = useState("");
-  const [confPassword, setConfPassword] = useState("");
+  const [password, setPassword] = useState("Test1234");
+  const [confPassword, setConfPassword] = useState("Test1234");
   // google auth state
   const [signedIn, setSignedIn] = useState(false);
   // google photo?
