@@ -8,8 +8,8 @@ const renderAddBill = (navigation) => {
   return (
     <View>
       <Header
-        backgroundColor="dark-green"
-        centerComponent={{text: "Bills", style: {fontSize: 20, color: 'white'}}}
+        backgroundColor="green"
+        centerComponent={{text: "Bills", style: {fontSize: 20, color: 'black'}}}
         rightComponent={{icon: 'add-circle', onPress: () => navigation.navigate('CreateBill') }}
       />
     </View>
@@ -23,7 +23,6 @@ const renderBillList = () => {
     </View>
   );
 }
-
 
 const BillsScreen = ({navigation}) => {
   const [user, setUser] = useState("");
