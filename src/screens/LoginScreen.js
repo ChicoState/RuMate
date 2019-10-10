@@ -160,7 +160,7 @@ const LoginScreen = ({navigation}) => {
         </View>
       );
     } else {
-      navigation.navigate('Main', {email, signedIn});
+      navigation.navigate('Home', {email, signedIn});
     }
   }
 
