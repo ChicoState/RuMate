@@ -37,7 +37,6 @@ const passLength = (password) => {
   return (null);
 }
 
-
 const LoginScreen = ({navigation}) => {
   const [register, setRegister] = useState(false);
   // set initial email state to empty string
