@@ -8,7 +8,8 @@ const renderAddBill = (navigation) => {
   return (
     <View>
       <Header
-        centerComponent={{text: "Bills", style: {fontSize: 20}}}
+        backgroundColor="dark-green"
+        centerComponent={{text: "Bills", style: {fontSize: 20, color: 'white'}}}
         rightComponent={{icon: 'add-circle', onPress: () => navigation.navigate('CreateBill') }}
       />
     </View>
