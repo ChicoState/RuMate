@@ -46,7 +46,7 @@ const LoginScreen = ({navigation}) => {
   const [password, setPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
   // google auth state
-  const [signedIn, setSignedIn] = useState(true);
+  const [signedIn, setSignedIn] = useState(false);
   // google photo?
   const [photo, setPhoto] = useState("");
 
