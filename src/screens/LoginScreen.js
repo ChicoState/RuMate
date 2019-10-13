@@ -141,7 +141,7 @@ const LoginScreen = ({navigation}) => {
                 // ...
               }).then((myError) => {
                 if (myError)
-                  setSignedIn(true);
+                  navigation.navigate('Home');
               });
             }}
           >
@@ -159,7 +159,7 @@ const LoginScreen = ({navigation}) => {
         </View>
       );
     } else {
-      navigation.navigate('Home', {email, signedIn});
+      navigation.navigate('Home');
     }
   }
 
