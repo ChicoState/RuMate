@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const Bill = () => {
+const Bill = ({ bill }) => {
   const [billNumber, setBillNumber] = useState(0);
 
   return (
     <View>
-      <Text> Bill { billNumber }</Text>
+      <Text>{name}</Text>
+      <Text>{value}</Text>
     </View>
   );
 }
