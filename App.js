@@ -10,6 +10,7 @@ import LoginScreen from './src/screens/LoginScreen';
 import CreateTaskScreen from './src/screens/CreateTaskScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
 import AddRoommateScreen from './src/screens/AddRoomateScreen';
+import CalendarScreen from './src/screens/CalendarScreen';
 useScreens();
 
 //TODO: DL - this is very inefficient to include the entire firebase SDK
@@ -37,7 +38,7 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-const TabNavigator = createBottomTabNavigator({
+const tabNavigator = createBottomTabNavigator({
   Home: {
     screen: HomeScreen,
     navigationOptions: {
@@ -67,9 +68,10 @@ const taskNavigator = createStackNavigator({
 const appStackNavigator = createStackNavigator({
   AddRoommate: AddRoommateScreen,
   Register: RegisterScreen,
-  Home: TabNavigator,
+  Home: tabNavigator,
   Tasks: taskNavigator,
   CreateBill: CreateBillScreen,
+  TaskCalendar: CalendarScreen,
 },{
   initialRouteName: 'Home',
   defaultNavigationOptions: {
@@ -78,7 +80,8 @@ const appStackNavigator = createStackNavigator({
 });
 
 const authStack = createStackNavigator({
-  Login: LoginScreen
+  Login: LoginScreen,
+  Register: RegisterScreen
 });
 
 const switchNav = createSwitchNavigator({
