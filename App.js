@@ -60,7 +60,6 @@ const tabNavigator = createBottomTabNavigator({
 
 const taskNavigator = createStackNavigator({
   CreateTask: CreateTaskScreen,
-  TaskCalendar: CalendarScreen,
 }, {
 
 });
@@ -70,6 +69,7 @@ const appStackNavigator = createStackNavigator({
   Home: tabNavigator,
   Tasks: taskNavigator,
   CreateBill: CreateBillScreen,
+  TaskCalendar: CalendarScreen,
 },{
   initialRouteName: 'Home',
   defaultNavigationOptions: {
