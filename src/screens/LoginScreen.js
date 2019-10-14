@@ -151,7 +151,8 @@ const LoginScreen = ({navigation}) => {
           <TouchableOpacity style={styles.submit}
             onPress={() => {
               //register
-              setRegister(!register);
+              navigation.navigate('Register')
+              // setRegister(!register);
             }}
           >
             <Text>Register</Text>
