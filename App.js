@@ -23,6 +23,7 @@ import * as firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import BillsScreen from './src/screens/BillsScreen';
+import CreateBillScreen from './src/screens/CreateBillScreen';
 
 const firebaseConfig = {
   apiKey: "AIzaSyA_ZWMR-MFG_ZHNK4_WuEeHoLP9vzsY_Vk",
@@ -36,17 +37,24 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-const TabNavigator = createBottomTabNavigator({
+const tabNavigator = createBottomTabNavigator({
   Home: {
     screen: HomeScreen,
+    navigationOptions: {
+      header: null
+    }
   },
   Tasks: {
     screen: TasksScreen,
+    navigationOptions: {
+      header: null
+    }
   },
   Bills: {
     screen: BillsScreen,
   },
-},{
+},
+{
   initialRouteName: 'Home',
 });
 
@@ -54,21 +62,24 @@ const taskNavigator = createStackNavigator({
   CreateTask: CreateTaskScreen,
   TaskCalendar: CalendarScreen,
 }, {
+
+});
+
+const appStackNavigator = createStackNavigator({
+  Register: RegisterScreen,
+  Home: tabNavigator,
+  Tasks: taskNavigator,
+  CreateBill: CreateBillScreen,
+},{
+  initialRouteName: 'Home',
   defaultNavigationOptions: {
     header: null
   }
 });
 
-const appStackNavigator = createStackNavigator({
-  Register: RegisterScreen,
-  Main: TabNavigator,
-  Tasks: taskNavigator,
-},{
-  initialRouteName: 'Main',
-});
-
 const authStack = createStackNavigator({
-  Login: LoginScreen
+  Login: LoginScreen,
+  Register: RegisterScreen
 });
 
 const switchNav = createSwitchNavigator({
@@ -76,6 +87,9 @@ const switchNav = createSwitchNavigator({
   Auth: authStack,
 }, {
   initialRouteName: 'Auth',
+  defaultNavigationOptions: {
+    header: null
+  }
 });
 
 const App = createAppContainer(switchNav);

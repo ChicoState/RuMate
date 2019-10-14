@@ -37,14 +37,13 @@ const passLength = (password) => {
   return (null);
 }
 
-
 const LoginScreen = ({navigation}) => {
   const [register, setRegister] = useState(false);
   // set initial email state to empty string
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("Test@noyou.com");
   // password string initally empty
-  const [password, setPassword] = useState("");
-  const [confPassword, setConfPassword] = useState("");
+  const [password, setPassword] = useState("Test1234");
+  const [confPassword, setConfPassword] = useState("Test1234");
   // google auth state
   const [signedIn, setSignedIn] = useState(false);
   // google photo?
@@ -142,7 +141,7 @@ const LoginScreen = ({navigation}) => {
                 // ...
               }).then((myError) => {
                 if (myError)
-                  setSignedIn(true);
+                  navigation.navigate('Home');
               });
             }}
           >
@@ -152,7 +151,8 @@ const LoginScreen = ({navigation}) => {
           <TouchableOpacity style={styles.submit}
             onPress={() => {
               //register
-              setRegister(!register);
+              navigation.navigate('Register')
+              // setRegister(!register);
             }}
           >
             <Text>Register</Text>
@@ -160,7 +160,7 @@ const LoginScreen = ({navigation}) => {
         </View>
       );
     } else {
-      navigation.navigate('Main');
+      navigation.navigate('Home');
     }
   }
 
