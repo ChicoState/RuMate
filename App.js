@@ -36,7 +36,7 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-const TabNavigator = createBottomTabNavigator({
+const tabNavigator = createBottomTabNavigator({
   Home: {
     screen: HomeScreen,
     navigationOptions: {
@@ -65,7 +65,7 @@ const taskNavigator = createStackNavigator({
 
 const appStackNavigator = createStackNavigator({
   Register: RegisterScreen,
-  Home: TabNavigator,
+  Home: tabNavigator,
   Tasks: taskNavigator,
   CreateBill: CreateBillScreen,
 },{
@@ -76,7 +76,8 @@ const appStackNavigator = createStackNavigator({
 });
 
 const authStack = createStackNavigator({
-  Login: LoginScreen
+  Login: LoginScreen,
+  Register: RegisterScreen
 });
 
 const switchNav = createSwitchNavigator({
