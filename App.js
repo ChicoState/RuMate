@@ -9,6 +9,7 @@ import TasksScreen from './src/screens/TasksScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import CreateTaskScreen from './src/screens/CreateTaskScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
+import CalendarScreen from './src/screens/CalendarScreen';
 useScreens();
 
 //TODO: DL - this is very inefficient to include the entire firebase SDK
@@ -51,6 +52,7 @@ const TabNavigator = createBottomTabNavigator({
 
 const taskNavigator = createStackNavigator({
   CreateTask: CreateTaskScreen,
+  TaskCalendar: CalendarScreen,
 }, {
   defaultNavigationOptions: {
     header: null
