@@ -13,10 +13,10 @@ export default class TaskCalendar extends Component {
     }
 
     componentDidMount() {
-      this.anotherFunc();
+      this.markCalendar();
     }
 
-    anotherFunc = () => {
+    markCalendar = () => {
       console.log(this.state.taskDates);
     var obj = this.state.taskDates.reduce((c, v) => Object.assign(c, {[v]: {selected: true,marked: true}}), {});
     this.setState({ marked : obj});
@@ -50,12 +50,7 @@ render() {
   return (
     <View style={{flex: 1}}>
       <Calendar
-      markedDates={{
-    '10-10-2019': {selected: true, marked: true, selectedColor: 'blue'},
-    '2019-10-17': {marked: true},
-    '2019-10-18': {marked: true, dotColor: 'red', activeOpacity: 0},
-    '2019-10-19': {disabled: true, disableTouchEvent: true}
-  }}
+      markedDates={this.state.marked}
       // Initially visible month. Default = Date()
       current={'2019-10-09'}
       // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
