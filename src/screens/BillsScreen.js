@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import BillList from '../components/BillList';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import {Header} from 'react-native-elements';
+import { Header } from 'react-native-elements';
 
 const renderAddBill = (navigation) => {
   return (
