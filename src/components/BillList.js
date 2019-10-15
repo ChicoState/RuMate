@@ -11,7 +11,6 @@ const getBills = async (setBills) => {
     let list = [];
     for (let item in data) {
       if (firebase.auth().currentUser.uid == data[item].uid) {
-        console.log("found one")
         list.push(data[item])
       }
     }
