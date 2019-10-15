@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, StatusBar } from 'react-native';
 import Header from '../components/Header';
+import Spinner from '../components/Spinner';
 import firebase from 'firebase';
 
 const Register = ({ 
@@ -9,86 +10,89 @@ const Register = ({
   confPassword, setConfPassword,
   register, setRegister,
   passMatch, passLength }) => {
+  const [waiting, setWaiting] = useState(false)
 
-  const registerUser = () => {
+  const registerUser = async () => {
+    setWaiting(true)
     if (password == confPassword && password.length >= 6) {
-      firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+      await firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
         // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // ...
-        if (errorMessage) {
-          alert(errorMessage);
+        console.log(error.code, '\n', error.message)
+        if (error.message) {
+          alert(error.message);
         }
-      }).then(() => {
-          setRegister(!register);
+      }).then( async () => {
           alert("Welcome " + email + "!");
-          let newUser = firebase.database().ref().child('/users').push();
-          newUser.set({
+          let newUser = await firebase.database().ref().child('/users').push();
+          await newUser.set({
             email,
             uid: firebase.auth().currentUser.uid,
           });
+          setRegister(!register);
         }
       );
     }
   }
+  if (!waiting) {
+    return (
+      <View style={styles.background}>
+        <StatusBar barStyle='light-content'/>
+        <Header 
+          title="RuMate" 
+          color="white"
+          fontSize={40}
+          paddingTop={100}
+          paddingBottom={100}
+        />
+        <Text style={[styles.lightText, styles.label]}>Email</Text>
+        <TextInput 
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          placeholder="e-mail"
+          placeholderTextColor= "#444"
+        />
+        <Text style={[styles.lightText, styles.label]}>Password</Text>
+        {passLength(password)}
+        <TextInput 
+          style={styles.input}
+          value={password}
+          onChangeText={setPassword}
+          placeholder="password"
+          placeholderTextColor= "#444"
+        />
+        <Text style={[styles.lightText, styles.label]}>Confirm Password</Text>
+        {passMatch(password, confPassword)}
+        <TextInput 
+          style={styles.input}
+          value={confPassword}
+          onChangeText={setConfPassword}
+          placeholder="confirm password"
+          placeholderTextColor= "#444"
 
-  return (
-    <View style={styles.background}>
-      <StatusBar barStyle='light-content'/>
-      <Header 
-        title="RuMate" 
-        color="white"
-        fontSize={40}
-        paddingTop={100}
-        paddingBottom={100}
-      />
-      <Text style={[styles.lightText, styles.label]}>Email</Text>
-      <TextInput 
-        style={styles.input}
-        value={email}
-        onChangeText={setEmail}
-        placeholder="e-mail"
-        placeholderTextColor= "#444"
-      />
-      <Text style={[styles.lightText, styles.label]}>Password</Text>
-      {passLength(password)}
-      <TextInput 
-        style={styles.input}
-        value={password}
-        onChangeText={setPassword}
-        placeholder="password"
-        placeholderTextColor= "#444"
-      />
-      <Text style={[styles.lightText, styles.label]}>Confirm Password</Text>
-      {passMatch(password, confPassword)}
-      <TextInput 
-        style={styles.input}
-        value={confPassword}
-        onChangeText={setConfPassword}
-        placeholder="confirm password"
-        placeholderTextColor= "#444"
-
-      />
-      
-      <TouchableOpacity 
-        style={styles.submit}
-        onPress={registerUser}
-      >
-        <Text style={[styles.lightText, styles.button]}>Submit</Text>
-      </TouchableOpacity>
-      <TouchableOpacity 
-        style={styles.submit}
-        onPress = {() => {
-          setRegister(!register)
-        }}
-      >
-        <Text style={[styles.lightText, styles.button]}>
-          Back
-        </Text>
-      </TouchableOpacity>
-    </View>
-  );
+        />
+        {/* Go forth and register function here */}
+        <TouchableOpacity 
+          style={styles.submit}
+          onPress={registerUser}
+        >
+          <Text style={[styles.lightText, styles.button]}>Submit</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.submit}
+          onPress = {() => {
+            setRegister(!register)
+          }}
+        >
+          <Text style={[styles.lightText, styles.button]}>
+            Back
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  } else {
+    return <Spinner />
+  }
 }
 
 const styles = StyleSheet.create({
@@ -108,6 +112,10 @@ const styles = StyleSheet.create({
   lightText: {
     color: 'white'
   },
+  label: {
+    alignSelf: 'center',
+    fontSize: 15,
+  },
   button: {
     fontSize: 20,
     paddingTop: 10,
@@ -121,10 +129,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     alignSelf: 'center',
     marginVertical: 5
-  },
-  label: {
-    alignSelf: 'center',
-    fontSize: 15,
   },
   background: {
     flex: 1,
