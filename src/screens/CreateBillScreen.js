@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
-import Header from '../components/Header';
+import { Header } from 'react-native-elements';
 import firebase from 'firebase';
 
 const CreateBillScreen = () => {
@@ -9,7 +9,11 @@ const CreateBillScreen = () => {
   const [date, setDate] = useState("");
   return (
     <View>
-      <Header title="Add a bill"/>
+      <Header
+        backgroundColor="green"
+        leftComponent={{ text: "Back", style: {fontSize: 20, color: 'black'}}}
+        centerComponent={{text: "Add a bill", style: {fontSize: 20, color: 'black'}}}
+      />
       <Text>Name</Text>
       <TextInput style={styles.input}
         value={name}
