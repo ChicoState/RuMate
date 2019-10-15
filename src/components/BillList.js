@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
+import Dimensions from 'Dimensions';
 import firebase from 'firebase'
 import Bill from '../components/Bill';
 
@@ -19,28 +20,29 @@ const getBills = async (setBills) => {
 }
 
 const renderBills = (bills) => {
-  console.log(bills);
+  const { height } = Dimensions.get('window');
   return (
-    <FlatList 
-      keyExtractor={item => item.billId}
-      data={bills}
-      renderItem={({item}) => {
-        return (
-          <View>
-            <Bill 
+    <View style={{height: height}}>
+      <FlatList
+        keyExtractor={item => item.billId}
+        data={bills}
+        renderItem={({ item }) => {
+          return (
+            <Bill
               name = {item.name}
               value = {item.value}
               due = {item.date}
             />
-          </View>
-        );
-      }}
-    />
+          );
+        }}
+      />
+    </View>
   );
 }
 
 const BillList = () => {
   const [bills, setBills] = useState([]);
+  
   useEffect(() => {
     // firebase pull
     getBills(setBills);
