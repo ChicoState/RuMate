@@ -2,13 +2,14 @@ import React, {Component} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Header } from 'react-native-elements';
 import TaskCalendar from '../components/Calendar.js'
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
 const CalendarScreen = ({navigation}) => {
     return (
       <View style={{flex: 1}}>
       <Header
-      leftComponent={{icon: "menu", onPress: () => navigation.navigate('Tasks')}}
+      leftComponent={<Icon name='arrow-back' size={30} color='white' onPress = { () => navigation.navigate('Tasks')} />}
       centerComponent={{text: "Tasks", style: {fontSize: 20}}}
       />
       <TaskCalendar/>
