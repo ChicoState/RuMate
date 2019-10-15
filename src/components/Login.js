@@ -22,31 +22,24 @@ const Login = ({
   return (
     <View>
       <Header style={styles.header} title="Login to RuMate"/>
-      {/* Text input for user's login email */}
       <TextInput style={styles.input}
         value={email}
         onChangeText={setEmail}
         placeholder="e-mail"
       />
-      {/* Text input for user's login pw */}
       <TextInput style={styles.input}
         value={password}
         onChangeText={setPassword}
         placeholder="password"
       />
-      {/* custom login button */}
       <TouchableOpacity style={styles.submit} 
-        onPress = {authenticateUser}
-      >
+        onPress = {authenticateUser} >
         <Text>Login</Text>
       </TouchableOpacity>
-      
       <TouchableOpacity style={styles.submit}
         onPress={() => {
-          //register
           setRegister(!register);
-        }}
-      >
+        }} >
         <Text>Register</Text>
       </TouchableOpacity>
     </View>
