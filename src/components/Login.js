@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   View, 
   Text, 
@@ -10,62 +10,71 @@ import {
 import firebase from 'firebase';
 // import { Header } from 'react-native-elements';
 import Header from '../components/Header';
+import Spinner from '../components/Spinner';
 
 const Login = ({
   navigation,
   email, setEmail,
   password, setPassword,
   register, setRegister }) => {
+  const [loggedIn, setLoggedIn] = useState(false);
 
-  const authenticateUser = () => {
-    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+  const authenticateUser = async () => {
+    setLoggedIn(true)
+    await firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
       const myError = error.code;
       console.log(myError);
     }).then((myError) => {
-      if (myError)
-        navigation.navigate('Home');
+      if (myError) {
+        navigation.navigate('Home')
+      } else {
+        setLoggedIn(false)
+      }
     });
   }
-
-  return (
-    <View style={styles.background}>
-      <StatusBar barStyle='light-content'/>      
-      <Header 
-        title="RuMate" 
-        color="white"
-        fontSize={40}
-        paddingTop={200}
-        paddingBottom={200}
-      />
-      <TextInput style={styles.input}
-        value={email}
-        onChangeText={setEmail}
-        placeholder="e-mail"
-        placeholderTextColor= "#444"
-        autoFocus
-      />
-      <TextInput style={styles.input}
-        value={password}
-        onChangeText={setPassword}
-        placeholder="password"
-        placeholderTextColor= "#444"
-      />
-      <TouchableOpacity style={styles.submit} 
-        onPress = {authenticateUser} >
-        <Text style={[styles.lightText, styles.button]}>
-          Login
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.submit}
-        onPress={() => {
-          setRegister(!register);
-        }} >
-        <Text style={[styles.lightText, styles.button]}>
-          Register
-        </Text>
-      </TouchableOpacity>
-    </View>
-  );
+  if (!loggedIn) {
+    return (
+      <View style={styles.background}>
+        <StatusBar barStyle='light-content'/>      
+        <Header 
+          title="RuMate" 
+          color="white"
+          fontSize={40}
+          paddingTop={100}
+          paddingBottom={100}
+        />
+        <TextInput style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          placeholder="e-mail"
+          placeholderTextColor= "#444"
+          autoFocus
+        />
+        <TextInput style={styles.input}
+          value={password}
+          onChangeText={setPassword}
+          placeholder="password"
+          placeholderTextColor= "#444"
+        />
+        <TouchableOpacity style={styles.submit} 
+          onPress = {authenticateUser}>
+          <Text style={[styles.lightText, styles.button]}>
+            Login
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.submit}
+          onPress={() => {
+            setRegister(!register);
+          }} >
+          <Text style={[styles.lightText, styles.button]}>
+            Register
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  } else {
+    return <Spinner />
+  }
 }
 
 const styles = StyleSheet.create({
