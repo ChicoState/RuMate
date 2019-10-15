@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, StatusBar } from 'react-native';
 import Header from '../components/Header';
-import Spinner from '../components/Spinner';
+import AuthSpinner from './AuthSpinner';
 import firebase from 'firebase';
 
 const Register = ({ 
@@ -91,7 +91,7 @@ const Register = ({
       </View>
     );
   } else {
-    return <Spinner />
+    return <AuthSpinner />
   }
 }
 
