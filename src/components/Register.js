@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import Header from './Header';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, StatusBar } from 'react-native';
+import Header from '../components/Header';
 import firebase from 'firebase';
 
 const Register = ({ 
@@ -34,36 +34,48 @@ const Register = ({
   }
 
   return (
-    <View>
-      <Header style={styles.header} title="Register on RuMate"/>
-      <Text>Email: </Text>
+    <View style={styles.background}>
+      <StatusBar barStyle='light-content'/>
+      <Header 
+        title="RuMate" 
+        color="white"
+        fontSize={40}
+        paddingTop={200}
+        paddingBottom={100}
+      />
+      <Text style={[styles.lightText, styles.label]}>Email</Text>
       <TextInput 
         style={styles.input}
         value={email}
         onChangeText={setEmail}
         placeholder="e-mail"
+        placeholderTextColor= "#444"
       />
-      <Text>Password: </Text>
+      <Text style={[styles.lightText, styles.label]}>Password</Text>
+      {passLength(password)}
       <TextInput 
         style={styles.input}
         value={password}
         onChangeText={setPassword}
         placeholder="password"
+        placeholderTextColor= "#444"
       />
-      <Text>Confirm Password: </Text>
+      <Text style={[styles.lightText, styles.label]}>Confirm Password</Text>
+      {passMatch(password, confPassword)}
       <TextInput 
         style={styles.input}
         value={confPassword}
         onChangeText={setConfPassword}
-        placeholder="confirm"
+        placeholder="confirm password"
+        placeholderTextColor= "#444"
+
       />
-      {passMatch(password, confPassword)}
-      {passLength(password)}
+      
       <TouchableOpacity 
         style={styles.submit}
         onPress={registerUser}
       >
-        <Text>Submit</Text>
+        <Text style={[styles.lightText, styles.button]}>Submit</Text>
       </TouchableOpacity>
       <TouchableOpacity 
         style={styles.submit}
@@ -71,7 +83,9 @@ const Register = ({
           setRegister(!register)
         }}
       >
-        <Text>Back</Text>
+        <Text style={[styles.lightText, styles.button]}>
+          Back
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -80,16 +94,42 @@ const Register = ({
 const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
-    marginVertical: 2,
+    borderColor: '#222',
+    marginVertical: 5,
     width: 300,
     marginHorizontal: 5,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    color: 'white',
+    fontSize: 18,
+    paddingVertical: 10,
+    paddingLeft: 5,
+    backgroundColor: 'black',
+  },
+  lightText: {
+    color: 'white'
+  },
+  button: {
+    fontSize: 20,
+    paddingTop: 10,
   },
   submit: {
+    borderWidth: 2,
+    borderColor: '#222',
+    width: 200,
+    alignItems: 'center',
+    height: 50,
     marginHorizontal: 5,
     alignSelf: 'center',
     marginVertical: 5
-  }
+  },
+  label: {
+    alignSelf: 'center',
+    fontSize: 15,
+  },
+  background: {
+    flex: 1,
+    backgroundColor: '#111111'
+  },
 });
 
 export default Register;
