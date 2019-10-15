@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import BillList from '../components/BillList';
 import { Header } from 'react-native-elements';
 
-const renderAddBill = (navigation) => {
+const renderBillHeader = (navigation) => {
   return (
     <View>
       <Header
@@ -18,7 +18,7 @@ const renderAddBill = (navigation) => {
 const BillsScreen = ({navigation}) => {
   return (
     <View>
-      {renderAddBill(navigation)}
+      {renderBillHeader(navigation)}
       <Text> My Bills: </Text>
       <BillList />
     </View>
