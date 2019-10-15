@@ -40,7 +40,7 @@ const Register = ({
         title="RuMate" 
         color="white"
         fontSize={40}
-        paddingTop={200}
+        paddingTop={100}
         paddingBottom={100}
       />
       <Text style={[styles.lightText, styles.label]}>Email</Text>

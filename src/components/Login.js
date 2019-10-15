@@ -17,22 +17,20 @@ const Login = ({
   email, setEmail,
   password, setPassword,
   register, setRegister }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [waiting, setWaiting] = useState(false);
 
   const authenticateUser = async () => {
-    setLoggedIn(true)
-    await firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-      const myError = error.code;
-      console.log(myError);
+    setWaiting(true)
+    await firebase.auth().signInWithEmailAndPassword(email, password).catch((error) => {
+      console.log(error.code, '\n', error.message);
     }).then((myError) => {
+      setWaiting(false)
       if (myError) {
         navigation.navigate('Home')
-      } else {
-        setLoggedIn(false)
       }
     });
   }
-  if (!loggedIn) {
+  if (!waiting) {
     return (
       <View style={styles.background}>
         <StatusBar barStyle='light-content'/>      
