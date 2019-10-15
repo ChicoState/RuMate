@@ -70,6 +70,10 @@ const appStackNavigator = createStackNavigator({
 
 const authStack = createStackNavigator({
   Login: AuthScreen,
+}, {
+  defaultNavigationOptions: {
+    header: null
+  }
 });
 
 const switchNav = createSwitchNavigator({
