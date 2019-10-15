@@ -6,6 +6,7 @@ import {
 } from 'react-native';
 import Register from '../components/Register';
 import Login from '../components/Login';
+import Dimensions from 'Dimensions';
 
 const AuthScreen = ({navigation}) => {
   const [register, setRegister] = useState(false);
@@ -30,7 +31,7 @@ const AuthScreen = ({navigation}) => {
     if (password != confPassword) {
       return (
         <>
-          <Text>Passwords must match!</Text>
+          <Text style={styles.errorText}>Passwords must match</Text>
         </>
       )
     }
@@ -42,7 +43,7 @@ const AuthScreen = ({navigation}) => {
       if (password.length < 6) {
         return (
           <>
-            <Text>Password must be more than 6 characters!</Text>
+            <Text style={styles.errorText}>Must be more than 6 characters in length</Text>
           </>
         )
       }
@@ -69,7 +70,7 @@ const AuthScreen = ({navigation}) => {
 
   const renderLogin = () => {
     return (
-      <Login 
+      <Login style={styles.background}
         email = {email}
         setEmail = {setEmail}
         password = {password}
@@ -90,17 +91,15 @@ const AuthScreen = ({navigation}) => {
       navigation.navigate('Home');
     }
   }
-
-  return (
-    <View>
-      {renderAuth()}
-    </View>
-  );
-  
+  return renderAuth();
 }
 
 const styles = StyleSheet.create({
-
+  errorText: {
+    color: 'red',
+    fontSize: 15,
+    alignSelf: 'center'
+  },
 });
 
 export default AuthScreen;
