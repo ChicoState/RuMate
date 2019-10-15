@@ -30,6 +30,7 @@ const Login = ({
       }
     });
   }
+  
   if (!waiting) {
     return (
       <View style={styles.background}>
