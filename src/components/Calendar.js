@@ -1,24 +1,56 @@
 import React,  {Component} from 'react';
 import { View, FlatList, StyleSheet, Text, TouchableHighlight,} from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
+var firebase = require("firebase");
 
 export default class TaskCalendar extends Component {
   constructor(props) {
         super(props);
         this.state = {
-
+          taskDates: ['2019-10-01', '2019-10-03'],
+          marked: null,
         }
     }
+
+    componentDidMount() {
+      this.markCalendar();
+    }
+
+    markCalendar = () => {
+      console.log(this.state.taskDates);
+    var obj = this.state.taskDates.reduce((c, v) => Object.assign(c, {[v]: {selected: true,marked: true}}), {});
+    this.setState({ marked : obj});
+  }
+
+    componentWillMount() {
+      const taskref = firebase.database().ref(`tasks/`);
+
+      taskref.on("value", snapshot => {
+
+        let tasks = snapshot.val();
+
+        let newState = [];
+
+        for(let item in tasks){
+          if (tasks[item].completed == false)
+          {
+            newState.push(
+              tasks[item].date);
+          }
+        }
+
+        this.setState({
+          taskDates: newState
+        });
+
+    });
+  }
 
 render() {
   return (
     <View style={{flex: 1}}>
       <Calendar
-      markedDates={{
-    '2019-10-16': {selected: true, marked: true, selectedColor: 'blue'},
-    '2019-10-17': {marked: true},
-    '2019-10-18': {marked: true, dotColor: 'red', activeOpacity: 0},
-  }}
+      markedDates={this.state.marked}
       // Initially visible month. Default = Date()
       current={'2019-10-09'}
       // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined

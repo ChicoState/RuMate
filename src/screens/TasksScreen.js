@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Header, Icon } from 'react-native-elements';
+import { Header } from 'react-native-elements';
 import TaskList from '../components/TaskList';
+import Icon from 'react-native-vector-icons/Foundation';
 
 const TasksScreen = ({navigation}) => {
   return (
     <View style={{flex: 1}}>
       <Header
-        leftComponent={{icon: "menu", onPress: () => navigation.navigate('TaskCalendar') }}
+        leftComponent={<Icon name="calendar" size={30} color='white' onPress = {() => navigation.navigate('TaskCalendar')} />}
         centerComponent={{text: "Tasks", style: {fontSize: 20}}}
         rightComponent={{icon: 'add-circle', onPress: () => navigation.navigate('CreateTask') }}
       />

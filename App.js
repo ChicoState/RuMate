@@ -10,6 +10,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import TasksScreen from './src/screens/TasksScreen';
 import AuthScreen from './src/screens/AuthScreen';
 import CreateTaskScreen from './src/screens/CreateTaskScreen';
+import AddRoommateScreen from './src/screens/AddRoomateScreen';
 import CalendarScreen from './src/screens/CalendarScreen';
 import BillsScreen from './src/screens/BillsScreen';
 import CreateBillScreen from './src/screens/CreateBillScreen';
@@ -57,6 +58,7 @@ const taskNavigator = createStackNavigator({
 });
 
 const appStackNavigator = createStackNavigator({
+  AddRoommate: AddRoommateScreen,
   Home: tabNavigator,
   Tasks: taskNavigator,
   CreateBill: CreateBillScreen,
