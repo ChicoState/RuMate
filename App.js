@@ -13,8 +13,8 @@ import CreateTaskScreen from './src/screens/CreateTaskScreen';
 import CalendarScreen from './src/screens/CalendarScreen';
 import BillsScreen from './src/screens/BillsScreen';
 import CreateBillScreen from './src/screens/CreateBillScreen';
-
 useScreens();
+
 const firebaseConfig = {
   apiKey: "AIzaSyA_ZWMR-MFG_ZHNK4_WuEeHoLP9vzsY_Vk",
   authDomain: "rumate-faaeb.firebaseapp.com",
