@@ -50,6 +50,10 @@ const tabNavigator = createBottomTabNavigator({
 
 const taskNavigator = createStackNavigator({
   CreateTask: CreateTaskScreen,
+}, {
+  defaultNavigationOptions: {
+    header: null
+  }
 });
 
 const appStackNavigator = createStackNavigator({
