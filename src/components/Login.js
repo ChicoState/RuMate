@@ -10,7 +10,7 @@ import {
 import firebase from 'firebase';
 // import { Header } from 'react-native-elements';
 import Header from '../components/Header';
-import Spinner from '../components/Spinner';
+import AuthSpinner from './AuthSpinner';
 
 const Login = ({
   navigation,
@@ -30,7 +30,7 @@ const Login = ({
       }
     });
   }
-  
+
   if (!waiting) {
     return (
       <View style={styles.background}>
@@ -72,7 +72,7 @@ const Login = ({
       </View>
     );
   } else {
-    return <Spinner />
+    return <AuthSpinner />
   }
 }
 
