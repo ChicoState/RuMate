@@ -8,6 +8,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import TasksScreen from './src/screens/TasksScreen';
 import AuthScreen from './src/screens/AuthScreen';
 import CreateTaskScreen from './src/screens/CreateTaskScreen';
+import CalendarScreen from './src/screens/CalendarScreen';
 useScreens();
 
 //TODO: DL - this is very inefficient to include the entire firebase SDK
@@ -66,6 +67,7 @@ const appStackNavigator = createStackNavigator({
   Home: tabNavigator,
   Tasks: taskNavigator,
   CreateBill: CreateBillScreen,
+  TaskCalendar: CalendarScreen,
 },{
   initialRouteName: 'Home',
   defaultNavigationOptions: {
