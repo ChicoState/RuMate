@@ -93,7 +93,7 @@ export default class CreateTaskScreen extends Component {
                     onDateChange={(date) => this.setState({date})} 
                     confirmBtnText="Confirm" 
                     cancelBtnText="Cancel"
-                    format="MM-DD-YYYY"
+                    format="YYYY-MM-DD"
                     date={this.state.date}
                 />
                 
