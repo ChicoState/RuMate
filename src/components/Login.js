@@ -11,11 +11,8 @@ const Login = ({
 
   const authenticateUser = () => {
     firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-      // Handle Errors here.
-      // const error = await response.json();
       const myError = error.code;
       console.log(myError);
-      // ...
     }).then((myError) => {
       if (myError)
         navigation.navigate('Home');
