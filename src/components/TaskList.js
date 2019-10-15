@@ -1,7 +1,8 @@
 import React,  {Component} from 'react';
 import { View, FlatList, StyleSheet, Text, TouchableHighlight,} from 'react-native'; 
 import Dialog from 'react-native-dialog';
-var firebase = require("firebase");
+import Dimensions from 'Dimensions';
+import firebase from 'firebase';
 
 class FlatListItem extends Component {
 
@@ -125,8 +126,9 @@ export default class TaskList extends Component {
 
 
 render() {
+  const { height } = Dimensions.get('window');
   return (
-    <View>
+    <View style={{height}}>
       <FlatList
         data={this.state.flatlistData}
         getItemLayout={(data, index) => (

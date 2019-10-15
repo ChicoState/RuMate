@@ -1,30 +1,20 @@
 import React from 'react';
-import { StyleSheet, Button } from 'react-native';
+import firebase from 'firebase';
+import { StyleSheet } from 'react-native';
 import { useScreens } from 'react-native-screens';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
+/* our imports */
 import HomeScreen from './src/screens/HomeScreen';
 import TasksScreen from './src/screens/TasksScreen';
-import LoginScreen from './src/screens/LoginScreen';
+import AuthScreen from './src/screens/AuthScreen';
 import CreateTaskScreen from './src/screens/CreateTaskScreen';
-import RegisterScreen from './src/screens/RegisterScreen';
 import AddRoommateScreen from './src/screens/AddRoomateScreen';
 import CalendarScreen from './src/screens/CalendarScreen';
-useScreens();
-
-//TODO: DL - this is very inefficient to include the entire firebase SDK
-//we will need to update to only include specific SDK's once we have a better
-//idea of which ones we need
-
-// Firebase App (the core Firebase SDK) is always required and
-// must be listed before other Firebase SDKs
-import * as firebase from "firebase/app";
-// Add the Firebase services that you want to use
-import "firebase/auth";
-import "firebase/firestore";
 import BillsScreen from './src/screens/BillsScreen';
 import CreateBillScreen from './src/screens/CreateBillScreen';
+useScreens();
 
 const firebaseConfig = {
   apiKey: "AIzaSyA_ZWMR-MFG_ZHNK4_WuEeHoLP9vzsY_Vk",
@@ -62,12 +52,13 @@ const tabNavigator = createBottomTabNavigator({
 const taskNavigator = createStackNavigator({
   CreateTask: CreateTaskScreen,
 }, {
-
+  defaultNavigationOptions: {
+    header: null
+  }
 });
 
 const appStackNavigator = createStackNavigator({
   AddRoommate: AddRoommateScreen,
-  Register: RegisterScreen,
   Home: tabNavigator,
   Tasks: taskNavigator,
   CreateBill: CreateBillScreen,
@@ -80,8 +71,11 @@ const appStackNavigator = createStackNavigator({
 });
 
 const authStack = createStackNavigator({
-  Login: LoginScreen,
-  Register: RegisterScreen
+  Login: AuthScreen,
+}, {
+  defaultNavigationOptions: {
+    header: null
+  }
 });
 
 const switchNav = createSwitchNavigator({
