@@ -21,7 +21,7 @@ const getBills = async (setBills) => {
 const renderBills = (bills) => {
   const { height } = Dimensions.get('window');
   return (
-    <View style={{height: height}}>
+    <View style={{height}}>
       <FlatList
         keyExtractor={item => item.billId}
         data={bills}
