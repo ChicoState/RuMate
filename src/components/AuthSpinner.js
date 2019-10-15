@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import Header from './Header';
 
-const Spinner = () => {
+const AuthSpinner = () => {
   return (
     <View style={styles.background}>
       <Header 
@@ -42,4 +42,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Spinner;
+export default AuthSpinner;
