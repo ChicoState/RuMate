@@ -27,6 +27,7 @@ const Register = ({
           await newUser.set({
             email,
             uid: firebase.auth().currentUser.uid,
+            rid: -1
           });
           setRegister(!register);
         }

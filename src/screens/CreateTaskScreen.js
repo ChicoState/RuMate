@@ -101,7 +101,6 @@ export default class CreateTaskScreen extends Component {
                     title="Enter"
                     onPress={() => {this.addEntry(this.state.name, this.state.date, this.state.description);}}
                 >
-                    <Text>Enter</Text>
                 </Button>
 
                 <Dialog.Container
