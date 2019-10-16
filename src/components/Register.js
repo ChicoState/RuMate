@@ -5,6 +5,7 @@ import AuthSpinner from './AuthSpinner';
 import firebase from 'firebase';
 
 const Register = ({ 
+  name, setName,
   email, setEmail,
   password, setPassword,
   confPassword, setConfPassword,
@@ -27,7 +28,8 @@ const Register = ({
           await newUser.set({
             email,
             uid: firebase.auth().currentUser.uid,
-            rid: -1
+            rid: -1,
+            name
           });
           setRegister(!register);
         }
@@ -44,6 +46,14 @@ const Register = ({
           fontSize={40}
           paddingTop={100}
           paddingBottom={100}
+        />
+        <Text style={[styles.lightText, styles.label]}>Name</Text>
+        <TextInput 
+          style={styles.input}
+          value={name}
+          onChangeText={setName}
+          placeholder="name"
+          placeholderTextColor= "#444"
         />
         <Text style={[styles.lightText, styles.label]}>Email</Text>
         <TextInput 

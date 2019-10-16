@@ -19,6 +19,7 @@ const AuthScreen = ({navigation}) => {
   const [signedIn, setSignedIn] = useState(false);
   // google photo?
   const [photo, setPhoto] = useState("");
+  const [name, setName] = useState("");
 
   useEffect(() => {
     // firebase.auth();
@@ -54,6 +55,8 @@ const AuthScreen = ({navigation}) => {
   const renderRegister = () => {
     return (
       <Register 
+        name = {name}
+        setName = {setName}
         email = {email}
         setEmail = {setEmail}
         password = {password}
