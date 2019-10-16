@@ -77,6 +77,7 @@ const AuthScreen = ({navigation}) => {
         setPassword = {setPassword}
         register = {register}
         setRegister = {setRegister}
+        setSignedIn = {setSignedIn}
         navigation = {navigation}
       />
     );
@@ -88,9 +89,10 @@ const AuthScreen = ({navigation}) => {
         return renderRegister()
       return renderLogin()
     } else {
-      navigation.navigate('Home');
+      return navigation.navigate('Home', {signedIn, setSignedIn});
     }
   }
+  
   return renderAuth();
 }
 
