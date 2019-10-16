@@ -16,7 +16,8 @@ const Login = ({
   navigation,
   email, setEmail,
   password, setPassword,
-  register, setRegister }) => {
+  register, setRegister, }) => {
+    
   const [waiting, setWaiting] = useState(false);
 
   const authenticateUser = async () => {
@@ -26,7 +27,7 @@ const Login = ({
     }).then((myError) => {
       setWaiting(false)
       if (myError) {
-        navigation.navigate('Home')
+        navigation.navigate('Home');
       }
     });
   }
