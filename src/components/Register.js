@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, StatusBar } from 'react-native';
-import Header from '../components/Header';
+import TitleBlock from './TitleBlock';
 import AuthSpinner from './AuthSpinner';
 import firebase from 'firebase';
 
@@ -40,12 +40,12 @@ const Register = ({
     return (
       <View style={styles.background}>
         <StatusBar barStyle='light-content'/>
-        <Header 
+        <TitleBlock
           title="RuMate" 
           color="white"
           fontSize={40}
-          paddingTop={100}
-          paddingBottom={100}
+          paddingTop={"20%"}
+          paddingBottom={"20%"}
         />
         <Text style={[styles.lightText, styles.label]}>Name</Text>
         <TextInput 
