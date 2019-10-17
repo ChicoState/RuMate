@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  TextInput, 
-  TouchableOpacity, 
-  StatusBar 
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  StatusBar,
+  KeyboardAvoidingView
 } from 'react-native';
 import firebase from 'firebase';
 // import { Header } from 'react-native-elements';
-import Header from '../components/Header';
+import TitleBlock from './TitleBlock';
 import AuthSpinner from './AuthSpinner';
 
 const Login = ({
@@ -17,7 +18,7 @@ const Login = ({
   email, setEmail,
   password, setPassword,
   register, setRegister, }) => {
-    
+
   const [waiting, setWaiting] = useState(false);
 
   const authenticateUser = async () => {
@@ -34,28 +35,30 @@ const Login = ({
 
   if (!waiting) {
     return (
-      <View style={styles.background}>
-        <StatusBar barStyle='light-content'/>      
-        <Header 
-          title="RuMate" 
-          color="white"
-          fontSize={40}
-          paddingTop={100}
-          paddingBottom={100}
-        />
-        <TextInput style={styles.input}
-          value={email}
-          onChangeText={setEmail}
-          placeholder="e-mail"
-          placeholderTextColor= "#444"
-          autoFocus
-        />
-        <TextInput style={styles.input}
-          value={password}
-          onChangeText={setPassword}
-          placeholder="password"
-          placeholderTextColor= "#444"
-        />
+      <KeyboardAvoidingView 
+        style={styles.background}
+        behavior="padding">
+          <StatusBar barStyle="light-content"/>
+          <TitleBlock 
+            title="RuMate" 
+            color="white"
+            fontSize={40}
+            paddingTop={"40%"}
+            paddingBottom={"20%"}
+          />
+          <TextInput style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+            placeholder="e-mail"
+            placeholderTextColor= "#444"
+            autoFocus={false}
+          />
+          <TextInput style={styles.input}
+            value={password}
+            onChangeText={setPassword}
+            placeholder="password"
+            placeholderTextColor= "#444"
+          />
         <TouchableOpacity style={styles.submit} 
           onPress = {authenticateUser}>
           <Text style={[styles.lightText, styles.button]}>
@@ -70,7 +73,7 @@ const Login = ({
             Register
           </Text>
         </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
     );
   } else {
     return <AuthSpinner />
