@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const Header = ({title, color, fontSize, paddingTop, paddingBottom}) => {
+const TitleBlock = ({title, color, fontSize, paddingTop, paddingBottom}) => {
   return (
     <View>
       <Text 
@@ -10,7 +10,7 @@ const Header = ({title, color, fontSize, paddingTop, paddingBottom}) => {
           fontSize,
           paddingTop,
           paddingBottom
-          }]}>
+        }]}>
         {title}
       </Text>
     </View>
@@ -23,4 +23,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Header;
+export default TitleBlock;
