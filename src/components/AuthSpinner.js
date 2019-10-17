@@ -1,16 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
-import Header from './Header';
+import TitleBlock from './TitleBlock';
 
 const AuthSpinner = () => {
   return (
     <View style={styles.background}>
-      <Header 
+      <TitleBlock 
         title="RuMate" 
         color="white"
         fontSize={40}
-        paddingTop={100}
-        paddingBottom={100}
+        paddingTop={'20%'}
+        paddingBottom={'20%'}
       />
       <Text style={[styles.lightText, styles.label]}>
         Just a sec, workin' on it ...
