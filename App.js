@@ -15,6 +15,7 @@ import CalendarScreen from './src/screens/CalendarScreen';
 import BillsScreen from './src/screens/BillsScreen';
 import CreateBillScreen from './src/screens/CreateBillScreen';
 import CreateRoommateGroupScreen from './src/screens/CreateRoommateGroupScreen';
+import MessageScreen from './src/screens/MessagesScreen';
 useScreens();
 
 const firebaseConfig = {
@@ -65,6 +66,7 @@ const appStackNavigator = createStackNavigator({
   Tasks: taskNavigator,
   CreateBill: CreateBillScreen,
   TaskCalendar: CalendarScreen,
+  Messages: MessageScreen,
 },{
   initialRouteName: 'Home',
   defaultNavigationOptions: {
