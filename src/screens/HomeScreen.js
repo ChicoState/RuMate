@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, StatusBar } from 'react-native';
 import { Header } from 'react-native-elements';
+import Tile from '../components/Tile';
 import firebase from 'firebase';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
@@ -14,6 +15,20 @@ const HomeScreen = ({ navigation }) => {
         rightComponent={<Icon size={30} color='white' name="group-add" onPress = {() => navigation.navigate('AddRoommate')} />}
       />
       <Text>Welcome {firebase.auth().currentUser.uid}</Text>
+      <Tile 
+        title="Messages"
+        color="green"
+        text="Tap to view messages"
+        textColor="white"
+        nav={navigation}
+        location="Messages"
+      />
+      <Tile 
+        title="Messages2"
+        color="green"
+        text="Tap to view messages"
+        textColor="white"
+      />
     </View>
   );
 }
