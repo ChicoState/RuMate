@@ -12,7 +12,7 @@ const Register = ({
   register, setRegister,
   passMatch, passLength }) => {
   const [waiting, setWaiting] = useState(false)
-
+  
   const registerUser = async () => {
     setWaiting(true)
     if (password == confPassword && password.length >= 6) {
@@ -29,7 +29,8 @@ const Register = ({
             email,
             uid: firebase.auth().currentUser.uid,
             rid: -1,
-            name
+            name,
+            groupName
           });
           setRegister(!register);
         }
