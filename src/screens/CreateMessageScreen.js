@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { Header } from 'react-native-elements';
 
 
-const MessageScreen = ({ navigation }) => {
+const CreateMessageScreen = ({ navigation }) => {
+  const [recipient, setRecipient] = useState("");
   return (
     <>
       <Header
         backgroundColor=""
         leftComponent={{
           icon: 'arrow-back',
-          onPress: () => navigation.navigate('Home')
+          onPress: () => navigation.navigate('Messages')
         }}
         centerComponent={{
           text: "New Message",
@@ -23,6 +24,8 @@ const MessageScreen = ({ navigation }) => {
       />
       <View style={styles.container}>
         <TextInput style={styles.searchBar}
+          value={recipient}
+          onChangeText={setRecipient}
           placeholder="To"
           autoFocus
         />
@@ -49,4 +52,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default MessageScreen;
+export default CreateMessageScreen;
