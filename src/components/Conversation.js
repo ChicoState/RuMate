@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Message from '../components/Message';
 
 const Conversation = ({ name, blurb }) => {
   return (
