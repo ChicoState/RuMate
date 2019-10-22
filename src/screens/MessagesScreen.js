@@ -1,18 +1,9 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import { Header } from 'react-native-elements';
-import Conversation from '../components/Conversation';
-import Message from '../components/Message';
+import MessageList from '../components/MessageList';
 
 const MessageScreen = ({ navigation }) => {
-
-  const renderConversations = () => {
-    // pull all conversations
-    return (
-      <Conversation />
-    );
-  }
-
   return (
     <View>
       <Header
@@ -30,7 +21,7 @@ const MessageScreen = ({ navigation }) => {
           onPress: () => navigation.navigate('CreateMessage') 
         }}
       />
-      {renderConversations()}
+      <MessageList />
     </View>
   );
 }
