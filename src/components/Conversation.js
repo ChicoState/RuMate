@@ -1,12 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-const Conversation = ({ name, blurb }) => {
+const Conversation = ({ name, blurb, navigation }) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.name}>{name}</Text>
-      <Text style={styles.blurb}>{blurb}</Text>
-    </View>
+    <TouchableOpacity onPress={() => {
+      navigation.navigate('Conversation', {name})
+    }}>
+      <View style={styles.container}>
+        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.blurb}>{blurb}</Text>
+      </View>
+    </TouchableOpacity>
   );
 }
 
