@@ -21,7 +21,7 @@ const MessageScreen = ({ navigation }) => {
           onPress: () => navigation.navigate('CreateMessage') 
         }}
       />
-      <MessageList />
+      <MessageList navigation={navigation} />
     </View>
   );
 }
