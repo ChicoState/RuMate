@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 import { Header } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import firebase from 'firebase';
 
-const CreateBillScreen = () => {
+const CreateBillScreen = ({navigation}) => {
   const [name, setName] = useState("");
   const [value, setValue] = useState("");
   const [date, setDate] = useState("");
@@ -11,7 +12,7 @@ const CreateBillScreen = () => {
     <View>
       <Header
         backgroundColor="green"
-        leftComponent={{ text: "Back", style: {fontSize: 20, color: 'black'}}}
+        leftComponent={<Icon name='arrow-back' size={30} color='black' onPress = { () => navigation.navigate('Bills')} />}
         centerComponent={{text: "Add a bill", style: {fontSize: 20, color: 'black'}}}
       />
       <Text>Name</Text>
