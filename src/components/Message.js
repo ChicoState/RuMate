@@ -1,9 +1,14 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-const Message = ({ msg, time, to }) => {
-  to ? msgStyle = styles.to : msgStyle = styles.from;
-  to ? msgWrapper = styles.toMsgWrapper : msgWrapper = styles.fromMsgWrapper;
+const Message = ({ msg, time, sentToMe }) => {
+  if (sentToMe) {
+    msgStyle = styles.to;
+    msgWrapper = styles.toMsgWrapper
+  } else {
+    msgStyle = styles.from;
+    msgWrapper = styles.fromMsgWrapper
+  }
 
   return (
     <View style={msgWrapper}>
