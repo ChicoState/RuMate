@@ -11,7 +11,7 @@ import Dimensions from 'Dimensions';
 const AuthScreen = ({navigation}) => {
   const [register, setRegister] = useState(false);
   // set initial email state to empty string
-  const [email, setEmail] = useState("MsgAndGrpTest@noyou.com");
+  const [email, setEmail] = useState("Messanger1@noyou.com");
   // password string initally empty
   const [password, setPassword] = useState("Test1234");
   const [confPassword, setConfPassword] = useState("");
