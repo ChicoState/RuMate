@@ -4,7 +4,7 @@ import { Header } from 'react-native-elements';
 import firebase from 'firebase';
 import Conversation from '../components/Conversation';
 
-const CreateMessageScreen = ({ navigation }) => {
+const CreateConversationScreen = ({ navigation }) => {
   const [recipient, setRecipient] = useState("");
   const [group, setGroup] = useState([]);
 
@@ -42,10 +42,6 @@ const CreateMessageScreen = ({ navigation }) => {
           text: "New Message",
           style: { fontSize: 20, color: 'black' }
         }}
-        rightComponent={{
-          icon: 'add-circle',
-          onPress: () => navigation.navigate('CreateMessage') 
-        }}
       />
       <View style={styles.container}>
         <TextInput style={styles.searchBar}
@@ -71,6 +67,7 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 10,
     paddingTop: 10,
+    paddingBottom: 30,
   },
   searchBar: {
     borderWidth: 1,
@@ -88,4 +85,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default CreateMessageScreen;
+export default CreateConversationScreen;
