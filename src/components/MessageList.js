@@ -1,35 +1,32 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Conversation from './Conversation';
+import Message from '../components/Message';
+import { ScrollView } from 'react-native-gesture-handler';
 
-const MessageList = ({ navigation }) => {
-  const renderConversations = () => {
-    // pull all conversations
-    /* 
-      push conversations into a list to be rendered
-    */
-    const list = [
-      <Conversation
-        name="RM name"
-        blurb="Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit. Suspendisse pellentesque mollis
-          lacus a euismod."
-        navigation={navigation}
-        key={1}
-      />
-    ];
-    return list;
-  }
+const MessageList = () => {
   return (
-    <View>
-      {/* put in flatlist eventually */}
-      {renderConversations()}
-    </View>
-  )
+    <ScrollView style={styles.container}> 
+    {/*Change to flatlist */}
+      <Message
+        name="test"
+        msg="test message"
+        time="100"
+        to={false}
+      />
+      <Message
+        name="test"
+        msg="test message"
+        time="100"
+        to={true}
+      />
+    </ScrollView>
+  );
 }
 
 const styles = StyleSheet.create({
-
-})
+  container: {
+    height: "70%"
+  }
+});
 
 export default MessageList;
