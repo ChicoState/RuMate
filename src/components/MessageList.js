@@ -9,8 +9,7 @@ const MessageList = () => {
     hour: 'numeric', 
     minute: 'numeric', 
     hour12: true 
-  }) // will have to use this method to store time, 
-    // for now, just setting test msgs to current time.
+  })
   return (
     <ScrollView style={styles.container}> 
     {/*Change to flatlist */}
