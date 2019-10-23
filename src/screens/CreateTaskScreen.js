@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import { SearchBar, Button, Header } from 'react-native-elements';
 import Dialog from 'react-native-dialog';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 var firebase = require("firebase");
 
@@ -61,6 +62,8 @@ export default class CreateTaskScreen extends Component {
             description: "",
             completed: false
         });
+
+        this.props.navigation.navigate('Tasks');
     }
 
     closeDialog = () => {
@@ -73,30 +76,31 @@ export default class CreateTaskScreen extends Component {
         return (
             <View>
                 <Header
+                    leftComponent={<Icon name='arrow-back' size={30} color='black' onPress = { () => this.props.navigation.navigate('Tasks')} />}
                     centerComponent={{text: 'Create a task', style: { fontSize: 20}}}
                 />
-                <SearchBar 
-                    value={this.state.name} 
-                    onChangeText={(name) => this.setState({name})} 
-                    onEndEditing={(name) => this.nameSearch({name})} 
+                <SearchBar
+                    value={this.state.name}
+                    onChangeText={(name) => this.setState({name})}
+                    onEndEditing={(name) => this.nameSearch({name})}
                     placeholder="assignee name"
                 />
 
-                <SearchBar 
-                    value={this.state.description} 
-                    onChangeText={(description) => this.setState({description})} 
+                <SearchBar
+                    value={this.state.description}
+                    onChangeText={(description) => this.setState({description})}
                     placeholder="task description"
                     searchIcon={false}
                 />
 
-                <DatePicker 
-                    onDateChange={(date) => this.setState({date})} 
-                    confirmBtnText="Confirm" 
+                <DatePicker
+                    onDateChange={(date) => this.setState({date})}
+                    confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
                     format="YYYY-MM-DD"
                     date={this.state.date}
                 />
-                
+
                 <Button
                     title="Enter"
                     onPress={() => {this.addEntry(this.state.name, this.state.date, this.state.description);}}
@@ -113,7 +117,7 @@ export default class CreateTaskScreen extends Component {
                     <Dialog.Button
                     label='OK'
                     onPress={this.closeDialog}
-                    >    
+                    >
                     </Dialog.Button>
                 </Dialog.Container>
             </View>
