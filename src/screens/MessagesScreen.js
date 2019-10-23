@@ -1,13 +1,13 @@
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import { Header } from 'react-native-elements';
-import MessageList from '../components/MessageList';
+import ConversationList from '../components/ConversationList';
 
 const MessageScreen = ({ navigation }) => {
   return (
     <View>
       <Header
-        backgroundColor="orange"
+        backgroundColor="purple"
         leftComponent={{
           icon: 'arrow-back',
           onPress: () => navigation.navigate('Home')
@@ -18,10 +18,10 @@ const MessageScreen = ({ navigation }) => {
         }}
         rightComponent={{
           icon: 'add-circle',
-          onPress: () => navigation.navigate('CreateMessage') 
+          onPress: () => navigation.navigate('CreateConversation') 
         }}
       />
-      <MessageList navigation={navigation} />
+      <ConversationList navigation={navigation} />
     </View>
   );
 }
