@@ -13,7 +13,7 @@ const ConversationList = ({ navigation }) => {
     if (conversations) {
       const list = [
         <Conversation
-          name="NameTest"
+          name="Messanger2"
           blurb="Lorem ipsum dolor sit amet, consectetur
             adipiscing elit. Suspendisse pellentesque mollis
             lacus a euismod."
