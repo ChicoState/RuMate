@@ -1,16 +1,64 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, KeyboardAvoidingView, Button, TextInput } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView, Keyboard, TextInput } from 'react-native';
 import { Header } from 'react-native-elements';
+import firebase from 'firebase';
 import MessageList from '../components/MessageList';
 
 const ConversationScreen = ({ navigation }) => {
   const name = navigation.state.params.name;
   const [input, setInput] = useState("");
   const [cleared, setCleared] = useState(true);
+
   const submitMessage = (event) => {
+    let date = new Date();
+    let time = date.toLocaleString('en-US', { 
+      hour: 'numeric', 
+      minute: 'numeric',
+      hour12: true 
+    })
+    let timeWithSeconds = date.toLocaleString('en-US', { 
+      hour: 'numeric', 
+      minute: 'numeric',
+      second: 'numeric',
+      hour12: true 
+    })
+
     if (event.nativeEvent.key === "Enter") {
       setCleared(false);
-      alert("Sent")
+      let msg = firebase.database().ref().child('/messages').push();
+      let recipientID = "";
+      let from = "";
+      let response = firebase.database().ref('/users');
+      let haveSender = false;
+      let haveRec = false;
+      response.on('value', async (snapshot) => {
+        let data = await snapshot.val();
+        for (i in data) {
+          if (firebase.auth().currentUser.uid == data[i].uid) {
+            from = data[i].name;
+            console.log("match " + from);
+            haveSender = true;
+          }
+          if (name == data[i].name) {
+            recipientID = data[i].uid;
+            haveRec = true;
+          }
+          if (haveRec && haveSender) {
+            haveSender = haveRec = false;
+            msg.set({
+              to: name,
+              from: from,
+              time: time,
+              convID: firebase.auth().currentUser.uid + recipientID,
+              msgID: name + timeWithSeconds + from,
+              text: input
+            })
+            console.log("msg set")
+            setInput("");
+            break;
+          }
+        }
+      })
     }
   }
 
@@ -31,14 +79,10 @@ const ConversationScreen = ({ navigation }) => {
           onChangeText={setInput}
           placeholder="Message"
           multiline
+          autoFocus
           enablesReturnKeyAutomatically={true}
           onKeyPress={(event) => {
             submitMessage(event);
-          }}
-          onEndEditing={() => {
-            if (!cleared) {
-              setInput("")
-            }
           }}
       />
       
