@@ -7,7 +7,7 @@ import MessageList from '../components/MessageList';
 const ConversationScreen = ({ navigation }) => {
   const name = navigation.state.params.name;
   const [input, setInput] = useState("");
-  const [cleared, setCleared] = useState(true);
+  const [conversationID, setConversationID] = useState("");
 
   const submitMessage = (event) => {
     let date = new Date();
@@ -24,7 +24,6 @@ const ConversationScreen = ({ navigation }) => {
     })
 
     if (event.nativeEvent.key === "Enter") {
-      setCleared(false);
       let msg = firebase.database().ref().child('/messages').push();
       let recipientID = "";
       let from = "";
@@ -36,7 +35,6 @@ const ConversationScreen = ({ navigation }) => {
         for (i in data) {
           if (firebase.auth().currentUser.uid == data[i].uid) {
             from = data[i].name;
-            console.log("match " + from);
             haveSender = true;
           }
           if (name == data[i].name) {
@@ -51,9 +49,10 @@ const ConversationScreen = ({ navigation }) => {
               time: time,
               convID: firebase.auth().currentUser.uid + recipientID,
               msgID: name + timeWithSeconds + from,
-              text: input
+              text: input,
+              senderID: firebase.auth().currentUser.uid
             })
-            console.log("msg set")
+            setConversationID(firebase.auth().currentUser.uid + recipientID);
             setInput("");
             break;
           }
@@ -73,7 +72,7 @@ const ConversationScreen = ({ navigation }) => {
         leftComponent={{icon: 'arrow-back', onPress: () => navigation.navigate('Messages') }}
         centerComponent={{text: name, style: {fontSize: 20, color: 'black'}}}
       />
-      <MessageList />
+      <MessageList id = {conversationID} recipient={name}/>
       <TextInput style={styles.textInput}
           value={input}
           onChangeText={setInput}
