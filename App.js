@@ -16,7 +16,7 @@ import BillsScreen from './src/screens/BillsScreen';
 import CreateBillScreen from './src/screens/CreateBillScreen';
 import CreateRoommateGroupScreen from './src/screens/CreateRoommateGroupScreen';
 import MessageScreen from './src/screens/MessagesScreen';
-import CreateMessageScreen from './src/screens/CreateMessageScreen';
+import CreateConversationScreen from './src/screens/CreateConversationScreen';
 import ConversationScreen from './src/screens/ConversationScreen';
 useScreens();
 
@@ -69,7 +69,7 @@ const appStackNavigator = createStackNavigator({
   CreateBill: CreateBillScreen,
   TaskCalendar: CalendarScreen,
   Messages: MessageScreen,
-  CreateMessage: CreateMessageScreen,
+  CreateConversation: CreateConversationScreen,
   Conversation: ConversationScreen
 
 },{
