@@ -20,16 +20,17 @@ const MessageList = ({ id, recipient }) => {
       }
     })
     let messageList = [];
+    setMessages(messageList);
     response.on("value", (snapshot) => {
       let data = snapshot.val();
       for (let item in data) {
         if ((data[item].to == recipient && data[item].from == sender) ||
             (data[item].to == sender && data[item].from == recipient)) {
-          console.log(data[item])
-          messageList.push(data[item])
-          setMessages(messageList);
+          messageList.push(data[item]);
         }
       }
+      setMessages(messageList)
+      messageList = [];
     })
   }
 
