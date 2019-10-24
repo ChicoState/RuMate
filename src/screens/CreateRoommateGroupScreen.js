@@ -3,8 +3,6 @@ import { View, FlatList } from 'react-native';
 import { Header, Input, SearchBar, ListItem, Button } from 'react-native-elements';
 
 var firebase = require("firebase");
-const curData = [];
-
 
 const CreateRoommateGroupScreen = ({}) => {
     const [searchName, setSearchName] = useState("");
@@ -12,8 +10,6 @@ const CreateRoommateGroupScreen = ({}) => {
     const [newMembers, setNewMembers] = useState([]);
 
     const nameSearch = () => {
-        console.log("Before:")
-        console.log(curData)
         var users_ref = firebase.database().ref('/users');
 
         users_ref.on('value', function(snapshot) {
@@ -23,30 +19,23 @@ const CreateRoommateGroupScreen = ({}) => {
                 if (searchName == data[item].name)
                 {
                     alert(searchName + " has been added to this group");
-                    curData.push(data[item].name);
-                    setNewMembers(curData)
+                    setNewMembers([...newMembers, data[item]])
                 }
             }
         });
-        console.log("After:")
-        console.log(curData);
     }
 
     const renderItem = ({ item }) => (
         <ListItem
-        title={item}
+        title={item.name}
         />
     )
 
-    const keyExtractor = (item, index) => {
-        index.toString();
-    }
-
-    const addEntry = (the_name, the_members) => {
+    const addEntry = () => {
         var roomateList = firebase.database().ref().child('/groups').push();
         roomateList.set({
-            name: the_name,
-            members: the_members
+            name: groupName,
+            members: newMembers
         })
     }
 
@@ -72,13 +61,13 @@ const CreateRoommateGroupScreen = ({}) => {
             />
             <FlatList
             data={newMembers}
-            keyExtractor={keyExtractor}
+            keyExtractor={item => item.userID}
             renderItem={renderItem}
             extraData={true}
             />
             <Button
             title="Create new roommate group"
-            onPress={addEntry(groupName, newMembers)}
+            onPress={addEntry}
             />
         </View>
     )
