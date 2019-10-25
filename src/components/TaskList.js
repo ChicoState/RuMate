@@ -1,5 +1,5 @@
 import React,  {Component} from 'react';
-import { View, FlatList, StyleSheet, Text, TouchableHighlight,} from 'react-native'; 
+import { View, FlatList, StyleSheet, Text, TouchableHighlight,} from 'react-native';
 import Dialog from 'react-native-dialog';
 import Dimensions from 'Dimensions';
 import firebase from 'firebase';
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     paddingBottom: 10,
-    backgroundColor: "#71bd89",
+    backgroundColor: "#c4e2ff",
     borderRadius: 20,
     borderWidth: 1,
     borderColor: 'black',
@@ -161,7 +161,7 @@ render() {
         <Dialog.Button
         label='Yes'
         onPress={this.markAsCompleted}
-        >        
+        >
         </Dialog.Button>
       </Dialog.Container>
     </View>
