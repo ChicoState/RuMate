@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import firebase from 'firebase';
 import Conversation from './Conversation';
 
@@ -7,37 +7,68 @@ const ConversationList = ({ navigation }) => {
   const [conversations, setConversations] = useState([])
 
   const getConversations = () => {
-    // let response = firebase.database().ref("/messages");
-    // response.on("value", (snapshot) => {
-    //   let data = snapshot.val();
-    //   console.log("from conversation screen " + data);
-    // })
+    let userList = [];
+    let sentMsgs = []
+    let responseUsers = firebase.database().ref('users');
+    let responseMessages = firebase.database().ref('messages');
+    responseUsers.on("value", (snapshot) => {
+      let data = snapshot.val();
+      for (item in data) {
+        if (data[item].uid !== firebase.auth().currentUser.uid)
+          userList.push(data[item]); 
+      }
+      responseMessages.on('value', (snapshot) => {
+        let messageData = snapshot.val();
+        for (item in messageData) {
+          if (messageData[item].senderID == firebase.auth().currentUser.uid) {
+            sentMsgs.push(messageData[item])
+          }
+        }
+        conversationList = []
+        for (user in userList) {
+          for (msg in sentMsgs) {
+            if(userList[user].name == sentMsgs[msg].to) {
+              if (!conversationList.includes(userList[user])) {
+                conversationList.push(userList[user])
+              }
+            }
+          }
+        }
+        setConversations(conversationList)
+      })
+    })
   }
 
   const renderConversations = () => {
-    // pull all conversations
-    /* 
-      push conversations into a list to be rendered
-    */
     if (conversations) {
-      const list = [
-        <Conversation
-          name="Messanger2"
-          blurb="Lorem ipsum dolor sit amet, consectetur
-            adipiscing elit. Suspendisse pellentesque mollis
-            lacus a euismod."
-          navigation={navigation}
-          key={1}
+      return (
+        <FlatList 
+          data = {conversations}
+          keyExtractor={item => item.uid}
+          renderItem = {(item) => {
+            return(
+              <Conversation
+                name={item.item.name}
+                blurb="Figure this out later"
+                navigation = {navigation}
+              />
+            )
+          }}
         />
-      ];
-      return list;
+      )
     } else {
-      return <Text style={styles.noConv}>No messages</Text>
+      return (
+        <View style={{flex: 1}}>
+          <Text style={styles.noName}>No messages</Text>
+        </View>
+      )
     }
   }
+
   useEffect(() => {
     getConversations();
   }, []);
+
   return (
     <View>
       {/* put in flatlist eventually */}
