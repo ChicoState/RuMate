@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import firebase from 'firebase';
 import Conversation from './Conversation';
 
 const ConversationList = ({ navigation }) => {
   const [conversations, setConversations] = useState([])
+
+  const getConversations = () => {
+    // let response = firebase.database().ref("/messages");
+    // response.on("value", (snapshot) => {
+    //   let data = snapshot.val();
+    //   console.log("from conversation screen " + data);
+    // })
+  }
 
   const renderConversations = () => {
     // pull all conversations
@@ -26,6 +35,9 @@ const ConversationList = ({ navigation }) => {
       return <Text style={styles.noConv}>No messages</Text>
     }
   }
+  useEffect(() => {
+    getConversations();
+  }, []);
   return (
     <View>
       {/* put in flatlist eventually */}
