@@ -71,6 +71,7 @@ const ConversationScreen = ({ navigation }) => {
           onChangeText={setInput}
           placeholder="Message"
           multiline
+          autoFocus
           enablesReturnKeyAutomatically={true}
           onKeyPress={(event) => {
             submitMessage(event);
