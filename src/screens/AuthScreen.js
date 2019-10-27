@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  View, 
+import {
   Text,
   StyleSheet, 
 } from 'react-native';
 import Register from '../components/Register';
 import Login from '../components/Login';
-import Dimensions from 'Dimensions';
 
 const AuthScreen = ({navigation}) => {
   const [register, setRegister] = useState(false);
