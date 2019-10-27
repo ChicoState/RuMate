@@ -16,12 +16,6 @@ const ConversationScreen = ({ navigation }) => {
       minute: 'numeric',
       hour12: true 
     })
-    let timeWithSeconds = date.toLocaleString('en-US', { 
-      hour: 'numeric', 
-      minute: 'numeric',
-      second: 'numeric',
-      hour12: true 
-    })
     if (event.nativeEvent.key === "Enter") {
       let msg = firebase.database().ref().child('/messages').push();
       let recipientID = "";
@@ -47,7 +41,7 @@ const ConversationScreen = ({ navigation }) => {
               from: from,
               time: time,
               convID: firebase.auth().currentUser.uid + recipientID,
-              msgID: name + timeWithSeconds + from,
+              msgID: name + time + from + date.getMilliseconds(),
               text: input,
               senderID: firebase.auth().currentUser.uid
             })
