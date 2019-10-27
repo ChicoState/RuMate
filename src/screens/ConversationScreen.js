@@ -12,7 +12,7 @@ const ConversationScreen = ({ navigation }) => {
   const submitMessage = (event) => {
     let date = new Date();
     let time = date.toLocaleString('en-US', { 
-      hour: 'numeric', 
+      hour: 'numeric',
       minute: 'numeric',
       hour12: true 
     })
@@ -22,7 +22,6 @@ const ConversationScreen = ({ navigation }) => {
       second: 'numeric',
       hour12: true 
     })
-
     if (event.nativeEvent.key === "Enter") {
       let msg = firebase.database().ref().child('/messages').push();
       let recipientID = "";
@@ -78,7 +77,6 @@ const ConversationScreen = ({ navigation }) => {
           onChangeText={setInput}
           placeholder="Message"
           multiline
-          autoFocus
           enablesReturnKeyAutomatically={true}
           onKeyPress={(event) => {
             submitMessage(event);
