@@ -1,24 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TextInput, FlatList } from 'react-native';
 import { Header } from 'react-native-elements';
 import firebase from 'firebase';
 import Conversation from '../components/Conversation';
 
 const CreateConversationScreen = ({ navigation }) => {
   const [recipient, setRecipient] = useState("");
-  const [group, setGroup] = useState([]);
+  const [users, setUsers] = useState([]);
 
-  const loadRecipients = (name) => {
-    if (recipient) {
-      // check if recipient is in rm group
+  const loadRecipients = () => {
+    let response = firebase.database().ref('users');
+    response.on("value", (snapshot) => {
+      let data = snapshot.val();
+      let userList = [];
+      for (item in data) {
+        if (data[item].uid !== firebase.auth().currentUser.uid)
+          userList.push(data[item]); 
+      }
+      setUsers(userList);
+    })
+  }
+
+  const renderRecipients = () => {
+    render = false
+    renderList = []
+    uid = 0
+    for (user in users) {
+      if (users[user].name.includes(recipient)) {
+        render = true
+        renderList.push([users[user].name, uid])
+        uid += 1;
+      }
+    }
+    if (recipient && render) {
       return (
-        <Conversation 
-          name = {name}
-          blurb ="Eventually first 100 chars of last message
-            will go here"
-          navigation={navigation}
+        <FlatList 
+          data = {renderList}
+          keyExtractor={item => item[1].toString()}
+          renderItem = {(item) => {
+            return(
+              <Conversation
+                name={item.item[0]}
+                blurb=""
+                navigation = {navigation}
+              />
+            )
+          }}
         />
-      );
+      )
     } else {
       return (
         <View style={{flex: 1}}>
@@ -27,9 +56,11 @@ const CreateConversationScreen = ({ navigation }) => {
       )
     }
   }
+
   useEffect(() => {
-    //firebase.database.ref('/groups')
+    loadRecipients()
   }, []);
+
   return (
     <>
       <Header
@@ -49,16 +80,11 @@ const CreateConversationScreen = ({ navigation }) => {
           onChangeText={(text) => {
             setRecipient(text);
           }}
-          placeholder="To"
+          placeholder="name search"
           autoFocus
         />
       </View>
-      {loadRecipients(recipient)}
-      {/* 
-        type a name, list matches, if tapped, take to conversation screen.
-        w/ or w/o existing conversation.
-      */}
-      
+      {renderRecipients()}
     </>
   );
 }

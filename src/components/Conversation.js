@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderColor: '#111',
     borderBottomWidth: 1,
+    paddingVertical: 20
   },
   name: {
     fontSize: 18,
