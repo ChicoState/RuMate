@@ -40,6 +40,10 @@ const MessageList = ({ id, recipient }) => {
         data={messages}
         keyExtractor={item => item.msgID}
         inverted={0}
+        getItemLayout={(data, index) => (
+          {length: 100, offset: 100 * index, index}
+        )}
+        initialScrollIndex={messages.length - 1}
         renderItem={(item) => {
           let sentToMe = false;
           if (item.item.senderID == firebase.auth().currentUser.uid) {
