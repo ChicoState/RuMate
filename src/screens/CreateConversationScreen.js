@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TextInput, FlatList } from 'react-native';
 import { Header } from 'react-native-elements';
 import firebase from 'firebase';
 import Conversation from '../components/Conversation';
-import ConversationScreen from './ConversationScreen';
 
 const CreateConversationScreen = ({ navigation }) => {
   const [recipient, setRecipient] = useState("");
@@ -43,7 +42,7 @@ const CreateConversationScreen = ({ navigation }) => {
             return(
               <Conversation
                 name={item.item[0]}
-                blurb="Figure this out later"
+                blurb=""
                 navigation = {navigation}
               />
             )
