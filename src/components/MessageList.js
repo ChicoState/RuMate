@@ -6,8 +6,9 @@ import firebase from 'firebase';
 
 const MessageList = ({ id, recipient }) => {
   const [messages, setMessages] = useState([]);
+  const [messageLength, setMessageLength] = useState(100);
   const getMessages = () => {
-    setMessages([])
+    setMessageLength(messageLength + 1)
     let response = firebase.database().ref('/messages');
     let users = firebase.database().ref('/users');
     let sender = "";
@@ -20,7 +21,6 @@ const MessageList = ({ id, recipient }) => {
       }
     })
     let messageList = [];
-    setMessages(messageList);
     response.on("value", (snapshot) => {
       let data = snapshot.val();
       for (let item in data) {
@@ -41,7 +41,7 @@ const MessageList = ({ id, recipient }) => {
         keyExtractor={item => item.msgID}
         inverted={0}
         getItemLayout={(data, index) => (
-          {length: 100, offset: 100 * index, index}
+          {length: messageLength, offset: messageLength * index, index}
         )}
         initialScrollIndex={messages.length - 1}
         renderItem={(item) => {
