@@ -18,7 +18,6 @@ const CreateRoommateGroupScreen = ({}) => {
             {
                 if (searchName == data[item].name)
                 {
-                    alert(searchName + " has been added to this group");
                     setNewMembers([...newMembers, data[item]])
                 }
             }
@@ -33,10 +32,39 @@ const CreateRoommateGroupScreen = ({}) => {
 
     const addEntry = () => {
         var roomateList = firebase.database().ref().child('/groups').push();
-        roomateList.set({
-            name: groupName,
-            members: newMembers
+
+        var new_gid = "01234" + firebase.auth().currentUser.uid;
+
+        var cur_user;
+        var users = firebase.database().ref('/users');
+        users.once('value', function(snapshot) {
+            let data = snapshot.val();
+            for (let item in data)
+            {
+                if (firebase.auth().currentUser.uid == data[item].uid)
+                {
+                    cur_user = data[item];
+                }
+            }
         })
+
+        roomateList.set({
+            gid: new_gid,
+            name: groupName,
+            members: [cur_user]
+        });
+
+        //TODO - DL: would prefer for the invites to just be a subfield of the users
+        //database as opposed to a new invites database
+        for (let the_member in newMembers)
+        {
+            var invites = firebase.database().ref().child('/invites').push();
+            invites.set({
+                member: newMembers[the_member].uid,
+                from: groupName,
+                gid: new_gid
+            })
+        }
     }
 
     return (
