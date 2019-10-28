@@ -82,17 +82,11 @@ const CreateConversationScreen = ({ navigation }) => {
           onChangeText={(text) => {
             setRecipient(text);
           }}
-          placeholder="To"
+          placeholder="name search"
           autoFocus
         />
       </View>
       {renderRecipients()}
-      
-      {/* 
-        type a name, list matches, if tapped, take to conversation screen.
-        w/ or w/o existing conversation.
-      */}
-      
     </>
   );
 }

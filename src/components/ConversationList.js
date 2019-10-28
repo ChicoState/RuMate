@@ -24,19 +24,28 @@ const ConversationList = ({ navigation }) => {
       responseMessages.on('value', (snapshot) => {
         let messageData = snapshot.val();
         for (item in messageData) {
+          // if message was sent or sent to me
           if (messageData[item].senderID == firebase.auth().currentUser.uid ||
               messageData[item].to == name) {
             sentMsgs.push(messageData[item])
           }
         }
-        console.log(sentMsgs)
+
         conversationList = []
+        userDataList = []
         for (user in userList) {
           for (msg in sentMsgs) {
+            // if message was sent to user OR if user sent a message to me
             if(userList[user].name == sentMsgs[msg].to ||
               userList[user].name == sentMsgs[msg].from) {
-              if (!conversationList.includes(userList[user])) {
-                conversationList.push(userList[user])
+              if (!userDataList.includes(userList[user])) {
+                userDataList.push(userList[user])
+                let userData = userList[user]
+                let text = sentMsgs[sentMsgs.length - 1].text
+                conversationList.push({
+                  user: userData,
+                  text 
+                })
               }
             }
           }
@@ -51,12 +60,13 @@ const ConversationList = ({ navigation }) => {
       return (
         <FlatList style={{height: "100%"}}
           data = {conversations}
-          keyExtractor={item => item.uid}
+          keyExtractor={item => item.user.uid}
           renderItem = {(item) => {
+            console.log(item)
             return(
               <Conversation
-                name={item.item.name}
-                blurb="Figure this out later"
+                name={item.item.user.name}
+                blurb={item.item.text}
                 navigation = {navigation}
               />
             )
