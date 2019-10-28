@@ -38,7 +38,6 @@ const CreateConversationScreen = ({ navigation }) => {
           data = {renderList}
           keyExtractor={item => item[1].toString()}
           renderItem = {(item) => {
-            console.log(item)
             return(
               <Conversation
                 name={item.item[0]}
