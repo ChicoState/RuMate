@@ -60,7 +60,7 @@ const CreateRoommateGroupScreen = ({}) => {
         {
             var invites = firebase.database().ref().child('/invites').push();
             invites.set({
-                member: newMembers[the_member].uid,
+                memberID: newMembers[the_member].uid,
                 from: groupName,
                 gid: new_gid
             })
