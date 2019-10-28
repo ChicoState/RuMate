@@ -29,7 +29,7 @@ const MessageList = ({ id, recipient }) => {
           messageList.push(data[item]);
         }
       }
-      setMessages(messageList)
+      setMessages(messageList.reverse())
       messageList = [];
     })
   }
@@ -39,11 +39,7 @@ const MessageList = ({ id, recipient }) => {
       <FlatList style={styles.container}
         data={messages}
         keyExtractor={item => item.msgID}
-        inverted={0}
-        getItemLayout={(data, index) => (
-          {length: messageLength, offset: messageLength * index, index}
-        )}
-        initialScrollIndex={messages.length - 1}
+        inverted={1}
         renderItem={(item) => {
           let sentToMe = false;
           if (item.item.senderID == firebase.auth().currentUser.uid) {
