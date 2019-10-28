@@ -9,25 +9,32 @@ const ConversationList = ({ navigation }) => {
   const getConversations = () => {
     let userList = [];
     let sentMsgs = []
+    let name = ""
     let responseUsers = firebase.database().ref('users');
     let responseMessages = firebase.database().ref('messages');
     responseUsers.on("value", (snapshot) => {
       let data = snapshot.val();
       for (item in data) {
-        if (data[item].uid !== firebase.auth().currentUser.uid)
-          userList.push(data[item]); 
+        if (data[item].uid !== firebase.auth().currentUser.uid) {
+          userList.push(data[item]);
+        } else {
+          name = data[item].name
+        }
       }
       responseMessages.on('value', (snapshot) => {
         let messageData = snapshot.val();
         for (item in messageData) {
-          if (messageData[item].senderID == firebase.auth().currentUser.uid) {
+          if (messageData[item].senderID == firebase.auth().currentUser.uid ||
+              messageData[item].to == name) {
             sentMsgs.push(messageData[item])
           }
         }
+        console.log(sentMsgs)
         conversationList = []
         for (user in userList) {
           for (msg in sentMsgs) {
-            if(userList[user].name == sentMsgs[msg].to) {
+            if(userList[user].name == sentMsgs[msg].to ||
+              userList[user].name == sentMsgs[msg].from) {
               if (!conversationList.includes(userList[user])) {
                 conversationList.push(userList[user])
               }
@@ -42,7 +49,7 @@ const ConversationList = ({ navigation }) => {
   const renderConversations = () => {
     if (conversations) {
       return (
-        <FlatList 
+        <FlatList style={{height: "100%"}}
           data = {conversations}
           keyExtractor={item => item.uid}
           renderItem = {(item) => {
