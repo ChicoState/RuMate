@@ -6,8 +6,9 @@ import firebase from 'firebase';
 
 const MessageList = ({ id, recipient }) => {
   const [messages, setMessages] = useState([]);
+  const [messageLength, setMessageLength] = useState(100);
   const getMessages = () => {
-    setMessages([])
+    setMessageLength(messageLength + 1)
     let response = firebase.database().ref('/messages');
     let users = firebase.database().ref('/users');
     let sender = "";
@@ -25,11 +26,11 @@ const MessageList = ({ id, recipient }) => {
       for (let item in data) {
         if ((data[item].to == recipient && data[item].from == sender) ||
             (data[item].to == sender && data[item].from == recipient)) {
-          console.log(data[item])
-          messageList.push(data[item])
-          setMessages(messageList);
+          messageList.push(data[item]);
         }
       }
+      setMessages(messageList.reverse())
+      messageList = [];
     })
   }
 
@@ -38,7 +39,7 @@ const MessageList = ({ id, recipient }) => {
       <FlatList style={styles.container}
         data={messages}
         keyExtractor={item => item.msgID}
-        inverted={0}
+        inverted={1}
         renderItem={(item) => {
           let sentToMe = false;
           if (item.item.senderID == firebase.auth().currentUser.uid) {
