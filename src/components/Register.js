@@ -30,7 +30,6 @@ const Register = ({
             uid: firebase.auth().currentUser.uid,
             rid: -1,
             name,
-            groupName: ""
           });
           setRegister(!register);
         }
