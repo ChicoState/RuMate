@@ -8,8 +8,9 @@ import Dialog from 'react-native-dialog';
 const InvitationList = () => {
     const [invitations, setInvitations] = useState([]);
     const [dialogVisible, setDialogVisible] = useState(false);
-    const [clickedItem, setClickedItem] = useState("");
-    const [updateKey, setUpdateKey] = useState("");
+    const [clickedItemGID, setClickedItemGID] = useState("");
+    const [userKey, setUserKey] = useState("");
+    const [canAccept, setCanAccept] = useState(false);
 
     const getInvitations = () => {
         the_invitations = [];
@@ -28,7 +29,7 @@ const InvitationList = () => {
     }
 
     const openDialog = (gid) => {
-        setClickedItem(gid);
+        setClickedItemGID(gid);
         setDialogVisible(true);
     }
 
@@ -37,15 +38,17 @@ const InvitationList = () => {
     }
 
     const acceptInvitation = () => {
-        //console.log("this is the id: " + clickedItem);
         setDialogVisible(false);
 
-        console.log("ready for " + updateKey);
-        firebase.database().ref('/users/' + updateKey).update(
-            {
-                rid: clickedItem
-            }
-        )
+        if (canAccept)
+        {
+            firebase.database().ref('/users/' + userKey).update(
+                {
+                    rid: clickedItemGID
+                }
+            );
+            setCanAccept(false);
+        }
     }
     
     useEffect(() => {
@@ -56,8 +59,11 @@ const InvitationList = () => {
             snapshot.forEach(function(childSnap) {
                 if (childSnap.val().uid == firebase.auth().currentUser.uid)
                 {
-                    setUpdateKey(childSnap.key);
-                    //console.log(childSnap.key);
+                    setUserKey(childSnap.key);
+                    if (childSnap.val().rid == -1)
+                    {
+                        setCanAccept(true);
+                    }
                 }
             })
         });

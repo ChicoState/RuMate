@@ -41,7 +41,6 @@ const CreateRoommateGroupScreen = ({}) => {
         var users = firebase.database().ref('/users');
 
         users.once('value', function(snapshot) {
-            //let data = snapshot.val();
             snapshot.forEach(function(childSnap) {
                 if (childSnap.val().uid == firebase.auth().currentUser.uid)
                 {
@@ -49,24 +48,9 @@ const CreateRoommateGroupScreen = ({}) => {
                     cur_user_key = childSnap.key;
                 }
             })
-            /*for (let item in data)
-            {
-                if (firebase.auth().currentUser.uid == data[item].uid)
-                {
-                    cur_user = data[item];
-                }
-            }
-            */
         });
-        console.log(cur_user);
-        console.log("then key")
-        console.log(cur_user_key);
 
-        /*users.child(cur_user_key).update(
-            {
-                rid: new_gid
-            }
-        )*/
+
         firebase.database().ref('/users/' + cur_user_key).update({
             rid: new_gid
         });
