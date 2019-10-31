@@ -4,6 +4,7 @@ import { Header } from 'react-native-elements';
 import firebase from 'firebase';
 import MessageList from '../components/MessageList';
 import Icon  from 'react-native-vector-icons/Ionicons';
+import * as Ani from 'react-native-animatable'
 
 const ConversationScreen = ({ navigation }) => {
   const name = navigation.state.params.name;
@@ -56,30 +57,29 @@ const ConversationScreen = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView
-      style={styles.keyboard}
-      behavior="padding"
-      keyboardVerticalOffset={10}
-    >
+        style={styles.keyboard}
+        behavior="padding"
+        enabled
+      >
       <Header
         backgroundColor="green"
         leftComponent={{icon: 'arrow-back', onPress: () => navigation.navigate('Messages') }}
         centerComponent={{text: name, style: {fontSize: 20, color: 'black'}}}
       />
-      <MessageList id = {conversationID} recipient={name}/>
-      <View style={styles.inputSection}>
-        <TextInput style={styles.textInput}
+      <MessageList id={conversationID} recipient={name}/>
+        <View style={styles.inputSection}>
+          <TextInput style={styles.textInput}
             value={input}
             onChangeText={setInput}
             placeholder="Message"
             multiline
             autoFocus
-        />
-        <Icon style={styles.send} name="md-send" size={30}
-          onPress={submitMessage}
-        />
-      </View>
-      
-    </KeyboardAvoidingView>
+          />
+          <Icon style={styles.send} name="md-send" size={30}
+            onPress={submitMessage}
+          />
+        </View>
+      </KeyboardAvoidingView>
   );
 }
 
@@ -90,19 +90,22 @@ const styles = StyleSheet.create({
     width: '100%',
     borderColor: 'black',
     borderTopWidth: 1,
-    height: "100%"
+    height: "100%",
   },
   send: {
     paddingHorizontal: 10,
-    paddingVertical: 5,
     color: 'blue'
   },
   textInput: {
     width: "90%",
     height: "100%",
-    marginBottom: "25%",
-    paddingVertical: 20,
     paddingHorizontal: 15,
+    maxHeight: 80,
+  },
+  keyboard: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingTop: 0,
   },
 });
 

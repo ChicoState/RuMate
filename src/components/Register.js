@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import * as Ani from 'react-native-animatable'
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, StatusBar } from 'react-native';
 import TitleBlock from './TitleBlock';
 import AuthSpinner from './AuthSpinner';
@@ -40,6 +41,7 @@ const Register = ({
     return (
       <View style={styles.background}>
         <StatusBar barStyle='light-content'/>
+        <Ani.View animation="fadeIn">
         <TitleBlock
           title="RuMate" 
           color="white"
@@ -99,6 +101,7 @@ const Register = ({
             Back
           </Text>
         </TouchableOpacity>
+        </Ani.View>
       </View>
     );
   } else {
