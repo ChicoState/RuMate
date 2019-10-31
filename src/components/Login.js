@@ -9,7 +9,7 @@ import {
   KeyboardAvoidingView
 } from 'react-native';
 import firebase from 'firebase';
-// import { Header } from 'react-native-elements';
+import * as Animatable from 'react-native-animatable';
 import TitleBlock from './TitleBlock';
 import AuthSpinner from './AuthSpinner';
 
@@ -35,45 +35,50 @@ const Login = ({
 
   if (!waiting) {
     return (
-      <KeyboardAvoidingView 
+      <View 
         style={styles.background}
-        behavior="padding">
+        >
           <StatusBar barStyle="light-content"/>
-          <TitleBlock 
-            title="RuMate" 
-            color="white"
-            fontSize={40}
-            paddingTop={"40%"}
-            paddingBottom={"20%"}
-          />
-          <TextInput style={styles.input}
-            value={email}
-            onChangeText={setEmail}
-            placeholder="e-mail"
-            placeholderTextColor= "#444"
-            autoFocus={false}
-          />
-          <TextInput style={styles.input}
-            value={password}
-            onChangeText={setPassword}
-            placeholder="password"
-            placeholderTextColor= "#444"
-          />
-        <TouchableOpacity style={styles.submit} 
-          onPress = {authenticateUser}>
-          <Text style={[styles.lightText, styles.button]}>
-            Login
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.submit}
-          onPress={() => {
-            setRegister(!register);
-          }} >
-          <Text style={[styles.lightText, styles.button]}>
-            Register
-          </Text>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
+          <Animatable.View animation="fadeInDown">
+            <TitleBlock 
+              title="RuMate" 
+              color="white"
+              fontSize={40}
+              paddingTop={"40%"}
+              paddingBottom={"20%"}
+            />
+            <TextInput style={styles.input}
+              value={email}
+              onChangeText={setEmail}
+              placeholder="e-mail"
+              placeholderTextColor= "#444"
+              autoFocus={false}
+            />
+            <TextInput style={styles.input}
+              value={password}
+              onChangeText={setPassword}
+              placeholder="password"
+              placeholderTextColor= "#444"
+            />
+          </Animatable.View>
+          <Animatable.View animation="fadeInUp">
+            <TouchableOpacity style={styles.submit} 
+              onPress = {authenticateUser}>
+              <Text style={[styles.lightText, styles.button]}>
+                Login
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.submit}
+              onPress={() => {
+                setRegister(!register);
+              }} >
+              <Text style={[styles.lightText, styles.button]}>
+                Register
+              </Text>
+            </TouchableOpacity>
+          </Animatable.View>
+        
+      </View>
     );
   } else {
     return <AuthSpinner />
