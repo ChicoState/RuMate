@@ -4,11 +4,13 @@ import { Header } from 'react-native-elements';
 import Tile from '../components/Tile';
 import firebase from 'firebase';
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import * as Ani from 'react-native-animatable'
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <View>
+    <View style={styles.background}>
       <StatusBar barStyle='light-content'/>
+      <Ani.View animation="slideInUp" duration={500}>
       <Header
         backgroundColor="#119"
         leftComponent={<Icon size={30} color='white' name='person' onPress = {() => navigation.navigate('Invitations')} />}
@@ -26,12 +28,16 @@ const HomeScreen = ({ navigation }) => {
           location="Messages"
         />
       </ScrollView>
+      </Ani.View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   // styles
+  background: {
+    backgroundColor: 'white'
+  },
   tile: {
     alignContent: 'center'
   }
