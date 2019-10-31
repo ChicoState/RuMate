@@ -4,6 +4,7 @@ import { Header } from 'react-native-elements';
 import firebase from 'firebase';
 import MessageList from '../components/MessageList';
 import Icon  from 'react-native-vector-icons/Ionicons';
+import * as Ani from 'react-native-animatable'
 
 const ConversationScreen = ({ navigation }) => {
   const name = navigation.state.params.name;
@@ -55,17 +56,17 @@ const ConversationScreen = ({ navigation }) => {
   }
 
   return (
-    <>
+    <KeyboardAvoidingView
+        style={styles.keyboard}
+        behavior="padding"
+        enabled
+      >
       <Header
         backgroundColor="green"
         leftComponent={{icon: 'arrow-back', onPress: () => navigation.navigate('Messages') }}
         centerComponent={{text: name, style: {fontSize: 20, color: 'black'}}}
       />
       <MessageList id={conversationID} recipient={name}/>
-      <KeyboardAvoidingView
-        style={styles.keyboard}
-        behavior="padding"
-      >
         <View style={styles.inputSection}>
           <TextInput style={styles.textInput}
             value={input}
@@ -73,16 +74,12 @@ const ConversationScreen = ({ navigation }) => {
             placeholder="Message"
             multiline
             autoFocus
-            onFocus={() => {
-              
-            }}
           />
           <Icon style={styles.send} name="md-send" size={30}
             onPress={submitMessage}
           />
         </View>
       </KeyboardAvoidingView>
-    </>
   );
 }
 
@@ -103,9 +100,12 @@ const styles = StyleSheet.create({
     width: "90%",
     height: "100%",
     paddingHorizontal: 15,
+    maxHeight: 80,
   },
   keyboard: {
-    height: "10%",
+    flex: 1,
+    justifyContent: 'center',
+    paddingTop: 0,
   },
 });
 
