@@ -1,6 +1,7 @@
 import React, { Component, useState } from 'react';
 import { View, FlatList } from 'react-native';
 import { Header, Input, SearchBar, ListItem, Button } from 'react-native-elements';
+import { CoreStitchAppClient } from 'mongodb-stitch-core-sdk';
 
 var firebase = require("firebase");
 
@@ -36,17 +37,39 @@ const CreateRoommateGroupScreen = ({}) => {
         var new_gid = "01234" + firebase.auth().currentUser.uid;
 
         var cur_user;
+        var cur_user_key;
         var users = firebase.database().ref('/users');
+
         users.once('value', function(snapshot) {
-            let data = snapshot.val();
-            for (let item in data)
+            //let data = snapshot.val();
+            snapshot.forEach(function(childSnap) {
+                if (childSnap.val().uid == firebase.auth().currentUser.uid)
+                {
+                    cur_user = childSnap.val();
+                    cur_user_key = childSnap.key;
+                }
+            })
+            /*for (let item in data)
             {
                 if (firebase.auth().currentUser.uid == data[item].uid)
                 {
                     cur_user = data[item];
                 }
             }
-        })
+            */
+        });
+        console.log(cur_user);
+        console.log("then key")
+        console.log(cur_user_key);
+
+        /*users.child(cur_user_key).update(
+            {
+                rid: new_gid
+            }
+        )*/
+        firebase.database().ref('/users/' + cur_user_key).update({
+            rid: new_gid
+        });
 
         roomateList.set({
             gid: new_gid,
