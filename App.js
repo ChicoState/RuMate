@@ -18,6 +18,7 @@ import CreateRoommateGroupScreen from './src/screens/CreateRoommateGroupScreen';
 import MessageScreen from './src/screens/MessagesScreen';
 import CreateConversationScreen from './src/screens/CreateConversationScreen';
 import ConversationScreen from './src/screens/ConversationScreen';
+import InvitationsScreen from './src/screens/InvitationsScreen';
 useScreens();
 
 const firebaseConfig = {
@@ -62,6 +63,7 @@ const taskNavigator = createStackNavigator({
 });
 
 const appStackNavigator = createStackNavigator({
+  Invitations: InvitationsScreen,
   CreateRoommateGroup: CreateRoommateGroupScreen,
   AddRoommate: AddRoommateScreen,
   Home: tabNavigator,

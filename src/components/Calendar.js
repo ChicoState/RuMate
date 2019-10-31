@@ -3,89 +3,167 @@ import { View, FlatList, StyleSheet, Text, TouchableHighlight,} from 'react-nati
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 var firebase = require("firebase");
 
-export default class TaskCalendar extends Component {
+export default class AgendaScreen extends Component {
   constructor(props) {
-        super(props);
-        this.state = {
-          taskDates: ['2019-10-01', '2019-10-03'],
-          marked: null,
-        }
-    }
-
-    componentDidMount() {
-      this.markCalendar();
-    }
-
-    markCalendar = () => {
-      console.log(this.state.taskDates);
-    var obj = this.state.taskDates.reduce((c, v) => Object.assign(c, {[v]: {selected: true,marked: true}}), {});
-    this.setState({ marked : obj});
+    super(props);
+    this.state = {
+      taskDates: [],
+      marked: null,
+      items: {}
+    };
   }
 
-    componentWillMount() {
-      const taskref = firebase.database().ref(`tasks/`);
+  componentDidMount() {
+    this.markCalendar();
+  }
 
-      taskref.on("value", snapshot => {
+  markCalendar = () => {
+    // console.log(this.state.taskDates);
+  var obj = this.state.taskDates.reduce((c, v) => Object.assign(c, {[v]: {selected: true,marked: true}}), {});
+  this.setState({ marked : obj});
+}
 
-        let tasks = snapshot.val();
+  componentWillMount() {
+    const taskref = firebase.database().ref(`tasks/`);
 
-        let newState = [];
+    taskref.on("value", snapshot => {
 
-        for(let item in tasks){
-          if (tasks[item].completed == false)
-          {
-            newState.push(
-              tasks[item].date);
+      let tasks = snapshot.val();
+
+      let newState = [];
+
+      for(let item in tasks){
+        if (tasks[item].completed == false)
+        {
+          // console.log(tasks[item]);
+          newState.push(
+            tasks[item].date
+          );
+
+          var date = tasks[item].date;
+          if(!this.state.items[date]){
+            this.state.items[date] = [];
           }
+              this.state.items[date].push({
+                name: tasks[item].name,
+                description: tasks[item].description,
+                height: 100
+              });
         }
+      }
 
-        this.setState({
-          taskDates: newState
-        });
+      this.setState({
+        taskDates: newState,
+      });
 
-    });
+
+  });
+}
+
+  render() {
+    return (
+      <Agenda
+        items={this.state.items}
+        loadItemsForMonth={this.loadItems.bind(this)}
+        selected={Date()}
+        renderItem={this.renderItem.bind(this)}
+        renderEmptyDate={this.renderEmptyDate.bind(this)}
+        rowHasChanged={this.rowHasChanged.bind(this)}
+        markedDates={this.state.marked}
+      />
+    );
   }
 
-render() {
-  return (
-    <View style={{flex: 1}}>
-      <Calendar
-      markedDates={this.state.marked}
-      // Initially visible month. Default = Date()
-      current={'2019-10-09'}
-      // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
-      minDate={'2012-05-10'}
-      // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
-      maxDate={'2020-05-30'}
-      // Handler which gets executed on day press. Default = undefined
-      onDayPress={(day) => {console.log('selected day', day)}}
-      // Handler which gets executed on day long press. Default = undefined
-      onDayLongPress={(day) => {console.log('selected day', day)}}
-      // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
-      monthFormat={'MMMM yyyy'}
-      // Handler which gets executed when visible month changes in calendar. Default = undefined
-      onMonthChange={(month) => {console.log('month changed', month)}}
-      // Hide month navigation arrows. Default = false
-      hideArrows={false}
-      // Replace default arrows with custom ones (direction can be 'left' or 'right')
-      // renderArrow={(direction) => (<Arrow />)}
-      // Do not show days of other months in month page. Default = false
-      hideExtraDays={true}
-      // If hideArrows=false and hideExtraDays=false do not switch month when tapping on greyed out
-      // day from another month that is visible in calendar page. Default = false
-      disableMonthChange={true}
-      // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday.
-      firstDay={1}
-      // Hide day names. Default = false
-      hideDayNames={true}
-      // Show week numbers to the left. Default = false
-      showWeekNumbers={false}
-      // Handler which gets executed when press arrow icon left. It receive a callback can go back month
-      onPressArrowLeft={substractMonth => substractMonth()}
-      // Handler which gets executed when press arrow icon left. It receive a callback can go next month
-      onPressArrowRight={addMonth => addMonth()}
-      />
-    </View>
-  );
+  loadItems(day) {
+    // setTimeout(() => {
+    // const taskref = firebase.database().ref(`tasks/`);
+    // taskref.on("value", snapshot => {
+    //   let tasks = snapshot.val();
+    //   //add tasks
+    //   for(let item in tasks){
+    //     if (tasks[item].completed == false)
+    //     {
+    //       var date = tasks[item].date;
+    //       if(!this.state.items[date]){
+    //         this.state.items[date] = [];
+    //           this.state.items[date].push({
+    //             name: tasks[item].name,
+    //             description: tasks[item].description,
+    //             height: 20
+    //           });
+    //       }
+    //     }
+    //   }
+    // });
+    //add empty days
+      for (let i = 0; i < 40; i++) {
+        const time = day.timestamp + i * 24 * 60 * 60 * 1000;
+        const strTime = this.timeToString(time);
+        if (!this.state.items[strTime]) {
+          this.state.items[strTime] = [];
+      //     const numItems = Math.floor(Math.random() * 5);
+      //     for (let j = 0; j < numItems; j++) {
+      //       this.state.items[strTime].push({
+      //         name: 'Item for ' + strTime,
+      //         height: Math.max(50, Math.floor(Math.random() * 150))
+      //       });
+      //     }
+        }
+      }
+      // console.log(this.state.items);
+      const newItems = {};
+      Object.keys(this.state.items).forEach(key => {newItems[key] = this.state.items[key];});
+      this.setState({
+        items: newItems
+      });
+    // }, 1000);
+    // console.log(`Load Items for ${day.year}-${day.month}`);
+  }
+
+  renderItem(item) {
+    return (
+      <View style={[styles.item, {height: item.height}]}>
+        <Text style={styles.nameBlock}>{item.name}</Text>
+        <Text style={styles.taskBlock}>{item.description}</Text>
+      </View>
+    );
+  }
+
+  renderEmptyDate() {
+    return (
+      <View style={styles.emptyDate}><Text>Empty</Text></View>
+    );
+  }
+
+  rowHasChanged(r1, r2) {
+    return r1.name !== r2.name;
+  }
+
+  timeToString(time) {
+    const date = new Date(time);
+    return date.toISOString().split('T')[0];
+  }
 }
-}
+
+const styles = StyleSheet.create({
+  nameBlock: {
+    flex: 1,
+    fontSize: 25
+  },
+  taskBlock: {
+    flex: 1,
+  },
+  item: {
+    backgroundColor: 'white',
+    flex: 1,
+    borderRadius: 5,
+    padding: 10,
+    marginRight: 10,
+    marginTop: 17
+  },
+  emptyDate: {
+    height: 10,
+    flex:1,
+    paddingTop: 30
+  }
+});

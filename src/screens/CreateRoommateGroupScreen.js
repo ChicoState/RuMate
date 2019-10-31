@@ -1,105 +1,104 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { View, FlatList } from 'react-native';
 import { Header, Input, SearchBar, ListItem, Button } from 'react-native-elements';
 
 var firebase = require("firebase");
 
-export default class CreateRoommateGroupScreen extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            new_members: [],
-            new_member_name: "",
-            group_name: ""
-        }
-    }
+const CreateRoommateGroupScreen = ({}) => {
+    const [searchName, setSearchName] = useState("");
+    const [groupName, setGroupName] = useState("");
+    const [newMembers, setNewMembers] = useState([]);
 
-    nameSearch = () => {
-        var cur_members = this.state.new_members;
-        var search_name = this.state.new_member_name;
+    const nameSearch = () => {
         var users_ref = firebase.database().ref('/users');
 
-        var cur_data = [];
-
         users_ref.on('value', function(snapshot) {
-            snapshot.forEach(function (childSnap) {
-                console.log(search_name)
-                if (childSnap.val().name == search_name)
+            let data = snapshot.val();
+            for (let item in data)
+            {
+                if (searchName == data[item].name)
                 {
-                    alert(search_name + " has been added to this group");
-                    cur_members.push(childSnap.val().name)
+                    setNewMembers([...newMembers, data[item]])
                 }
-            });
+            }
         });
-
-        /*if (cur_data.length == 0)
-        {
-            alert("No users match \'" + search_name + "\'");
-        }
-        else
-        {
-            cur_members.push(cur_data[0]);
-        }
-        */
-
-        this.setState({
-            new_members: cur_members
-        })
-
-        console.log(cur_members)
-        console.log(this.state.new_members)
     }
 
-    renderItem = ({ item }) => (
+    const renderItem = ({ item }) => (
         <ListItem
-        title={item}
+        title={item.name}
         />
     )
 
-    keyExtractor = (item, index) => {
-        index.toString();
-    }
-
-    addEntry(the_name, the_members) {
+    const addEntry = () => {
         var roomateList = firebase.database().ref().child('/groups').push();
-        roomateList.set({
-            name: the_name,
-            members: the_members
+
+        var new_gid = "01234" + firebase.auth().currentUser.uid;
+
+        var cur_user;
+        var users = firebase.database().ref('/users');
+        users.once('value', function(snapshot) {
+            let data = snapshot.val();
+            for (let item in data)
+            {
+                if (firebase.auth().currentUser.uid == data[item].uid)
+                {
+                    cur_user = data[item];
+                }
+            }
         })
+
+        roomateList.set({
+            gid: new_gid,
+            name: groupName,
+            members: [cur_user]
+        });
+
+        //TODO - DL: would prefer for the invites to just be a subfield of the users
+        //database as opposed to a new invites database
+        for (let the_member in newMembers)
+        {
+            var invites = firebase.database().ref().child('/invites').push();
+            invites.set({
+                memberID: newMembers[the_member].uid,
+                from: groupName,
+                gid: new_gid
+            })
+        }
     }
 
-    render() {
-        return (
-            <View>
-                <Header
-                centerComponent={{ text: "Create a Roommate Group", style: {fontSize:30} }}
-                />
-                <Input
-                placeholder="Group name"
-                value={this.state.group_name}
-                onChangeText={(group_name) => this.setState({group_name})}
-                round={true}
-                />
-                <SearchBar
-                value={this.state.new_member_name}
-                onChangeText={(new_member_name) => this.setState({new_member_name})}
-                onEndEditing={(new_member_name) => this.nameSearch({new_member_name})}
-                placeholder="Member name"
-                round={true}
-                inputContainerStyle={{backgroundColor: 'white'}}
-                containerStyle={{backgroundColor: 'white'}}
-                />
-                <FlatList
-                data={this.state.new_members}
-                keyExtractor={this.keyExtractor}
-                renderItem={this.renderItem}
-                extraData={true}
-                />
-                <Button
-                title="Create new roommate group"
-                onPress={() => { this.addEntry(this.state.group_name, this.state.new_members) }}
-                />
-            </View>
-        )
-    }
+    return (
+        <View>
+            <Header
+            centerComponent={{ text: "Create a Roommate Group", style: {fontSize:30} }}
+            />
+            <Input
+            placeholder="Group name"
+            value={groupName}
+            onChangeText={setGroupName}
+            round={true}
+            />
+            <SearchBar
+            value={searchName}
+            onChangeText={setSearchName}
+            onEndEditing={nameSearch}
+            placeholder="Member name"
+            round={true}
+            inputContainerStyle={{backgroundColor: 'white'}}
+            containerStyle={{backgroundColor: 'white'}}
+            />
+            <FlatList
+            data={newMembers}
+            keyExtractor={item => item.userID}
+            renderItem={renderItem}
+            extraData={true}
+            />
+            <Button
+            title="Create new roommate group"
+            onPress={addEntry}
+            />
+        </View>
+    )
 }
+
+export default CreateRoommateGroupScreen;

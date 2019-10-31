@@ -11,6 +11,7 @@ const HomeScreen = ({ navigation }) => {
       <StatusBar barStyle='light-content'/>
       <Header
         backgroundColor="#119"
+        leftComponent={<Icon size={30} color='white' name='person' onPress = {() => navigation.navigate('Invitations')} />}
         centerComponent={{text: "Home", style: {fontSize: 20, color: 'white'}}}
         rightComponent={<Icon size={30} color='white' name="group-add" onPress = {() => navigation.navigate('AddRoommate')} />}
       />
