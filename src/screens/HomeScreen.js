@@ -27,6 +27,14 @@ const HomeScreen = ({ navigation }) => {
           nav={navigation}
           location="Messages"
         />
+        <Tile style={styles.tile}
+          title="Account"
+          color="#111"
+          text="Tap to view account details"
+          textColor="white"
+          nav={navigation}
+          location="Account"
+        />
       </ScrollView>
       </Ani.View>
     </View>
