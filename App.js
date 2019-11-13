@@ -19,6 +19,8 @@ import MessageScreen from './src/screens/MessagesScreen';
 import CreateConversationScreen from './src/screens/CreateConversationScreen';
 import ConversationScreen from './src/screens/ConversationScreen';
 import InvitationsScreen from './src/screens/InvitationsScreen';
+import AccountScreen from './src/screens/AccountScreen';
+
 useScreens();
 
 const firebaseConfig = {
@@ -72,7 +74,8 @@ const appStackNavigator = createStackNavigator({
   TaskCalendar: CalendarScreen,
   Messages: MessageScreen,
   CreateConversation: CreateConversationScreen,
-  Conversation: ConversationScreen
+  Conversation: ConversationScreen,
+  Account: AccountScreen
 
 },{
   initialRouteName: 'Home',
