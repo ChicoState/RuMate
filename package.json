@@ -1,6 +1,7 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
+    "test": "jest",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -33,7 +34,12 @@
     "react-navigation-tabs": "^2.5.3"
   },
   "devDependencies": {
-    "babel-preset-expo": "^6.0.0"
+    "babel-preset-expo": "^6.0.0",
+    "jest-expo": "^35.0.0"
+  },
+  "jest": {
+    "preset": "jest-expo"
   },
   "private": true
+
 }
