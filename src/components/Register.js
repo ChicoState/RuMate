@@ -68,6 +68,7 @@ const Register = ({
         <Text style={[styles.lightText, styles.label]}>Password</Text>
         {passLength(password)}
         <TextInput 
+          secureTextEntry
           style={styles.input}
           value={password}
           onChangeText={setPassword}
@@ -77,6 +78,7 @@ const Register = ({
         <Text style={[styles.lightText, styles.label]}>Confirm Password</Text>
         {passMatch(password, confPassword)}
         <TextInput 
+          secureTextEntry
           style={styles.input}
           value={confPassword}
           onChangeText={setConfPassword}
@@ -119,25 +121,31 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     color: 'white',
     fontSize: 18,
-    paddingVertical: 10,
-    paddingLeft: 5,
+    paddingVertical: 20,
+    paddingHorizontal: 15,
     backgroundColor: 'black',
+    borderRadius: 15
   },
   lightText: {
     color: 'white'
   },
-  label: {
-    alignSelf: 'center',
-    fontSize: 15,
+  darkText: {
+    color: 'black'
   },
   button: {
-    fontSize: 20,
+    fontSize: 25,
     paddingTop: 10,
   },
+  loginButton: {
+    backgroundColor: 'green',
+  },
+  registerButton: {
+    backgroundColor: 'black',
+  },
   submit: {
-    borderWidth: 2,
     borderColor: '#222',
-    width: 200,
+    borderRadius: 15,
+    width: 300,
     alignItems: 'center',
     height: 50,
     marginHorizontal: 5,
@@ -146,8 +154,13 @@ const styles = StyleSheet.create({
   },
   background: {
     flex: 1,
-    backgroundColor: '#111111'
+    backgroundColor: '#333'
+  },
+  label: {
+    alignSelf: 'center',
+    fontSize: 15,
   },
 });
+
 
 export default Register;
