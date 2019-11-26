@@ -66,7 +66,7 @@ const ConversationList = ({ navigation }) => {
             return(
               <Conversation
                 name={item.item.user.name}
-                blurb={item.item.text}
+                // blurb={item.item.text}
                 navigation = {navigation}
               />
             )
