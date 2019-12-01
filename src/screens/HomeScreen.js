@@ -5,6 +5,8 @@ import Tile from '../components/Tile';
 import firebase from 'firebase';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import * as Ani from 'react-native-animatable'
+import User from 'react-native-vector-icons/FontAwesome';
+
 
 const getDisplayName = () => {
   let username = firebase.auth().currentUser.email.split("@")[0]
@@ -20,7 +22,7 @@ const HomeScreen = ({ navigation }) => {
       <StatusBar barStyle='light-content'/>
       {/* <Ani.View animation="slideInUp" duration={200}> */}
       <Header
-        backgroundColor="#119"
+        backgroundColor="#000"
         leftComponent={<Icon size={30} color='white' name='person' onPress = {() => navigation.navigate('Invitations')} />}
         centerComponent={{text: "Home", style: {fontSize: 20, color: 'white'}}}
         rightComponent={<Icon size={30} color='white' name="group-add" onPress = {() => navigation.navigate('AddRoommate')} />}
@@ -30,15 +32,13 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.welcomeBanner}> 
             {"Welcome " + getDisplayName()}
           </Text>
+        
+        
+          <User style = {styles.userLogo}
+            name = "user-circle"
+            size = {100}
+          />
         </Ani.View>
-        <Tile style={styles.tile}
-          title="Messages"
-          color="#111"
-          text="Tap to view messages"
-          textColor="white"
-          nav={navigation}
-          location="Messages"
-        />
         <Tile style={styles.tile}
           title="Account"
           color="#111"
@@ -59,14 +59,28 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1
   },
+  userLogo: {
+    alignSelf: 'center'
+  },  
   tile: {
     alignContent: 'center'
   },
   welcomeBanner: {
     fontSize: 30,
     alignSelf: 'center',
-    paddingVertical: '20%'
+    paddingTop: '20%',
+    paddingBottom: '10%'
   }
 });
 
 export default HomeScreen;
+
+
+// {/* <Tile style={styles.tile}
+//           title="Messages"
+//           color="#111"
+//           text="Tap to view messages"
+//           textColor="white"
+//           nav={navigation}
+//           location="Messages"
+//         /> */}

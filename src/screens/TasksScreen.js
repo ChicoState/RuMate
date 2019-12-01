@@ -8,9 +8,10 @@ const TasksScreen = ({navigation}) => {
   return (
     <View style={{flex: 1}}>
       <Header
+        backgroundColor="#000"
         leftComponent={<Icon name="calendar" size={30} color='white' onPress = {() => navigation.navigate('TaskCalendar')} />}
-        centerComponent={{text: "Tasks", style: {fontSize: 20}}}
-        rightComponent={{icon: 'add-circle', onPress: () => navigation.navigate('CreateTask') }}
+        centerComponent={{text: "Tasks", style: {fontSize: 20, color: 'white'}}}
+        rightComponent={{icon: 'add-circle', color: 'white', onPress: () => navigation.navigate('CreateTask') }}
       />
       <TaskList/>
     </View>
