@@ -5,6 +5,7 @@ import { useScreens } from 'react-native-screens';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
+import Icon from 'react-native-vector-icons/FontAwesome';
 /* our imports */
 import HomeScreen from './src/screens/HomeScreen';
 import TasksScreen from './src/screens/TasksScreen';
@@ -39,20 +40,38 @@ const tabNavigator = createBottomTabNavigator({
   Home: {
     screen: HomeScreen,
     navigationOptions: {
-      header: null
-    }
+      tabBarLabel: "Home",
+      tabBarIcon: ({ tintColor }) => (
+        <Icon name="home" size={20} />
+      )
+    },
   },
   Tasks: {
     screen: TasksScreen,
     navigationOptions: {
-      header: null
-    }
+      tabBarLabel: "Tasks",
+      tabBarIcon: ({ tintColor }) => (
+        <Icon name="tasks" size={20} />
+      )
+    },
   },
   Bills: {
     screen: BillsScreen,
+    navigationOptions: {
+      tabBarLabel: "Bills",
+      tabBarIcon: ({ tintColor }) => (
+        <Icon name="dollar" size={20} />
+      )
+    },
   },
   Messages: {
     screen: MessageScreen,
+    navigationOptions: {
+      tabBarLabel: "Messages",
+      tabBarIcon: ({ tintColor }) => (
+        <Icon name="comments" size={20} />
+      )
+    },
   }
 },
 {
