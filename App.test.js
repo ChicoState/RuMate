@@ -10,7 +10,7 @@ describe('<App />', () => {
     console.log(tree.children.length)
     expect(tree.children.length).toBe(1);
   });
-
+  
   it('renders correctly', () => {
     const tree = renderer.create(<App />).toJSON();
     expect(tree).toMatchSnapshot();
