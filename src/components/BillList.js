@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, Alert } from 'react-native';
 import Dimensions from 'Dimensions';
 import firebase from 'firebase'
 import Bill from '../components/Bill';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const getBills = async (setBills) => {
   const bills = await firebase.database().ref('bills/');
@@ -18,6 +19,19 @@ const getBills = async (setBills) => {
   })
 }
 
+const payBill = () => {
+  let val = null
+  Alert.alert(
+    'Remove Bill?',
+    'Tap Okay to remove the bill',
+    [
+      { text: 'Payed', onPress: () => val = true},
+      { text: 'Cancel', onPress: () => val = false, style:'cancel'}
+    ]
+  )
+  return val
+}
+
 const renderBills = (bills) => {
   const { height } = Dimensions.get('window');
   return (
@@ -27,11 +41,14 @@ const renderBills = (bills) => {
         data={bills}
         renderItem={({ item }) => {
           return (
-            <Bill
-              name = {item.name}
-              value = {item.value}
-              due = {item.date}
-            />
+            <TouchableOpacity onPress={payBill}>
+              <Bill
+                name = {item.name}
+                value = {item.value}
+                due = {item.date}
+                payed = {0}
+              />
+            </TouchableOpacity>
           );
         }}
       />
@@ -53,7 +70,7 @@ const BillList = () => {
   );
 }
 
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
   plusButton: {
     fontSize: 20
   },
