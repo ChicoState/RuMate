@@ -32,8 +32,6 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.welcomeBanner}> 
             {"Welcome " + getDisplayName()}
           </Text>
-        
-        
           <User style = {styles.userLogo}
             name = "user-circle"
             size = {100}
@@ -60,7 +58,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   userLogo: {
-    alignSelf: 'center'
+    alignSelf: 'center',
+    paddingBottom: '10%'
   },  
   tile: {
     alignContent: 'center'
