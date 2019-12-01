@@ -51,6 +51,9 @@ const tabNavigator = createBottomTabNavigator({
   Bills: {
     screen: BillsScreen,
   },
+  Messages: {
+    screen: MessageScreen,
+  }
 },
 {
   initialRouteName: 'Home',
