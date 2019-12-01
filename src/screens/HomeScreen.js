@@ -6,11 +6,19 @@ import firebase from 'firebase';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import * as Ani from 'react-native-animatable'
 
+const getDisplayName = () => {
+  let username = firebase.auth().currentUser.email.split("@")[0]
+  let capital = username[0].toUpperCase()
+  username = username.split(username[0])
+  return(capital + username[1])
+}
+
+
 const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.background}>
       <StatusBar barStyle='light-content'/>
-      <Ani.View animation="slideInUp" duration={500}>
+      {/* <Ani.View animation="slideInUp" duration={200}> */}
       <Header
         backgroundColor="#119"
         leftComponent={<Icon size={30} color='white' name='person' onPress = {() => navigation.navigate('Invitations')} />}
@@ -18,7 +26,11 @@ const HomeScreen = ({ navigation }) => {
         rightComponent={<Icon size={30} color='white' name="group-add" onPress = {() => navigation.navigate('AddRoommate')} />}
       />
       <ScrollView style={{height: '100%'}}>
-        <Text>Welcome {firebase.auth().currentUser.uid}</Text>
+        <Ani.View animation="fadeIn" duration={2000}>
+          <Text style={styles.welcomeBanner}> 
+            {"Welcome " + getDisplayName()}
+          </Text>
+        </Ani.View>
         <Tile style={styles.tile}
           title="Messages"
           color="#111"
@@ -36,7 +48,7 @@ const HomeScreen = ({ navigation }) => {
           location="Account"
         />
       </ScrollView>
-      </Ani.View>
+      {/* </Ani.View> */}
     </View>
   );
 }
@@ -44,10 +56,16 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   // styles
   background: {
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    flex: 1
   },
   tile: {
     alignContent: 'center'
+  },
+  welcomeBanner: {
+    fontSize: 30,
+    alignSelf: 'center',
+    paddingVertical: '20%'
   }
 });
 
