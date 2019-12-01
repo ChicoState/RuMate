@@ -8,7 +8,7 @@ const AccountScreen = ({ navigation }) => {
   return(
     <View style={{flex: 1}}>
       <Header
-        backgroundColor="#111"
+        backgroundColor="#000"
         leftComponent={<Icon name='arrow-back' size={25} color='white' onPress = { () => navigation.navigate('Home')} />}
         centerComponent={{text: "My Account", style: {fontSize: 20, color: 'white'}}}
       />
