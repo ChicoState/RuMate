@@ -19,7 +19,7 @@ const BillsScreen = ({navigation}) => {
   return (
     <View>
       {renderBillHeader(navigation)}
-      <Text> My Bills: </Text>
+      {/* <Text> My Bills: </Text> */}
       <BillList />
     </View>
   );
