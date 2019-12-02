@@ -7,17 +7,38 @@ import * as Ani from 'react-native-animatable';
 import firebase from 'firebase';
 import User from 'react-native-vector-icons/FontAwesome';
 
-const getDisplayName = () => {
-  let username = firebase.auth().currentUser.email.split("@")[0]
-  let capital = username[0].toUpperCase()
-  username = username.split(username[0])
-  return(capital + username[1])
-}
-
-
 const HomeScreen = ({ navigation }) => {
+  const [greeting, setGreeting] = useState("");
   const [taskColor, setTaskColor] = useState("#111");
   const [taskText, setTaskText] = useState("You have 0 upcoming or past-due assignments. You're a great RuMate!");
+  
+  const getDisplayName = () => {
+    let username = firebase.auth().currentUser.email.split("@")[0]
+    let capital = username[0].toUpperCase()
+    username = username.split(username[0])
+    return(capital + username[1])
+  }
+
+  const getGreeting = () => {
+    const greetings = [
+      'Hello', 
+      'Welcome', 
+      'Hey', 
+      'Hi', 
+      "How's it going", 
+      "What's up",
+      "Good to see you",
+      "Glad you're here",
+      "Hiya",
+      "Hope you're well",
+      'Nice to see you',
+      "Wazzap",
+      "It's great to see you",
+      "Howdy",
+      "Hey there",
+      ]
+     setGreeting(greetings[Math.floor(Math.random() * greetings.length)])
+  }
 
   const setTextAndColor = (numAsmts) => {
     if (numAsmts > 0)
@@ -63,9 +84,9 @@ const HomeScreen = ({ navigation }) => {
       setTextAndColor(num_asmts);
     });
   }
-
   useEffect(() => {
     getTasksAndBills();
+    getGreeting();
   }, []);
 
   return (
@@ -82,7 +103,7 @@ const HomeScreen = ({ navigation }) => {
         
         <Ani.View animation="fadeIn" duration={2000}>
           <Text style={styles.welcomeBanner}> 
-            {"Welcome " + getDisplayName()}
+            {greeting + ", " + getDisplayName()}
           </Text>
           
         </Ani.View>
