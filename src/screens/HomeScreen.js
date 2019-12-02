@@ -7,16 +7,38 @@ import * as Ani from 'react-native-animatable';
 import firebase from 'firebase';
 import User from 'react-native-vector-icons/FontAwesome';
 
-const getDisplayName = () => {
-  let username = firebase.auth().currentUser.email.split("@")[0]
-  let capital = username[0].toUpperCase()
-  username = username.split(username[0])
-  return(capital + username[1])
-}
-
 const HomeScreen = ({ navigation }) => {
+  const [greeting, setGreeting] = useState("");
   const [taskColor, setTaskColor] = useState("#111");
   const [taskText, setTaskText] = useState("");
+  
+  const getDisplayName = () => {
+    let username = firebase.auth().currentUser.email.split("@")[0]
+    let capital = username[0].toUpperCase()
+    username = username.split(username[0])
+    return(capital + username[1])
+  }
+
+  const getGreeting = () => {
+    const greetings = [
+      'Hello', 
+      'Welcome', 
+      'Hey', 
+      'Hi', 
+      "How's it going", 
+      "What's up",
+      "Good to see you",
+      "Glad you're here",
+      "Hiya",
+      "Hope you're well",
+      'Nice to see you',
+      "Wazzap",
+      "It's great to see you",
+      "Howdy",
+      "Hey there",
+      ]
+     setGreeting(greetings[Math.floor(Math.random() * greetings.length)])
+  }
 
   const setTextAndColor = (numAsmts) => {
     if (numAsmts > 0)
@@ -62,9 +84,9 @@ const HomeScreen = ({ navigation }) => {
       setTextAndColor(num_asmts);
     });
   }
-
   useEffect(() => {
     getTasksAndBills();
+    getGreeting();
   }, []);
 
   return (
@@ -78,31 +100,17 @@ const HomeScreen = ({ navigation }) => {
         rightComponent={<Icon size={30} color='white' name="group-add" onPress = {() => navigation.navigate('AddRoommate')} />}
       />
       <ScrollView style={{height: '100%'}}>
-        <Tile style={styles.tile}
-          title="Deadlines"
-          color={taskColor}
-          text={taskText}
-          textColor="white"
-          nav={navigation}
-          location="Priority"
-        />
-        <Tile style={styles.tile}
-          title="Messages"
-          color="#111"
-          text="Tap to view messages"
-          textColor="white"
-          nav={navigation}
-          location="Messages"
-        />
+        
         <Ani.View animation="fadeIn" duration={2000}>
           <Text style={styles.welcomeBanner}> 
-            {"Welcome " + getDisplayName()}
+            {greeting + ", " + getDisplayName()}
           </Text>
-          <User style = {styles.userLogo}
+          
+        </Ani.View>
+        <User style = {styles.userLogo}
             name = "user-circle"
             size = {100}
           />
-        </Ani.View>
         <Tile style={styles.tile}
           title="Account"
           color="#111"
@@ -110,6 +118,14 @@ const HomeScreen = ({ navigation }) => {
           textColor="white"
           nav={navigation}
           location="Account"
+        />
+        <Tile style={styles.tile}
+          title="Deadlines"
+          color={taskColor}
+          text={taskText}
+          textColor="white"
+          nav={navigation}
+          location="Priority"
         />
       </ScrollView>
       {/* </Ani.View> */}
