@@ -14,10 +14,9 @@ const getDisplayName = () => {
   return(capital + username[1])
 }
 
-
 const HomeScreen = ({ navigation }) => {
   const [taskColor, setTaskColor] = useState("#111");
-  const [taskText, setTaskText] = useState("You have 0 upcoming or past-due assignments. You're a great RuMate!");
+  const [taskText, setTaskText] = useState("");
 
   const setTextAndColor = (numAsmts) => {
     if (numAsmts > 0)
