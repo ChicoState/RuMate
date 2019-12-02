@@ -29,7 +29,7 @@ const AccountScreen = ({ navigation }) => {
           name = "user-circle"
           size = {100}
         />
-        <Text style={{paddingBottom: '20%'}}>Change photo</Text>
+        {/* <Text style={{paddingBottom: '20%'}}>Change photo</Text> */}
         <Tile style={styles.tile}
           title="Change Display Name"
           color="#111"
@@ -37,6 +37,7 @@ const AccountScreen = ({ navigation }) => {
           textColor="white"
           nav={navigation}
           location="ChangeDetails"
+          params={{detail: 'name', username: getDisplayName()}}
         />
         <Tile style={styles.tile}
           title="Change Password"
@@ -44,7 +45,18 @@ const AccountScreen = ({ navigation }) => {
           text="Tap to change your password"
           textColor="white"
           nav={navigation}
-          location=""
+          location="ChangeDetails"
+          params={{detail: 'password', username: getDisplayName()}}
+        />
+        <Tile style={styles.tile}
+          title="Sign Out"
+          color="#111"
+          text="Tap to log out of RuMate"
+          textColor="white"
+          nav={navigation}
+          location="Login"
+          params={{detail: 'password', username: getDisplayName()}}
+          run="logout"
         />
         <Tile style={styles.tile}
           title="Delete Account"
@@ -52,7 +64,8 @@ const AccountScreen = ({ navigation }) => {
           text="This permanently deletes your account!"
           textColor="red"
           nav={navigation}
-          location=""
+          location="ChangeDetails"
+          params={{detail: 'delete-account', username: getDisplayName()}}
         />
       </ScrollView>
     </View>
