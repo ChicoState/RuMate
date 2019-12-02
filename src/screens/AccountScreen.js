@@ -36,7 +36,7 @@ const AccountScreen = ({ navigation }) => {
           text="Tap to change your display name"
           textColor="white"
           nav={navigation}
-          location=""
+          location="ChangeDetails"
         />
         <Tile style={styles.tile}
           title="Change Password"
