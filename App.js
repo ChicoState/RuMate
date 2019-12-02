@@ -22,6 +22,7 @@ import ConversationScreen from './src/screens/ConversationScreen';
 import InvitationsScreen from './src/screens/InvitationsScreen';
 import AccountScreen from './src/screens/AccountScreen';
 import PriorityScreen from './src/screens/PriorityScreen';
+import ChangeDetailsScreen from './src/screens/ChangeDetailsScreen';
 
 useScreens();
 
