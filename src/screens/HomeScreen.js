@@ -79,31 +79,17 @@ const HomeScreen = ({ navigation }) => {
         rightComponent={<Icon size={30} color='white' name="group-add" onPress = {() => navigation.navigate('AddRoommate')} />}
       />
       <ScrollView style={{height: '100%'}}>
-        <Tile style={styles.tile}
-          title="Deadlines"
-          color={taskColor}
-          text={taskText}
-          textColor="white"
-          nav={navigation}
-          location="Priority"
-        />
-        <Tile style={styles.tile}
-          title="Messages"
-          color="#111"
-          text="Tap to view messages"
-          textColor="white"
-          nav={navigation}
-          location="Messages"
-        />
+        
         <Ani.View animation="fadeIn" duration={2000}>
           <Text style={styles.welcomeBanner}> 
             {"Welcome " + getDisplayName()}
           </Text>
-          <User style = {styles.userLogo}
+          
+        </Ani.View>
+        <User style = {styles.userLogo}
             name = "user-circle"
             size = {100}
           />
-        </Ani.View>
         <Tile style={styles.tile}
           title="Account"
           color="#111"
@@ -111,6 +97,14 @@ const HomeScreen = ({ navigation }) => {
           textColor="white"
           nav={navigation}
           location="Account"
+        />
+        <Tile style={styles.tile}
+          title="Deadlines"
+          color={taskColor}
+          text={taskText}
+          textColor="white"
+          nav={navigation}
+          location="Priority"
         />
       </ScrollView>
       {/* </Ani.View> */}
