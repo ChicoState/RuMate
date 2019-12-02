@@ -1,10 +1,11 @@
 import React from 'react'
-import { View, StyleSheet, Text, ScrollView } from 'react-native'
+import { View, StyleSheet, Text, ScrollView, Image } from 'react-native'
 import { Header } from 'react-native-elements'
 import firebase from 'firebase'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import User from 'react-native-vector-icons/FontAwesome';
 import Tile from '../components/Tile'
+// import PhotoUpload from 'react-native-photo-upload'
 
 const getDisplayName = () => {
   let username = firebase.auth().currentUser.email.split("@")[0]
@@ -28,6 +29,7 @@ const AccountScreen = ({ navigation }) => {
           name = "user-circle"
           size = {100}
         />
+        <Text style={{paddingBottom: '20%'}}>Change photo</Text>
         <Tile style={styles.tile}
           title="Change Display Name"
           color="#111"
@@ -60,7 +62,6 @@ const AccountScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   userLogo: {
     paddingTop: '10%',
-    paddingBottom: '20%',
     alignSelf: 'center'
   },
   welcomeBanner: {
