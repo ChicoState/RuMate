@@ -99,7 +99,8 @@ const appStackNavigator = createStackNavigator({
   Messages: MessageScreen,
   CreateConversation: CreateConversationScreen,
   Conversation: ConversationScreen,
-  Account: AccountScreen
+  Account: AccountScreen,
+  ChangeDetails: ChangeDetailsScreen
 
 },{
   initialRouteName: 'Home',
