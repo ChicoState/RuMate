@@ -5,10 +5,7 @@ import Tile from '../components/Tile';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import * as Ani from 'react-native-animatable';
 import firebase from 'firebase';
-import Icon from 'react-native-vector-icons/MaterialIcons'
-import * as Ani from 'react-native-animatable'
 import User from 'react-native-vector-icons/FontAwesome';
-
 
 const getDisplayName = () => {
   let username = firebase.auth().currentUser.email.split("@")[0]
@@ -21,7 +18,18 @@ const getDisplayName = () => {
 const HomeScreen = ({ navigation }) => {
   const [taskColor, setTaskColor] = useState("#111");
   const [taskText, setTaskText] = useState("You have 0 upcoming or past-due assignments. You're a great RuMate!");
-  const [numAsmts, setNumAsts] = useState(0);
+
+  const setTextAndColor = (numAsmts) => {
+    if (numAsmts > 0)
+    {
+      setTaskText("You have " + numAsmts + " current or past-due tasks or bills assigned to you. Click here to complete them.");
+      setTaskColor("#ff0000");
+    }
+    else
+    {
+      setTaskText("You have 0 upcoming or past-due assignments. You're a great RuMate!");
+    }
+  }
 
   const getTasksAndBills = () => {
     const bills = firebase.database().ref('bills/');
@@ -32,12 +40,14 @@ const HomeScreen = ({ navigation }) => {
     var year = new Date().getFullYear();
     const the_date = year + "-" + month + "-" + date;
 
+    var num_asmts = 0;
+
     bills.on('value', (snapshot) => {
       const data = snapshot.val();
       for (let item in data) {
         if (firebase.auth().currentUser.uid == data[item].uid && data[item].date < the_date)
         {
-          setNumAsts(numAsmts + 1);
+          num_asmts = num_asmts + 1;
         }
       }
     });
@@ -47,23 +57,15 @@ const HomeScreen = ({ navigation }) => {
       for (let item in data) {
         if (firebase.auth().currentUser.uid == data[item].uid && data[item].date < the_date)
         {
-          setNumAsts(numAsmts + 1);
+          num_asmts = num_asmts + 1;
         }
       }
+      setTextAndColor(num_asmts);
     });
-
-    console.log(numAsmts)
-    /*if (num_asmts > 0)
-    {
-      setTaskText("You have " + num_asmts + " current or past-due tasks or bills assigned to you. Click here to complete them.");
-      setTaskColor("#ff0000");
-    }
-    */
   }
 
   useEffect(() => {
     getTasksAndBills();
-    console.log(numAsmts);
   }, []);
 
   return (
@@ -83,7 +85,7 @@ const HomeScreen = ({ navigation }) => {
           text={taskText}
           textColor="white"
           nav={navigation}
-          location="Tasks"
+          location="Priority"
         />
         <Tile style={styles.tile}
           title="Messages"

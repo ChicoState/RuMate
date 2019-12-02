@@ -21,6 +21,7 @@ import CreateConversationScreen from './src/screens/CreateConversationScreen';
 import ConversationScreen from './src/screens/ConversationScreen';
 import InvitationsScreen from './src/screens/InvitationsScreen';
 import AccountScreen from './src/screens/AccountScreen';
+import PriorityScreen from './src/screens/PriorityScreen';
 
 useScreens();
 
@@ -87,6 +88,7 @@ const taskNavigator = createStackNavigator({
 });
 
 const appStackNavigator = createStackNavigator({
+  Priority: PriorityScreen,
   Invitations: InvitationsScreen,
   CreateRoommateGroup: CreateRoommateGroupScreen,
   AddRoommate: AddRoommateScreen,
