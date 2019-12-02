@@ -62,9 +62,9 @@ const ConversationScreen = ({ navigation }) => {
         enabled
       >
       <Header
-        backgroundColor="green"
-        leftComponent={{icon: 'arrow-back', onPress: () => navigation.navigate('Messages') }}
-        centerComponent={{text: name, style: {fontSize: 20, color: 'black'}}}
+        backgroundColor="#000"
+        leftComponent={{icon: 'arrow-back', onPress: () => navigation.navigate('Messages'), color: 'white' }}
+        centerComponent={{text: name, style: {fontSize: 20, color: 'white'}}}
       />
       <MessageList id={conversationID} recipient={name}/>
         <View style={styles.inputSection}>

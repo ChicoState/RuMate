@@ -64,10 +64,11 @@ const CreateConversationScreen = ({ navigation }) => {
   return (
     <>
       <Header
-        backgroundColor=""
+        backgroundColor="#000"
         leftComponent={{
           icon: 'arrow-back',
-          onPress: () => navigation.navigate('Messages')
+          onPress: () => navigation.navigate('Messages'),
+          color: 'white'
         }}
         centerComponent={{
           text: "New Message",

@@ -7,9 +7,9 @@ const renderBillHeader = (navigation) => {
   return (
     <View>
       <Header
-        backgroundColor="green"
-        centerComponent={{text: "Bills", style: {fontSize: 20, color: 'black'}}}
-        rightComponent={{icon: 'add-circle', onPress: () => navigation.navigate('CreateBill') }}
+        backgroundColor="#000"
+        centerComponent={{text: "Bills", style: {fontSize: 20, color: 'white'}}}
+        rightComponent={{icon: 'add-circle', onPress: () => navigation.navigate('CreateBill'), color: 'white' }}
       />
     </View>
   );
@@ -19,7 +19,7 @@ const BillsScreen = ({navigation}) => {
   return (
     <View>
       {renderBillHeader(navigation)}
-      <Text> My Bills: </Text>
+      {/* <Text> My Bills: </Text> */}
       <BillList />
     </View>
   );

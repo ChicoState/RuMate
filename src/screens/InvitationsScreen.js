@@ -7,7 +7,8 @@ const InvitationsScreen = () => {
     return(
         <View>
             <Header
-            centerComponent={{text: "Invitations", style: {fontSize:30} }}
+            backgroundColor="#000"
+            centerComponent={{text: "Invitations", style: {fontSize:30, color:'white'} }}
             />
             <InvitationList></InvitationList>
         </View>
