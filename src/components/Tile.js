@@ -1,9 +1,19 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import firebase from 'firebase'
 
-const Tile = ({ title, color, text, textColor, location, nav }) => {
+const Tile = ({ title, color, text, textColor, location, nav, params, run }) => {
+  if (!params) {
+    params = {}
+  }
   return (
-    <TouchableOpacity onPress={() => {nav.navigate(location)}}>
+    <TouchableOpacity onPress={() => {
+      if (run == 'logout') {
+        firebase.auth().signOut()
+        alert("Logged Out")
+      }
+      nav.navigate(location, params)
+      }}>
       <View style={[{backgroundColor: color, borderColor: color}, styles.wrapper]}>
         <Text style={[styles.title, {color: textColor}]}>{title}</Text>
         <Text style={[{color: textColor}]}>{text}</Text>
