@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
-import { Header } from 'react-native-elements';
+import { Header, ButtonGroup } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import firebase from 'firebase';
 
@@ -8,6 +8,10 @@ const CreateBillScreen = ({navigation}) => {
   const [name, setName] = useState("");
   const [value, setValue] = useState("");
   const [date, setDate] = useState("");
+  const [selIndex, setSelIndex] = useState(null);
+
+  var buttons = ["Divide Evenly", "For Each"]
+
   return (
     <View>
       <Header
@@ -30,15 +34,23 @@ const CreateBillScreen = ({navigation}) => {
         value={date}
         onChangeText={setDate}
       />
+      <Text>Method</Text>
+      <ButtonGroup
+      onPress={setSelIndex}
+      buttons={buttons}
+      selectedIndex={selIndex}
+      />
       <Button title="Submit"
         onPress={() => {
+          console.log(selIndex)
           let bill = firebase.database().ref().child('/bills').push();
           bill.set({
             name,
             value,
             date,
             uid: firebase.auth().currentUser.uid,
-            billId: firebase.auth().currentUser.uid + value + name + date
+            billId: firebase.auth().currentUser.uid + value + name + date,
+            method: selIndex
           });
         }}
       />
