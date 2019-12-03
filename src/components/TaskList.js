@@ -1,5 +1,6 @@
 import React,  {Component} from 'react';
-import { View, FlatList, StyleSheet, Text, TouchableHighlight,} from 'react-native';
+import { View, FlatList, StyleSheet, Text, TouchableHighlight} from 'react-native';
+import { ButtonGroup } from 'react-native-elements';
 import Dialog from 'react-native-dialog';
 import Dimensions from 'Dimensions';
 import firebase from 'firebase';
@@ -68,38 +69,88 @@ export default class TaskList extends Component {
         this.state = {
           flatlistData: [],
           dialogVisible: false,
-          lastPressedItem: undefined
+          lastPressedItem: undefined,
+          filter: 0,
+          query: "",
+          selectedIndex: 0,
         }
+      this.updateIndex = this.updateIndex.bind(this)
     }
 
   componentWillMount() {
-    const taskref = firebase.database().ref(`tasks/`);
+    this.getData();
+  }
 
-    taskref.on("value", snapshot => {
+  getData() {
+    if(this.state.filter == 0)
+    {
+      console.log("filter = 0");
+      const taskref = firebase.database().ref(`tasks/`);
+      taskref.orderByChild("uid").equalTo(firebase.auth().currentUser.uid).on("value", snapshot => {
+        let tasks = snapshot.val();
 
-      let tasks = snapshot.val();
+        let newState = [];
 
-      let newState = [];
-
-      for(let item in tasks){
-        if (tasks[item].completed == false)
-        {
-          newState.push({
-            name: tasks[item].name,
-            description: tasks[item].description,
-            date: tasks[item].date,
-            completed: tasks[item].completed,
-            key: item
-          });
+        for(let item in tasks){
+          if (tasks[item].completed == false)
+          {
+            newState.push({
+              name: tasks[item].name,
+              description: tasks[item].description,
+              date: tasks[item].date,
+              completed: tasks[item].completed,
+              key: item
+            });
+          }
         }
-      }
 
-      this.setState({
-        flatlistData: newState
-      });
+        this.setState({
+          flatlistData: newState
+        });//setState
 
-  });
-}
+      });//taskref
+    }//if
+    else
+    {
+      console.log("filter = 1");
+      const userRef = firebase.database().ref(`users/`);
+      userRef.orderByChild("uid").equalTo(firebase.auth().currentUser.uid).on("value", snapshot => {
+        let users = snapshot.val();
+        for(let item in users){
+          console.log(users[item].rid)
+          curID = users[item].rid
+        }
+        this.setState({
+          query: curID
+        });
+          const taskref = firebase.database().ref(`tasks/`);
+          taskref.orderByChild("rid").equalTo(this.state.query).on("value", snapshot => {
+            let tasks = snapshot.val();
+
+            let newState = [];
+
+            for(let item in tasks){
+              if (tasks[item].completed == false)
+              {
+                newState.push({
+                  name: tasks[item].name,
+                  description: tasks[item].description,
+                  date: tasks[item].date,
+                  completed: tasks[item].completed,
+                  key: item
+                });
+              }
+            }
+
+            this.setState({
+              flatlistData: newState
+            });//setState
+
+          });//taskref
+      });//userRef
+    }//else
+
+}//componentWillMount
 
   markAsCompleted = () => {
     this.setState({
@@ -124,11 +175,32 @@ export default class TaskList extends Component {
     });
   }
 
+  //change filter button
+  updateIndex (selectedIndex) {
+    this.setState(
+    {
+      selectedIndex,
+      filter: selectedIndex,
+    },
+    () => {this.getData()}
+    );
+  }
+
 
 render() {
   const { height } = Dimensions.get('window');
+
+  const buttons = [ 'My Tasks', 'Roommate Tasks' ]
+  const { selectedIndex } = this.state;
+
   return (
     <View style={{height}}>
+      <ButtonGroup
+        onPress={this.updateIndex}
+        selectedIndex={selectedIndex}
+        buttons={buttons}
+        containerStyle={{height: 30}}
+      />
       <FlatList
         data={this.state.flatlistData}
         getItemLayout={(data, index) => (
