@@ -8,27 +8,13 @@ const RoommateSearch = ( props ) => {
   const [recipient, setRecipient] = useState("");
   const [users, setUsers] = useState([]);
 
-  // const getRID = async () => {
-  //   var curID = -1;
-  //   const userRef = firebase.database().ref(`users/`);
-  //   userRef.orderByChild("uid").equalTo(firebase.auth().currentUser.uid).on("value", snapshot => {
-  //     let users = snapshot.val();
-  //     for(let item in users){
-  //       console.log(users[item].rid)
-  //       curID = users[item].rid
-  //     }
-  //     console.log(curID);
-  //     return curID;
-  //   });
-  // }
-
   const loadRecipients = () => {
     var curID = -1;
     const userRef = firebase.database().ref(`users/`);
     userRef.orderByChild("uid").equalTo(firebase.auth().currentUser.uid).on("value", snapshot => {
       let users = snapshot.val();
       for(let item in users){
-        console.log(users[item].rid)
+        // console.log(users[item].rid)
         curID = users[item].rid
       }
       let response = firebase.database().ref('users');
@@ -36,7 +22,7 @@ const RoommateSearch = ( props ) => {
         let data = snapshot.val();
         let userList = [];
         for (item in data) {
-          console.log(data[item])
+          // console.log(data[item])
           userList.push(data[item]);
         }
         setUsers(userList);

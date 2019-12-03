@@ -41,9 +41,9 @@ export default class CreateTaskScreen extends Component {
     }
 
     addEntry(the_name, the_date, the_description, the_uid, the_rid) {
-      console.log(the_name);
-      console.log(the_uid);
-      console.log(the_rid);
+      // console.log(the_name);
+      // console.log(the_uid);
+      // console.log(the_rid);
 
         //TODO - DL: find a way to make the default date be today's date so that a user
         //does not need to specify the date if it's just today
@@ -95,26 +95,10 @@ export default class CreateTaskScreen extends Component {
           uid: data[item].uid,
           rid: data[item].rid
         });
-        console.log(this.state.description);
+        // console.log(this.state.description);
       }
       })
     }
-
-    // componentWillMount() {
-    //   curID = -1;
-    //   const userRef = firebase.database().ref(`users/`);
-    //   userRef.orderByChild("uid").equalTo(firebase.auth().currentUser.uid).on("value", snapshot => {
-    //     let users = snapshot.val();
-    //     for(let item in users){
-    //       console.log(users[item].rid)
-    //       curID = users[item].rid
-    //     }
-    //   });
-    //
-    //   this.setState(() => ({
-    //     rid: curID
-    //   }));
-    // }
 
     render() {
         return (

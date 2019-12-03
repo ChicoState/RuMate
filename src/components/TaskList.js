@@ -84,7 +84,7 @@ export default class TaskList extends Component {
   getData() {
     if(this.state.filter == 0)
     {
-      console.log("filter = 0");
+      // console.log("filter = 0");
       const taskref = firebase.database().ref(`tasks/`);
       taskref.orderByChild("uid").equalTo(firebase.auth().currentUser.uid).on("value", snapshot => {
         let tasks = snapshot.val();
@@ -112,41 +112,45 @@ export default class TaskList extends Component {
     }//if
     else
     {
-      console.log("filter = 1");
+      // console.log("filter = 1");
       const userRef = firebase.database().ref(`users/`);
       userRef.orderByChild("uid").equalTo(firebase.auth().currentUser.uid).on("value", snapshot => {
         let users = snapshot.val();
         for(let item in users){
-          console.log(users[item].rid)
+          // console.log(users[item].rid)
           curID = users[item].rid
         }
         this.setState({
           query: curID
-        });
-          const taskref = firebase.database().ref(`tasks/`);
-          taskref.orderByChild("rid").equalTo(this.state.query).on("value", snapshot => {
-            let tasks = snapshot.val();
+        },
+        () => {
+        // console.log(this.state.query);
+        const taskref = firebase.database().ref(`tasks/`);
+        taskref.orderByChild("rid").equalTo(this.state.query).on("value", snapshot => {
+          let tasks = snapshot.val();
 
-            let newState = [];
+          let newState = [];
 
-            for(let item in tasks){
-              if (tasks[item].completed == false)
-              {
-                newState.push({
-                  name: tasks[item].name,
-                  description: tasks[item].description,
-                  date: tasks[item].date,
-                  completed: tasks[item].completed,
-                  key: item
-                });
-              }
+          for(let item in tasks){
+            if (tasks[item].completed == false)
+            {
+              newState.push({
+                name: tasks[item].name,
+                description: tasks[item].description,
+                date: tasks[item].date,
+                completed: tasks[item].completed,
+                key: item
+              });
             }
+          }
 
-            this.setState({
-              flatlistData: newState
-            });//setState
+          this.setState({
+            flatlistData: newState
+          });//setState
 
-          });//taskref
+        });//taskref
+      }
+      );
       });//userRef
     }//else
 
