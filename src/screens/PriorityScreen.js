@@ -10,6 +10,11 @@ import BackIcon from 'react-native-vector-icons/MaterialIcons'
 const PriorityScreen = ({navigation}) => {
   const [assignments, setAssignments] = useState([]);
 
+  var date = new Date().getDate();
+  var month = new Date().getMonth() + 1;
+  var year = new Date().getFullYear();
+  const the_date = year + "-" + month + "-" + date
+
   const getAssignments = () => {
     the_assignments = [];
     var ref = firebase.database().ref('bills');
@@ -17,8 +22,7 @@ const PriorityScreen = ({navigation}) => {
         let data = snapshot.val();
         for (let item in data)
         {
-            console.log(data[item].uid)
-            if (firebase.auth().currentUser.uid == data[item].uid)
+            if (firebase.auth().currentUser.uid == data[item].uid && data[item].date < the_date)
             {
               let object = {
                 title: data[item].name + "- $" + data[item].value,
@@ -28,7 +32,6 @@ const PriorityScreen = ({navigation}) => {
               the_assignments.push(object);
             }
         }
-        //setAssignments(the_assignments);
     });
 
     ref = firebase.database().ref('tasks');
@@ -36,7 +39,7 @@ const PriorityScreen = ({navigation}) => {
         let data = snapshot.val();
         for (let item in data)
         {
-            if (firebase.auth().currentUser.uid == data[item].uid)
+            if (firebase.auth().currentUser.uid == data[item].uid && data[item].date < the_date)
             {
                 let object = {
                   title: data[item].description,
