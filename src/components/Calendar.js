@@ -24,40 +24,48 @@ export default class AgendaScreen extends Component {
 }
 
   componentWillMount() {
-    const taskref = firebase.database().ref(`tasks/`);
-
-    taskref.on("value", snapshot => {
-
-      let tasks = snapshot.val();
-
-      let newState = [];
-
-      for(let item in tasks){
-        if (tasks[item].completed == false)
-        {
-          // console.log(tasks[item]);
-          newState.push(
-            tasks[item].date
-          );
-
-          var date = tasks[item].date;
-          if(!this.state.items[date]){
-            this.state.items[date] = [];
-          }
-              this.state.items[date].push({
-                name: tasks[item].name,
-                description: tasks[item].description,
-                height: 100
-              });
-        }
+    const userRef = firebase.database().ref(`users/`);
+    userRef.orderByChild("uid").equalTo(firebase.auth().currentUser.uid).on("value", snapshot => {
+      let user = snapshot.val();
+      let user_rid;
+      for(let i in user)
+      {
+        user_rid = user[i].rid;
       }
+      const taskRef = firebase.database().ref(`tasks/`);
+      taskRef.orderByChild("rid").equalTo(user_rid).on("value", snapshot => {
 
-      this.setState({
-        taskDates: newState,
-      });
+        let tasks = snapshot.val();
 
+        let newState = [];
 
-  });
+        for(let item in tasks){
+          if (tasks[item].completed == false)
+          {
+            // console.log(tasks[item]);
+            newState.push(
+              tasks[item].date
+            );
+
+            var date = tasks[item].date;
+            if(!this.state.items[date]){
+              this.state.items[date] = [];
+            }
+                this.state.items[date].push({
+                  name: tasks[item].name,
+                  description: tasks[item].description,
+                  height: 100
+                });
+          }
+        }
+
+        this.setState({
+          taskDates: newState,
+        });
+
+    });//taskRef
+
+  });//userRef
 }
 
   render() {
@@ -75,39 +83,13 @@ export default class AgendaScreen extends Component {
   }
 
   loadItems(day) {
-    // setTimeout(() => {
-    // const taskref = firebase.database().ref(`tasks/`);
-    // taskref.on("value", snapshot => {
-    //   let tasks = snapshot.val();
-    //   //add tasks
-    //   for(let item in tasks){
-    //     if (tasks[item].completed == false)
-    //     {
-    //       var date = tasks[item].date;
-    //       if(!this.state.items[date]){
-    //         this.state.items[date] = [];
-    //           this.state.items[date].push({
-    //             name: tasks[item].name,
-    //             description: tasks[item].description,
-    //             height: 20
-    //           });
-    //       }
-    //     }
-    //   }
-    // });
+
     //add empty days
       for (let i = 0; i < 40; i++) {
         const time = day.timestamp + i * 24 * 60 * 60 * 1000;
         const strTime = this.timeToString(time);
         if (!this.state.items[strTime]) {
           this.state.items[strTime] = [];
-      //     const numItems = Math.floor(Math.random() * 5);
-      //     for (let j = 0; j < numItems; j++) {
-      //       this.state.items[strTime].push({
-      //         name: 'Item for ' + strTime,
-      //         height: Math.max(50, Math.floor(Math.random() * 150))
-      //       });
-      //     }
         }
       }
       // console.log(this.state.items);
@@ -116,8 +98,6 @@ export default class AgendaScreen extends Component {
       this.setState({
         items: newItems
       });
-    // }, 1000);
-    // console.log(`Load Items for ${day.year}-${day.month}`);
   }
 
   renderItem(item) {

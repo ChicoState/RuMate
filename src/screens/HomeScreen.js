@@ -10,7 +10,7 @@ import User from 'react-native-vector-icons/FontAwesome';
 const HomeScreen = ({ navigation }) => {
   const [greeting, setGreeting] = useState("");
   const [taskColor, setTaskColor] = useState("#111");
-  const [taskText, setTaskText] = useState("You have 0 upcoming or past-due assignments. You're a great RuMate!");
+  const [taskText, setTaskText] = useState("");
   
   const getDisplayName = () => {
     let username = firebase.auth().currentUser.email.split("@")[0]

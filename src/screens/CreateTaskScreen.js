@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import { View, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import { SearchBar, Button, Header } from 'react-native-elements';
 import Dialog from 'react-native-dialog';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import RoommateSearch from '../components/RoommateSearch.js'
 
 var firebase = require("firebase");
 
@@ -14,10 +15,13 @@ export default class CreateTaskScreen extends Component {
             name: "",
             date: "",
             description: "",
+            uid: "",
+            rid: "",
             complete: false,
             searchResults: [],
             dialogVisible: false
         };
+        this.nameHandler = this.nameHandler.bind(this)
     }
 
     nameSearch() {
@@ -36,7 +40,10 @@ export default class CreateTaskScreen extends Component {
         });
     }
 
-    addEntry(the_name, the_date, the_description) {
+    addEntry(the_name, the_date, the_description, the_uid, the_rid) {
+      // console.log(the_name);
+      // console.log(the_uid);
+      // console.log(the_rid);
 
         //TODO - DL: find a way to make the default date be today's date so that a user
         //does not need to specify the date if it's just today
@@ -51,6 +58,8 @@ export default class CreateTaskScreen extends Component {
         var tasksList = firebase.database().ref().child('/tasks').push();
         tasksList.set({
             name: the_name,
+            uid: the_uid,
+            rid: the_rid,
             date: the_date,
             description: the_description,
             completed: false
@@ -58,6 +67,8 @@ export default class CreateTaskScreen extends Component {
 
         this.setState({
             name: "",
+            uid: "",
+            rid: "",
             date: "",
             description: "",
             completed: false
@@ -72,26 +83,53 @@ export default class CreateTaskScreen extends Component {
         })
     }
 
+    nameHandler(item) {
+      let response = firebase.database().ref('users');
+        response.orderByChild("name").equalTo(item).on("value", (snapshot) => {
+          let data = snapshot.val();
+          let userList = [];
+          for (item in data) {
+            userList.push(data[item]);
+        this.setState({
+          name: data[item].name,
+          uid: data[item].uid,
+          rid: data[item].rid
+        });
+        // console.log(this.state.description);
+      }
+      })
+    }
+
     render() {
         return (
             <View>
                 <Header
-                    leftComponent={<Icon name='arrow-back' size={30} color='black' onPress = { () => this.props.navigation.navigate('Tasks')} />}
-                    centerComponent={{text: 'Create a task', style: { fontSize: 20}}}
+                    backgroundColor="#000"
+                    leftComponent={<Icon name='arrow-back' size={30} color='white' onPress = { () => this.props.navigation.navigate('Tasks')} />}
+                    centerComponent={{text: 'Create New Task', style: { fontSize: 20, color:"white"}}}
                 />
+                <RoommateSearch
+                  nameHandler = {this.nameHandler}
+                />
+                {/*
                 <SearchBar
                     value={this.state.name}
                     onChangeText={(name) => this.setState({name})}
                     onEndEditing={(name) => this.nameSearch({name})}
                     placeholder="assignee name"
                 />
-
-                <SearchBar
-                    value={this.state.description}
-                    onChangeText={(description) => this.setState({description})}
-                    placeholder="task description"
-                    searchIcon={false}
-                />
+                */}
+                <View style={styles.DescriptionSearch}>
+                  <SearchBar
+                      inputStyle={{backgroundColor: 'white', fontSize: 20, color: 'black'}}
+                      inputContainerStyle={{backgroundColor: 'white'}}
+                      containerStyle={{backgroundColor: 'white', borderColor: '#ccc', borderBottomColor: '#ccc', borderTopColor: '#ccc', borderWidth: 1, borderRadius: 4}}
+                      value={this.state.description}
+                      onChangeText={(description) => this.setState({description})}
+                      placeholder="Task Description"
+                      searchIcon={false}
+                  />
+                </View>
 
                 <DatePicker
                     onDateChange={(date) => this.setState({date})}
@@ -103,7 +141,7 @@ export default class CreateTaskScreen extends Component {
 
                 <Button
                     title="Enter"
-                    onPress={() => {this.addEntry(this.state.name, this.state.date, this.state.description);}}
+                    onPress={() => {this.addEntry(this.state.name, this.state.date, this.state.description, this.state.uid, this.state.rid);}}
                 >
                 </Button>
 
@@ -124,3 +162,11 @@ export default class CreateTaskScreen extends Component {
         )
     }
 }
+
+const styles = StyleSheet.create({
+  DescriptionSearch: {
+    backgroundColor: 'white',
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+  }
+});

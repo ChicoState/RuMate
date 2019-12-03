@@ -1,11 +1,11 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import { View, FlatList } from 'react-native';
 import { Header, Input, SearchBar, ListItem, Button } from 'react-native-elements';
-import { CoreStitchAppClient } from 'mongodb-stitch-core-sdk';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 var firebase = require("firebase");
 
-const CreateRoommateGroupScreen = ({}) => {
+const CreateRoommateGroupScreen = ({navigation}) => {
     const [searchName, setSearchName] = useState("");
     const [groupName, setGroupName] = useState("");
     const [newMembers, setNewMembers] = useState([]);
@@ -77,7 +77,9 @@ const CreateRoommateGroupScreen = ({}) => {
     return (
         <View>
             <Header
-            centerComponent={{ text: "Create a Roommate Group", style: {fontSize:30} }}
+            backgroundColor="#000"
+            leftComponent={<Icon name='arrow-back' size={30} color='white' onPress = { () => navigation.navigate('AddRoommate')} />}
+            centerComponent={{ text: "Create New Group", style: {fontSize:20, color:"white"} }}
             />
             <Input
             placeholder="Group name"
