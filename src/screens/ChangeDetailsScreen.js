@@ -12,7 +12,6 @@ const ChangeDetailsScreen = ({ navigation }) => {
     const detail = navigation.state.params.detail
     const username = navigation.state.params.username
     if (detail == 'name') {
-
       return (<>
         <Text style={styles.mainLabel}>
           {`Time for a new identity, \n`}
