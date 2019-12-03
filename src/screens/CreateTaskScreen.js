@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import { SearchBar, Button, Header } from 'react-native-elements';
 import Dialog from 'react-native-dialog';
@@ -104,8 +104,9 @@ export default class CreateTaskScreen extends Component {
         return (
             <View>
                 <Header
-                    leftComponent={<Icon name='arrow-back' size={30} color='black' onPress = { () => this.props.navigation.navigate('Tasks')} />}
-                    centerComponent={{text: 'Create a task', style: { fontSize: 20}}}
+                    backgroundColor="#000"
+                    leftComponent={<Icon name='arrow-back' size={30} color='white' onPress = { () => this.props.navigation.navigate('Tasks')} />}
+                    centerComponent={{text: 'Create New Task', style: { fontSize: 20, color:"white"}}}
                 />
                 <RoommateSearch
                   nameHandler = {this.nameHandler}
