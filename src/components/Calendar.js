@@ -26,7 +26,7 @@ export default class AgendaScreen extends Component {
   componentWillMount() {
     const taskref = firebase.database().ref(`tasks/`);
 
-    taskref.on("value", snapshot => {
+    taskref.orderByChild("uid").equalTo(firebase.auth().currentUser.uid).on("value", snapshot => {
 
       let tasks = snapshot.val();
 
