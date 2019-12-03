@@ -9,8 +9,9 @@ const CalendarScreen = ({navigation}) => {
     return (
       <View style={{flex: 1}}>
       <Header
+      backgroundColor="#000"
       leftComponent={<Icon name='arrow-back' size={30} color='white' onPress = { () => navigation.navigate('Tasks')} />}
-      centerComponent={{text: "Tasks", style: {fontSize: 20}}}
+      centerComponent={{text: "Tasks", style: {fontSize: 20, color:'white'}}}
       />
       <TaskCalendar/>
       </View>

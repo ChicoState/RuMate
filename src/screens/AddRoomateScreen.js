@@ -13,7 +13,8 @@ export default class AddRoommateScreen extends Component {
         return (
             <View>
                 <Header
-                centerComponent={{text: "Add Roomates", style: {fontSize:20 }}}
+                backgroundColor="#000"
+                centerComponent={{text: "Add Roomates", style: {fontSize:20, color: 'white' }}}
                 />
 
                 <Button

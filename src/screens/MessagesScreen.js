@@ -7,18 +7,19 @@ const MessageScreen = ({ navigation }) => {
   return (
     <View>
       <Header
-        backgroundColor="purple"
-        leftComponent={{
-          icon: 'arrow-back',
-          onPress: () => navigation.navigate('Home')
-        }}
+        backgroundColor="#000"
+        // leftComponent={{
+        //   icon: 'arrow-back',
+        //   onPress: () => navigation.navigate('Home')
+        // }}
         centerComponent={{
           text: "Messages",
-          style: { fontSize: 20, color: 'black' }
+          style: { fontSize: 20, color: 'white' }
         }}
         rightComponent={{
           icon: 'add-circle',
-          onPress: () => navigation.navigate('CreateConversation') 
+          onPress: () => navigation.navigate('CreateConversation'),
+          color: 'white'
         }}
       />
       <ConversationList navigation={navigation} />

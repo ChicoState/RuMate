@@ -5,6 +5,7 @@ import { useScreens } from 'react-native-screens';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
+import Icon from 'react-native-vector-icons/FontAwesome';
 /* our imports */
 import HomeScreen from './src/screens/HomeScreen';
 import TasksScreen from './src/screens/TasksScreen';
@@ -19,6 +20,10 @@ import MessageScreen from './src/screens/MessagesScreen';
 import CreateConversationScreen from './src/screens/CreateConversationScreen';
 import ConversationScreen from './src/screens/ConversationScreen';
 import InvitationsScreen from './src/screens/InvitationsScreen';
+import AccountScreen from './src/screens/AccountScreen';
+import PriorityScreen from './src/screens/PriorityScreen';
+import ChangeDetailsScreen from './src/screens/ChangeDetailsScreen';
+
 useScreens();
 
 const firebaseConfig = {
@@ -37,18 +42,39 @@ const tabNavigator = createBottomTabNavigator({
   Home: {
     screen: HomeScreen,
     navigationOptions: {
-      header: null
-    }
+      tabBarLabel: "Home",
+      tabBarIcon: ({ tintColor }) => (
+        <Icon name="home" size={20} />
+      )
+    },
   },
   Tasks: {
     screen: TasksScreen,
     navigationOptions: {
-      header: null
-    }
+      tabBarLabel: "Tasks",
+      tabBarIcon: ({ tintColor }) => (
+        <Icon name="tasks" size={20} />
+      )
+    },
   },
   Bills: {
     screen: BillsScreen,
+    navigationOptions: {
+      tabBarLabel: "Bills",
+      tabBarIcon: ({ tintColor }) => (
+        <Icon name="dollar" size={20} />
+      )
+    },
   },
+  Messages: {
+    screen: MessageScreen,
+    navigationOptions: {
+      tabBarLabel: "Messages",
+      tabBarIcon: ({ tintColor }) => (
+        <Icon name="comments" size={20} />
+      )
+    },
+  }
 },
 {
   initialRouteName: 'Home',
@@ -63,6 +89,7 @@ const taskNavigator = createStackNavigator({
 });
 
 const appStackNavigator = createStackNavigator({
+  Priority: PriorityScreen,
   Invitations: InvitationsScreen,
   CreateRoommateGroup: CreateRoommateGroupScreen,
   AddRoommate: AddRoommateScreen,
@@ -72,7 +99,9 @@ const appStackNavigator = createStackNavigator({
   TaskCalendar: CalendarScreen,
   Messages: MessageScreen,
   CreateConversation: CreateConversationScreen,
-  Conversation: ConversationScreen
+  Conversation: ConversationScreen,
+  Account: AccountScreen,
+  ChangeDetails: ChangeDetailsScreen
 
 },{
   initialRouteName: 'Home',
