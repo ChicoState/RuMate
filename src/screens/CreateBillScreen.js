@@ -15,24 +15,27 @@ const CreateBillScreen = ({navigation}) => {
   return (
     <View>
       <Header
-        backgroundColor="green"
-        leftComponent={<Icon name='arrow-back' size={30} color='black' onPress = { () => navigation.navigate('Bills')} />}
-        centerComponent={{text: "Add a bill", style: {fontSize: 20, color: 'black'}}}
+        backgroundColor="black"
+        leftComponent={<Icon name='arrow-back' size={30} color='white' onPress = { () => navigation.navigate('Bills')} />}
+        centerComponent={{text: "Add a bill", style: {fontSize: 20, color: 'white'}}}
       />
-      <Text>Name</Text>
+      <Text style={styles.label}>Time to be responsible!</Text>
       <TextInput style={styles.input}
         value={name}
         onChangeText={setName}
+        placeholder="Bill Name"
       />
-      <Text>Value</Text>
       <TextInput style={styles.input}
         value={value}
-        onChangeText={setValue}
+        placeholder="Bill Value"
+        onChangeText={() => setValue("$ " + value)}
+        keyboardType="numeric"
       />
-      <Text>Due by</Text>
       <TextInput style={styles.input}
         value={date}
         onChangeText={setDate}
+        placeholder="Due date"
+        keyboardType=""
       />
       <Text>Method</Text>
       <ButtonGroup
@@ -64,8 +67,19 @@ const styles = StyleSheet.create({
     marginVertical: 2,
     width: 300,
     marginHorizontal: 5,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    marginVertical: '5%',
+    paddingVertical: "5%",
+    paddingLeft: '1%',
+    borderRadius: 5,
+    fontSize: 20
   },
+  label: {
+    fontSize: 30,
+    alignSelf: 'center',
+    paddingVertical: '10%',
+
+  }
 });
 
 export default CreateBillScreen;
