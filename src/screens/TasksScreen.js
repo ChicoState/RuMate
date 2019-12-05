@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Header } from 'react-native-elements';
 import TaskList from '../components/TaskList';
 import Icon from 'react-native-vector-icons/Foundation';
+import * as Haptics from 'expo-haptics';
 
 const TasksScreen = ({navigation}) => {
+  useEffect(() => {
+    Haptics.selectionAsync();
+    navigation.addListener('willFocus', () =>{
+      Haptics.selectionAsync();
+    });
+  }, []);
+
   return (
     <View style={{flex: 1}}>
       <Header

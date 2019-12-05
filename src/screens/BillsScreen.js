@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import BillList from '../components/BillList';
 import { Header } from 'react-native-elements';
+import * as Haptics from 'expo-haptics';
 
 const renderBillHeader = (navigation) => {
   return (
@@ -16,6 +17,14 @@ const renderBillHeader = (navigation) => {
 }
 
 const BillsScreen = ({navigation}) => {
+
+  useEffect(() => {
+    Haptics.selectionAsync();
+    navigation.addListener('willFocus', () =>{
+      Haptics.selectionAsync();
+    });
+  }, []);
+
   return (
     <View>
       {renderBillHeader(navigation)}

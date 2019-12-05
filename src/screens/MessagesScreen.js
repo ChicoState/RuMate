@@ -1,9 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Header } from 'react-native-elements';
 import ConversationList from '../components/ConversationList';
+import * as Haptics from 'expo-haptics';
 
 const MessageScreen = ({ navigation }) => {
+  useEffect(() => {
+    Haptics.selectionAsync();
+    navigation.addListener('willFocus', () =>{
+      Haptics.selectionAsync();
+    });
+  }, []);
+
   return (
     <View>
       <Header

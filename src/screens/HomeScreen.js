@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import * as Ani from 'react-native-animatable';
 import firebase from 'firebase';
 import User from 'react-native-vector-icons/FontAwesome';
+import * as Haptics from 'expo-haptics';
 
 const HomeScreen = ({ navigation }) => {
   const [greeting, setGreeting] = useState("")
@@ -97,6 +98,10 @@ const HomeScreen = ({ navigation }) => {
     getTasksAndBills();
     getGreeting();
     getDisplayName();
+    Haptics.selectionAsync();
+    navigation.addListener('willFocus', () =>{
+      Haptics.selectionAsync();
+    });
   }, []);
 
 
