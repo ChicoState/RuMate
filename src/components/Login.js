@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import firebase from 'firebase';
 import * as Animatable from 'react-native-animatable';
+import * as Haptics from 'expo-haptics'
 import TitleBlock from './TitleBlock';
 import AuthSpinner from './AuthSpinner';
 
@@ -66,13 +67,17 @@ const Login = ({
             style={{paddingTop: 20}}
             animation="fadeInUp">
             <TouchableOpacity style={[styles.submit, styles.loginButton]} 
-              onPress = {authenticateUser}>
+              onPress = {() => {
+                authenticateUser()
+                Haptics.selectionAsync()
+                }}>
               <Text style={[styles.darkText, styles.button]}>
                 Login
               </Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.submit, styles.registerButton]}
               onPress={() => {
+                Haptics.selectionAsync();
                 setRegister(!register);
               }} >
               <Text style={[styles.lightText, styles.button]}>
