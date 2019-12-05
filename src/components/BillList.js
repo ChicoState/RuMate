@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList, Alert } from 'react-native';
+import { View, StyleSheet, FlatList, Alert, Vibration } from 'react-native';
 import Dimensions from 'Dimensions';
 import firebase from 'firebase'
 import Bill from '../components/Bill';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import * as Haptics from 'expo-haptics';
 
 const getBills = async (setBills) => {
   const bills = await firebase.database().ref('bills/');
@@ -32,40 +33,47 @@ const payBill = () => {
   return val
 }
 
-const renderBills = (bills) => {
-  const { height } = Dimensions.get('window');
-  return (
-    <View style={{height}}>
-      <FlatList
-        keyExtractor={item => item.billId}
-        data={bills}
-        renderItem={({ item }) => {
-          return (
-            <TouchableOpacity onPress={payBill}>
-              <Bill
-                name = {item.name}
-                value = {item.value}
-                due = {item.date}
-                payed = {0}
-              />
-            </TouchableOpacity>
-          );
-        }}
-      />
-    </View>
-  );
-}
+
 
 const BillList = () => {
   const [bills, setBills] = useState([]);
-  
+  const [editing, setEditing] = useState(false);
   useEffect(() => {
     // firebase pull
     getBills(setBills);
   }, []);
+  const renderBills = () => {
+    const { height } = Dimensions.get('window');
+    return (
+      <View style={{height}}>
+        <FlatList
+          keyExtractor={item => item.billId}
+          data={bills}
+          renderItem={({ item }) => {
+            return (
+              <TouchableOpacity 
+                onPress={payBill}
+                onLongPress={() => {
+                  console.log("test")
+                  Haptics.selectionAsync()
+                  }}>
+                <Bill
+                  name = {item.name}
+                  value = {item.value}
+                  due = {item.date}
+                  payed = {0}
+                  edit = {editing}
+                />
+              </TouchableOpacity>
+            );
+          }}
+        />
+      </View>
+    );
+  }
   return (
     <View>
-      {renderBills(bills)}
+      {renderBills()}
     </View>
   );
 }
