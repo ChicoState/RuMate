@@ -20,13 +20,24 @@ const getBills = async (setBills) => {
   })
 }
 
-const payBill = () => {
+const payBill = (uid) => {
   let val = null
   Alert.alert(
-    'Remove Bill?',
-    'Tap Okay to remove the bill',
+    'Bill Payed?',
+    'Tap Payed to remove the bill',
     [
-      { text: 'Payed', onPress: () => val = true},
+      { text: 'Payed', onPress: () => {
+        val = true
+        let data = firebase.database().ref('bills')
+        data.on('value', (snapshot)=>{
+          let bills = snapshot.val()
+          for (bill in bills) {
+            if (bills[bill].billId == uid) {
+              firebase.database().ref('bills/'+bill).remove();
+            }
+          }
+        });
+      }},
       { text: 'Cancel', onPress: () => val = false, style:'cancel'}
     ]
   )
@@ -52,9 +63,9 @@ const BillList = () => {
           renderItem={({ item }) => {
             return (
               <TouchableOpacity 
-                onPress={payBill}
+                onPress={() => {payBill(item.billId)}}
                 onLongPress={() => {
-                  console.log("test")
+                  setEditing(true)
                   Haptics.selectionAsync()
                   }}>
                 <Bill
