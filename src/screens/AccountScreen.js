@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, Text, ScrollView, Image } from 'react-native'
 import { Header } from 'react-native-elements'
 import firebase from 'firebase'
@@ -7,14 +7,23 @@ import User from 'react-native-vector-icons/FontAwesome';
 import Tile from '../components/Tile'
 // import PhotoUpload from 'react-native-photo-upload'
 
-const getDisplayName = () => {
-  let username = firebase.auth().currentUser.email.split("@")[0]
-  let capital = username[0].toUpperCase()
-  username = username.split(username[0])
-  return(capital + username[1])
-}
-
 const AccountScreen = ({ navigation }) => {
+
+  const getDisplayName = () => {
+    let names = firebase.database().ref('users')
+    let name = ""
+    names.on("value", (snapshot) => {
+      let data = snapshot.val();
+      for (i in data) {
+        if (data[i].uid == firebase.auth().currentUser.uid)
+          name = data[i].name
+      }
+    });
+    return name;
+  }
+  useEffect(() => {
+    // getDisplayName();
+  }, []);
   return(
     <View style={{flex: 1}}>
       <Header
