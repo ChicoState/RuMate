@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, StatusBar } from '
 import TitleBlock from './TitleBlock';
 import AuthSpinner from './AuthSpinner';
 import firebase from 'firebase';
+import * as Haptics from 'expo-haptics';
 
 const Register = ({ 
   name, setName,
@@ -15,6 +16,7 @@ const Register = ({
   const [waiting, setWaiting] = useState(false)
   
   const registerUser = async () => {
+    Haptics.selectionAsync()
     setWaiting(true)
     if (password == confPassword && password.length >= 6) {
       await firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
@@ -96,6 +98,7 @@ const Register = ({
         <TouchableOpacity 
           style={styles.submit}
           onPress = {() => {
+            Haptics.selectionAsync()
             setRegister(!register)
           }}
         >
