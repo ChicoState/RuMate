@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import Register from '../components/Register';
 import Login from '../components/Login';
+import * as Haptics from 'expo-haptics';
 
 const AuthScreen = ({navigation}) => {
   const [register, setRegister] = useState(false);
@@ -24,6 +25,8 @@ const AuthScreen = ({navigation}) => {
     // setSignedIn() will be used here eventually
     // to check if a user is already logged in
     // when starting up the app. 
+    Haptics.selectionAsync()
+
   }, []);
 
   const passMatch = (password, confPassword) => {
