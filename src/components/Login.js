@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   },
   background: {
     flex: 1,
-    backgroundColor: '#333'
+    backgroundColor: 'rgb(25,25,25)'
   },
 });
 
