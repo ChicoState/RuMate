@@ -25,7 +25,10 @@ import PriorityScreen from './src/screens/PriorityScreen';
 import ChangeDetailsScreen from './src/screens/ChangeDetailsScreen';
 
 useScreens();
-
+// ################################ //
+// Remove to debug errors/warnings  //
+   console.disableYellowBox = true; //
+// ################################ //
 const firebaseConfig = {
   apiKey: "AIzaSyA_ZWMR-MFG_ZHNK4_WuEeHoLP9vzsY_Vk",
   authDomain: "rumate-faaeb.firebaseapp.com",
