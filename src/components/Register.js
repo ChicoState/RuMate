@@ -49,7 +49,7 @@ const Register = ({
           color="white"
           fontSize={40}
           paddingTop={"20%"}
-          paddingBottom={"20%"}
+          paddingBottom={"5%"}
         />
         <Text style={[styles.lightText, styles.label]}>Name</Text>
         <TextInput 
@@ -157,7 +157,8 @@ const styles = StyleSheet.create({
   },
   background: {
     flex: 1,
-    backgroundColor: '#333'
+    backgroundColor: 'rgb(25,25,25)'
+
   },
   label: {
     alignSelf: 'center',
