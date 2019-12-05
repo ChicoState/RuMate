@@ -24,8 +24,8 @@ const Bill = ({ name, value, due, payed, edit }) => {
         <View style={styles.detail}>
           <Text>Amount: ${value}</Text>
           <Text>Due by: {due}</Text>
+          <Text>Editing</Text>
         </View>
-        
       </View>
     );
   }
