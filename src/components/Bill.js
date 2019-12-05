@@ -1,21 +1,34 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const Bill = ({ name, value, due, payed }) => {
+const Bill = ({ name, value, due, payed, edit }) => {
   if (payed) {
     payed = styles.payed
   } else {
     payed = styles.neutral
   }
-  return (
-    <View style={[styles.bill, payed]}>
-      <Text style={styles.title}>{name}</Text>
-      <View style={styles.detail}>
-        <Text>Amount: ${value}</Text>
-        <Text>Due by: {due}</Text>
+  if (!edit) {
+    return (
+      <View style={[styles.bill, payed]}>
+        <Text style={styles.title}>{name}</Text>
+        <View style={styles.detail}>
+          <Text>Amount: ${value}</Text>
+          <Text>Due by: {due}</Text>
+        </View>
       </View>
-    </View>
-  );
+    );
+  } else {
+    return (
+      <View style={[styles.bill, payed]}>
+        <Text style={styles.title}>{name}</Text>
+        <View style={styles.detail}>
+          <Text>Amount: ${value}</Text>
+          <Text>Due by: {due}</Text>
+        </View>
+        
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
