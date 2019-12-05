@@ -132,18 +132,23 @@ export default class CreateTaskScreen extends Component {
                 </View>
 
                 <DatePicker
+                    style={styles.DatePickerStyle}
                     onDateChange={(date) => this.setState({date})}
                     confirmBtnText="Confirm"
                     cancelBtnText="Cancel"
                     format="YYYY-MM-DD"
                     date={this.state.date}
                 />
-
-                <Button
-                    title="Enter"
-                    onPress={() => {this.addEntry(this.state.name, this.state.date, this.state.description, this.state.uid, this.state.rid);}}
-                >
-                </Button>
+                <View style={styles.EnterButtonView}>
+                  <Button
+                      title="Enter"
+                      raised={true}
+                      containerStyle={styles.EnterButtonContainer}
+                      buttonStyle={{backgroundColor: 'black'}}
+                      onPress={() => {this.addEntry(this.state.name, this.state.date, this.state.description, this.state.uid, this.state.rid);}}
+                  >
+                  </Button>
+                </View>
 
                 <Dialog.Container
                 visible={this.state.dialogVisible}
@@ -168,5 +173,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     paddingHorizontal: 10,
     paddingVertical: 15,
+  },
+  DatePickerStyle: {
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    width: 200,
+  },
+  EnterButtonContainer: {
+    width: 200,
+  },
+  EnterButtonView: {
+     width: '100%',
+     justifyContent: 'center',
+     alignItems: 'center'
   }
 });
