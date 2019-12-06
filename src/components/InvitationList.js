@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 import firebase from 'firebase';
 import { ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import Dialog from 'react-native-dialog';
 
 const InvitationList = () => {
     const [invitations, setInvitations] = useState([]);
-    const [dialogVisible, setDialogVisible] = useState(false);
     const [clickedItemGID, setClickedItemGID] = useState("");
     const [userKey, setUserKey] = useState("");
     const [canAccept, setCanAccept] = useState(false);
@@ -28,29 +26,75 @@ const InvitationList = () => {
         });
     }
 
-    const openDialog = (gid) => {
+    const leaveGroup = (gid, iid) => {
         setClickedItemGID(gid);
-        setDialogVisible(true);
+        Alert.alert(
+          'Already in a Group',
+          'Would you like to leave your current Group?',
+          [
+            { text: 'Yes', onPress: () => {
+              setCanAccept(true);
+              firebase.database().ref('/users/' + userKey).update(
+                  {
+                      rid: -1
+                  }
+              );
+            }},
+            { text: 'No', onPress: () => removeInvite(gid, iid), style:'cancel'}
+          ]
+        )
     }
 
-    const cancel = () => {
-        setDialogVisible(false);
+    const removeInvite = (gid, iid) => {
+      Alert.alert(
+        'Remove Invite',
+        'Do you want to remove this invite?',
+        [
+          { text: 'Yes', onPress: () => {
+            let data = firebase.database().ref('invites')
+            data.on('value', (snapshot)=>{
+              let invites = snapshot.val()
+              for (invite in invites) {
+                if (invites[invite].inviteID == iid) {
+                  firebase.database().ref('invites/'+invite).remove();
+                }
+              }
+            });
+            getInvitations();
+          }},
+          { text: 'No',style:'cancel'}
+        ]
+      )
     }
 
-    const acceptInvitation = () => {
-        setDialogVisible(false);
-
-        if (canAccept)
-        {
+    const joinGroup = (gid, iid) => {
+      Alert.alert(
+        'Accept Invitation',
+        'Warning: You can only be a member of one group',
+        [
+          { text: 'Yes', onPress: () => {
             firebase.database().ref('/users/' + userKey).update(
                 {
-                    rid: clickedItemGID
+                    rid: gid
                 }
             );
             setCanAccept(false);
-        }
+            let data = firebase.database().ref('invites')
+            data.on('value', (snapshot)=>{
+              let invites = snapshot.val()
+              for (invite in invites) {
+                if (invites[invite].inviteID == iid) {
+                  firebase.database().ref('invites/'+invite).remove();
+                }
+              }
+            });
+            getInvitations();
+          }},
+          { text: 'No', style:'cancel'}
+        ]
+      )
     }
-    
+
     useEffect(() => {
         getInvitations();
 
@@ -74,34 +118,25 @@ const InvitationList = () => {
             {
                 invitations.map((l, i) => (
                     <ListItem
-                    onPress={() => openDialog(l.gid)}
+                    onPress={() => {
+                      if(!canAccept)
+                      {
+                        leaveGroup(l.gid, l.inviteID)
+                      }
+                      else
+                      {
+                        joinGroup(l.gid, l.inviteID)
+                      }
+                    }}
                     key={i}
                     title={l.from}
                     rightIcon = {<Icon size={30} color='black' name="error-outline" />}
                     bottomDivider
                     />
                 ))
-                    
+
             }
-            <Dialog.Container
-            visible={dialogVisible}
-            >
-                <Dialog.Title>Accept Invitation</Dialog.Title>
-                <Dialog.Description>
-                    Do you want to accept this invitation.
-                </Dialog.Description>
-                <Dialog.Description>
-                    Warning: You can only be a member of one group.
-                </Dialog.Description>
-                <Dialog.Button
-                label="Decline"
-                onPress={cancel}
-                />
-                <Dialog.Button
-                label="Accept"
-                onPress={acceptInvitation}
-                />
-            </Dialog.Container>
+
         </View>
     )
 }
