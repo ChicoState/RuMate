@@ -22,15 +22,18 @@ const Login = ({
 
   const [waiting, setWaiting] = useState(false);
 
-  const authenticateUser = async () => {
+  const authenticateUser = () => {
     setWaiting(true)
-    await firebase.auth().signInWithEmailAndPassword(email, password).catch((error) => {
-      console.log(error.code, '\n', error.message);
-    }).then((myError) => {
-      setWaiting(false)
-      if (myError) {
-        navigation.navigate('Home');
-      }
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then( async () => {
+      let response = await firebase.auth().signInWithEmailAndPassword(email, password).catch((error) => {
+        console.log(error.code, '\n', error.message);
+      }).then((myError) => {
+        setWaiting(false)
+        if (myError) {
+          navigation.navigate('Home');
+        }
+      });
+      return response;
     });
   }
 

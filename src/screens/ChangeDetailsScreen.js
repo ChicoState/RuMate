@@ -8,8 +8,50 @@ import firebase from 'firebase'
 const ChangeDetailsScreen = ({ navigation }) => {
   const [changedDetail, setChangedDetail] = useState("")
   const [deleting, setDeleting] = useState(false)
+  const [newPass, setNewPass] = useState('')
+  const detail = navigation.state.params.detail
+
+  const changeDetail = (detail) => {
+    if (detail == 'name') {
+      let data = firebase.database().ref('users')
+      data.on('value', (snapshot) => {
+        let users = snapshot.val()
+        for (user in users) {
+          if (users[user].uid == firebase.auth().currentUser.uid) {
+            firebase.database().ref('users/'+user).update({name: changedDetail})
+            navigation.navigate('Home');
+          }
+        }
+      })
+    } else if (detail == 'password') {
+      let data = firebase.database().ref('users')
+      data.on('value', (snapshot) => {
+        let users = snapshot.val()
+        for (user in users) {
+          if (users[user].uid == firebase.auth().currentUser.uid) {
+            firebase.auth().currentUser.updatePassword(changedDetail).then(()=>{
+              firebase.auth().signOut()
+              navigation.navigate('Login')
+            })
+          }
+        }
+      })
+    }
+  }
+
+  const passValidate = () => {
+    if (newPass == changedDetail && newPass.length >= 6)
+      return true
+    return false
+  }
+
+  const renderWarning = () => {
+    if (!passValidate()) {
+      return <Text>Passwords must match!</Text>
+    }
+  }
+
   const renderType = () => {
-    const detail = navigation.state.params.detail
     const username = navigation.state.params.username
     if (detail == 'name') {
       return (<>
@@ -23,7 +65,11 @@ const ChangeDetailsScreen = ({ navigation }) => {
           value={changedDetail}
           onChangeText={setChangedDetail}
         />
-        <TouchableOpacity style={styles.submit}>
+        <TouchableOpacity style={styles.submit}
+          onPress={() => {
+            changeDetail(detail, changedDetail)
+          }}
+        >
           <Text style={styles.button}>Submit</Text>
         </TouchableOpacity>
       </>)
@@ -36,8 +82,8 @@ const ChangeDetailsScreen = ({ navigation }) => {
         <Text style={styles.inputLabel}>New password</Text>
         <TextInput 
           style={styles.input}
-          value={changedDetail}
-          onChangeText={setChangedDetail}
+          value={newPass}
+          onChangeText={setNewPass}
         />
         <Text style={styles.inputLabel}>Old password</Text>
         <TextInput 
@@ -45,7 +91,15 @@ const ChangeDetailsScreen = ({ navigation }) => {
           value={changedDetail}
           onChangeText={setChangedDetail}
         />
-        <TouchableOpacity style={styles.submit}>
+        <TouchableOpacity style={styles.submit}
+          onPress={() => {
+            if (passValidate(detail)) {
+              changeDetail(detail)
+              navigation.navigate('Login')
+            }
+          }}
+        >
+          {renderWarning()}
           <Text style={styles.button}>Submit</Text>
         </TouchableOpacity>
       </>)
@@ -82,7 +136,7 @@ const ChangeDetailsScreen = ({ navigation }) => {
   }
 
   return (
-    <View>
+    <View style={{height: '100%'}}>
       <Header
         backgroundColor="#000"
         leftComponent={<Icon name='arrow-back' size={25} color='white' onPress = { () => navigation.navigate('Home')} />}
@@ -137,7 +191,7 @@ const styles = StyleSheet.create({
   },
   mainLabel: {
     fontSize: 30,
-    paddingVertical: '20%',
+    paddingVertical: '10%',
     alignSelf: 'center'
   },
   username: {
