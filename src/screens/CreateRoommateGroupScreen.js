@@ -67,11 +67,13 @@ const CreateRoommateGroupScreen = ({navigation}) => {
         {
             var invites = firebase.database().ref().child('/invites').push();
             invites.set({
+                inviteID: new_gid+ newMembers[the_member].uid + groupName,
                 memberID: newMembers[the_member].uid,
                 from: groupName,
                 gid: new_gid
             })
         }
+        navigation.navigate('AddRoommate')
     }
 
     return (
