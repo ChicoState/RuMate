@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import firebase from 'firebase'
+import * as Haptic from 'expo-haptics';
 
 const Tile = ({ title, color, text, textColor, location, nav, params, run }) => {
   if (!params) {
@@ -11,6 +12,8 @@ const Tile = ({ title, color, text, textColor, location, nav, params, run }) => 
       if (run == 'logout') {
         firebase.auth().signOut()
         alert("Logged Out")
+      } else if (run == 'haptic-select'){
+        Haptic.selectionAsync()
       }
       nav.navigate(location, params)
       }}>
