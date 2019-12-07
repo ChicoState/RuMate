@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, Text, ScrollView, Image } from 'react-native'
+import { View, StyleSheet, Text, ScrollView, Image, Platform } from 'react-native'
 import { Header } from 'react-native-elements'
 import firebase from 'firebase'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import User from 'react-native-vector-icons/FontAwesome';
 import Tile from '../components/Tile'
-// import PhotoUpload from 'react-native-photo-upload'
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import * as ImagePicker from 'expo-image-picker'
+import * as Permissions from 'expo-permissions'
 
 const AccountScreen = ({ navigation }) => {
-
+  const [photo, setPhoto] = useState('')
   const getDisplayName = () => {
     let names = firebase.database().ref('users')
     let name = ""
@@ -23,8 +25,77 @@ const AccountScreen = ({ navigation }) => {
   }
   useEffect(() => {
     // getDisplayName();
+    getPhoto()
   }, []);
-  return(
+
+  const getPhoto = () => {
+    let data = firebase.database().ref('/users')
+    data.on('value', async (snapshot) => {
+      let users = await snapshot.val()
+      for (user in users) {
+        if (users[user].uid == firebase.auth().currentUser.uid) {
+          setPhoto(users[user].photoUri)
+        }
+      }
+    })
+  }
+
+  const pickImage = async () => {
+    getPermissionsAsync()
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1
+    })
+    console.log(result)
+    if (!result.cancelled) {
+      let data = firebase.database().ref('users/')
+      data.on('value', (snapshot) => {
+        let users = snapshot.val()
+        for (user in users) {
+          if (users[user].uid == firebase.auth().currentUser.uid) {
+            firebase.database().ref('users/' + user).update({
+              photoUri: result.uri
+            })
+            setPhoto(result.uri);
+          }
+        }
+      })
+    }
+  }
+
+  const getPermissionsAsync = async () => {
+    if (Platform.OS == 'ios') {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+      if (status !== 'granted') {
+        alert("Grant permissions to upload your photo")
+      }
+    }
+  }
+
+  const renderPhoto = () => {
+    console.log(photo)
+    if (photo) {
+      return (
+        <View style={styles.photo}>
+          <Image
+            style={{ height: 100, width: 100, borderRadius: 50 }}
+            source = {{uri: photo}}
+          />
+        </View>
+      )
+    } else {
+      return (
+        <User style = {styles.userLogo}
+          name = "user-circle"
+          size = {100}
+        />
+      )
+    }
+  }
+
+  return (
     <View style={{flex: 1}}>
       <Header
         backgroundColor="#000"
@@ -33,11 +104,12 @@ const AccountScreen = ({ navigation }) => {
       />
       <ScrollView style={{height: '100%'}}>
         <Text style={styles.welcomeBanner}>{getDisplayName()}</Text>
-        
-        <User style = {styles.userLogo}
-          name = "user-circle"
-          size = {100}
-        />
+        <TouchableOpacity onPress={ () => {
+          pickImage()
+        }}>
+          
+          {renderPhoto()}
+        </TouchableOpacity>
         {/* <Text style={{paddingBottom: '20%'}}>Change photo</Text> */}
         <Tile style={styles.tile}
           title="Change Display Name"
@@ -47,6 +119,7 @@ const AccountScreen = ({ navigation }) => {
           nav={navigation}
           location="ChangeDetails"
           params={{detail: 'name', username: getDisplayName()}}
+          run="haptic-select"
         />
         <Tile style={styles.tile}
           title="Change Password"
@@ -56,6 +129,7 @@ const AccountScreen = ({ navigation }) => {
           nav={navigation}
           location="ChangeDetails"
           params={{detail: 'password', username: getDisplayName()}}
+          run="haptic-select"
         />
         <Tile style={styles.tile}
           title="Sign Out"
@@ -75,6 +149,7 @@ const AccountScreen = ({ navigation }) => {
           nav={navigation}
           location="ChangeDetails"
           params={{detail: 'delete-account', username: getDisplayName()}}
+          run="haptic-select"
         />
       </ScrollView>
     </View>
@@ -83,8 +158,12 @@ const AccountScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   userLogo: {
-    paddingTop: '10%',
+    paddingBottom: '10%',
     alignSelf: 'center'
+  },
+  photo: {
+    alignSelf: 'center',
+    marginBottom: '10%',
   },
   welcomeBanner: {
     fontSize: 30,
