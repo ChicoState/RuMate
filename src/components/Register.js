@@ -33,6 +33,7 @@ const Register = ({
             uid: firebase.auth().currentUser.uid,
             rid: -1,
             name,
+            photoUri: ''
           });
           setRegister(!register);
         }
