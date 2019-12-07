@@ -59,13 +59,22 @@ const HomeScreen = ({ navigation }) => {
     var date = new Date().getDate();
     var month = new Date().getMonth() + 1;
     var year = new Date().getFullYear();
+    if (date < 10)
+    {
+      date = "0" + date;
+    }
+    if (month < 10)
+    {
+      month = "0" + month;
+    }
     const the_date = year + "-" + month + "-" + date;
 
     var num_asmts = 0;
 
-    bills.on('value', (snapshot) => {
+    bills.once('value', (snapshot) => {
       const data = snapshot.val();
       for (let item in data) {
+        console.log(data[item].date)
         if (firebase.auth().currentUser.uid == data[item].uid && data[item].date < the_date)
         {
           num_asmts = num_asmts + 1;
@@ -73,11 +82,13 @@ const HomeScreen = ({ navigation }) => {
       }
     });
 
-    tasks.on('value', (snapshot) => {
+    tasks.once('value', (snapshot) => {
       const data = snapshot.val();
       for (let item in data) {
+        console.log(data[item].date)
         if (firebase.auth().currentUser.uid == data[item].uid && data[item].date < the_date)
         {
+          console.log(data[item].date + "is less than " + the_date)
           num_asmts = num_asmts + 1;
         }
       }
