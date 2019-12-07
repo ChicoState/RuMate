@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
+import DatePicker from 'react-native-datepicker';
+
 import { Header, ButtonGroup } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import firebase from 'firebase';
@@ -15,24 +17,32 @@ const CreateBillScreen = ({navigation}) => {
   return (
     <View>
       <Header
-        backgroundColor="green"
-        leftComponent={<Icon name='arrow-back' size={30} color='black' onPress = { () => navigation.navigate('Bills')} />}
-        centerComponent={{text: "Add a bill", style: {fontSize: 20, color: 'black'}}}
+        backgroundColor="black"
+        leftComponent={<Icon name='arrow-back' size={30} color='white' onPress = { () => navigation.navigate('Bills')} />}
+        centerComponent={{text: "Add a bill", style: {fontSize: 20, color: 'white'}}}
       />
-      <Text>Name</Text>
+      <Text style={styles.label}>Time to be responsible!</Text>
       <TextInput style={styles.input}
         value={name}
         onChangeText={setName}
+        placeholder="Bill Name"
       />
-      <Text>Value</Text>
       <TextInput style={styles.input}
         value={value}
+        placeholder="Bill Amount"
         onChangeText={setValue}
+        keyboardType="numeric"
       />
-      <Text>Due by</Text>
-      <TextInput style={styles.input}
-        value={date}
-        onChangeText={setDate}
+      {/* Personal bill OR group bill like rent/water/electric */}
+      <Text style={styles.inputLabel}>Due by</Text>
+      <DatePicker 
+        style={styles.DatePickerStyle}
+        onDateChange={setDate}
+        confirmBtnText="Confirm"
+        cancelBtnText="Cancel"
+        format="YYYY-MM-DD"
+        placeholder="select date"
+        date={date}
       />
       <Text>Method</Text>
       <ButtonGroup
@@ -52,6 +62,7 @@ const CreateBillScreen = ({navigation}) => {
             billId: firebase.auth().currentUser.uid + value + name + date,
             method: selIndex
           });
+          navigation.navigate('Bills');
         }}
       />
     </View>
@@ -61,11 +72,33 @@ const CreateBillScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
-    marginVertical: 2,
+    borderColor: '#222',
+    marginVertical: 5,
     width: 300,
     marginHorizontal: 5,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    fontSize: 18,
+    paddingVertical: 20,
+    paddingHorizontal: 15,
+    borderRadius: 15
   },
+  DatePickerStyle: {
+    alignSelf: 'center',
+    width: 300,
+    paddingBottom: '20%',
+    width: 200,
+  },
+  label: {
+    fontSize: 30,
+    alignSelf: 'center',
+    paddingVertical: '10%',
+  },
+  inputLabel: {
+    fontSize: 18,
+    paddingTop: '10%',
+    paddingBottom: '5%',
+    alignSelf: 'center'
+  }
 });
 
 export default CreateBillScreen;

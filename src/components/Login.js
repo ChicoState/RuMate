@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import firebase from 'firebase';
 import * as Animatable from 'react-native-animatable';
+import * as Haptics from 'expo-haptics'
 import TitleBlock from './TitleBlock';
 import AuthSpinner from './AuthSpinner';
 
@@ -21,15 +22,18 @@ const Login = ({
 
   const [waiting, setWaiting] = useState(false);
 
-  const authenticateUser = async () => {
+  const authenticateUser = () => {
     setWaiting(true)
-    await firebase.auth().signInWithEmailAndPassword(email, password).catch((error) => {
-      console.log(error.code, '\n', error.message);
-    }).then((myError) => {
-      setWaiting(false)
-      if (myError) {
-        navigation.navigate('Home');
-      }
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then( async () => {
+      let response = await firebase.auth().signInWithEmailAndPassword(email, password).catch((error) => {
+        console.log(error.code, '\n', error.message);
+      }).then((myError) => {
+        setWaiting(false)
+        if (myError) {
+          navigation.navigate('Home');
+        }
+      });
+      return response;
     });
   }
 
@@ -66,13 +70,17 @@ const Login = ({
             style={{paddingTop: 20}}
             animation="fadeInUp">
             <TouchableOpacity style={[styles.submit, styles.loginButton]} 
-              onPress = {authenticateUser}>
+              onPress = {() => {
+                authenticateUser()
+                Haptics.selectionAsync()
+                }}>
               <Text style={[styles.darkText, styles.button]}>
                 Login
               </Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.submit, styles.registerButton]}
               onPress={() => {
+                Haptics.selectionAsync();
                 setRegister(!register);
               }} >
               <Text style={[styles.lightText, styles.button]}>
@@ -131,7 +139,7 @@ const styles = StyleSheet.create({
   },
   background: {
     flex: 1,
-    backgroundColor: '#333'
+    backgroundColor: 'rgb(25,25,25)'
   },
 });
 

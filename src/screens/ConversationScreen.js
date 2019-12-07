@@ -5,11 +5,13 @@ import firebase from 'firebase';
 import MessageList from '../components/MessageList';
 import Icon  from 'react-native-vector-icons/Ionicons';
 import * as Ani from 'react-native-animatable'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const ConversationScreen = ({ navigation }) => {
   const name = navigation.state.params.name;
   const [input, setInput] = useState("");
   const [conversationID, setConversationID] = useState("");
+  const [disabled, setDisabled] = useState(false);
 
   const submitMessage = () => {
     let date = new Date();
@@ -48,11 +50,18 @@ const ConversationScreen = ({ navigation }) => {
           })
           setConversationID(firebase.auth().currentUser.uid + recipientID);
           setInput("");
+          spamBlock();
           break;
         }
       }
     })
-    
+  }
+
+  const spamBlock = () => {
+    setDisabled(true)
+    setTimeout(() => {
+      setDisabled(false) 
+    }, 800)
   }
 
   return (
@@ -75,9 +84,13 @@ const ConversationScreen = ({ navigation }) => {
             multiline
             autoFocus
           />
-          <Icon style={styles.send} name="md-send" size={30}
+          <TouchableOpacity
             onPress={submitMessage}
-          />
+            disabled={disabled}
+            >
+          <Icon style={styles.send} name="md-send" size={30}/>
+          </TouchableOpacity>
+          
         </View>
       </KeyboardAvoidingView>
   );

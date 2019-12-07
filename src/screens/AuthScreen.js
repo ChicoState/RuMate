@@ -5,11 +5,13 @@ import {
 } from 'react-native';
 import Register from '../components/Register';
 import Login from '../components/Login';
+import * as Haptics from 'expo-haptics';
+import firebase from 'firebase'
 
 const AuthScreen = ({navigation}) => {
   const [register, setRegister] = useState(false);
   // set initial email state to empty string
-  const [email, setEmail] = useState("Messanger1@noyou.com");
+  const [email, setEmail] = useState("Messanger2@noyou.com");
   // password string initally empty
   const [password, setPassword] = useState("Test1234");
   const [confPassword, setConfPassword] = useState("");
@@ -24,6 +26,13 @@ const AuthScreen = ({navigation}) => {
     // setSignedIn() will be used here eventually
     // to check if a user is already logged in
     // when starting up the app. 
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        console.log(user)
+        setSignedIn(true)
+      }
+    })
+    Haptics.selectionAsync()
   }, []);
 
   const passMatch = (password, confPassword) => {

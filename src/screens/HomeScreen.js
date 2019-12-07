@@ -6,26 +6,34 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import * as Ani from 'react-native-animatable';
 import firebase from 'firebase';
 import User from 'react-native-vector-icons/FontAwesome';
+import * as Haptics from 'expo-haptics';
 
 const HomeScreen = ({ navigation }) => {
-  const [greeting, setGreeting] = useState("");
-  const [taskColor, setTaskColor] = useState("#111");
-  const [taskText, setTaskText] = useState("");
+  const [greeting, setGreeting] = useState("")
+  const [name, setName] = useState("")
+  const [taskColor, setTaskColor] = useState("#111")
+  const [taskText, setTaskText] = useState("")
   
   const getDisplayName = () => {
-    let username = firebase.auth().currentUser.email.split("@")[0]
-    let capital = username[0].toUpperCase()
-    username = username.split(username[0])
-    return(capital + username[1])
+    let names = firebase.database().ref('users')
+    let name = ""
+    names.on("value", (snapshot) => {
+      let data = snapshot.val();
+      for (i in data) {
+        if (data[i].uid == firebase.auth().currentUser.uid)
+          name = data[i].name
+      }
+      setName(name);
+    });
   }
 
   const getGreeting = () => {
     const greetings = [
-      'Hello', 
-      'Welcome', 
-      'Hey', 
-      'Hi', 
-      "How's it going", 
+      'Hello',
+      'Welcome',
+      'Hey',
+      'Hi',
+      "How's it going",
       "What's up",
       "Good to see you",
       "Glad you're here",
@@ -37,7 +45,8 @@ const HomeScreen = ({ navigation }) => {
       "Howdy",
       "Hey there",
       ]
-     setGreeting(greetings[Math.floor(Math.random() * greetings.length)])
+
+    setGreeting(greetings[Math.floor(Math.random() * greetings.length)])
   }
 
   const setTextAndColor = (numAsmts) => {
@@ -95,10 +104,17 @@ const HomeScreen = ({ navigation }) => {
       setTextAndColor(num_asmts);
     });
   }
+
   useEffect(() => {
     getTasksAndBills();
     getGreeting();
+    getDisplayName();
+    Haptics.selectionAsync();
+    navigation.addListener('willFocus', () =>{
+      Haptics.selectionAsync();
+    });
   }, []);
+
 
   return (
     <View style={styles.background}>
@@ -114,7 +130,7 @@ const HomeScreen = ({ navigation }) => {
         
         <Ani.View animation="fadeIn" duration={2000}>
           <Text style={styles.welcomeBanner}> 
-            {greeting + ", " + getDisplayName()}
+            {greeting + ", " + name}
           </Text>
           
         </Ani.View>
