@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, StatusBar, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, StatusBar, ScrollView, Image } from 'react-native';
 import { Header } from 'react-native-elements';
 import Tile from '../components/Tile';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -13,7 +13,8 @@ const HomeScreen = ({ navigation }) => {
   const [name, setName] = useState("")
   const [taskColor, setTaskColor] = useState("#111")
   const [taskText, setTaskText] = useState("")
-  
+  const [photo, setPhoto] = useState('')
+    
   const getDisplayName = () => {
     let names = firebase.database().ref('users')
     let name = ""
@@ -94,10 +95,44 @@ const HomeScreen = ({ navigation }) => {
     });
   }
 
+  const getPhoto = () => {
+    let data = firebase.database().ref('/users')
+    data.on('value', async (snapshot) => {
+      let users = await snapshot.val()
+      for (user in users) {
+        if (users[user].uid == firebase.auth().currentUser.uid) {
+          setPhoto(users[user].photoUri)
+        }
+      }
+    })
+  }
+
+  const renderPhoto = () => {
+    console.log(photo)
+    if (photo) {
+      return (
+        <View style={styles.photo}>
+          <Image
+            style={{ height: 100, width: 100, borderRadius: 50 }}
+            source = {{uri: photo}}
+          />
+        </View>
+      )
+    } else {
+      return (
+        <User style = {styles.userLogo}
+          name = "user-circle"
+          size = {100}
+        />
+      )
+    }
+  }
+
   useEffect(() => {
     getTasksAndBills();
     getGreeting();
     getDisplayName();
+    getPhoto();
     Haptics.selectionAsync();
     navigation.addListener('willFocus', () =>{
       Haptics.selectionAsync();
@@ -123,10 +158,7 @@ const HomeScreen = ({ navigation }) => {
           </Text>
           
         </Ani.View>
-        <User style = {styles.userLogo}
-            name = "user-circle"
-            size = {100}
-          />
+        {renderPhoto()}
         <Tile style={styles.tile}
           title="Account"
           color="#111"
@@ -134,6 +166,7 @@ const HomeScreen = ({ navigation }) => {
           textColor="white"
           nav={navigation}
           location="Account"
+          run="haptic-select"
         />
         <Tile style={styles.tile}
           title="Deadlines"
@@ -142,6 +175,7 @@ const HomeScreen = ({ navigation }) => {
           textColor="white"
           nav={navigation}
           location="Priority"
+          run="haptic-select"
         />
       </ScrollView>
       {/* </Ani.View> */}
@@ -167,7 +201,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingTop: '20%',
     paddingBottom: '10%'
-  }
+  },
+  photo: {
+    alignSelf: 'center',
+    marginBottom: '10%',
+  },
 });
 
 export default HomeScreen;
