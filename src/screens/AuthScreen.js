@@ -11,9 +11,9 @@ import firebase from 'firebase'
 const AuthScreen = ({navigation}) => {
   const [register, setRegister] = useState(false);
   // set initial email state to empty string
-  const [email, setEmail] = useState("Messanger2@noyou.com");
+  const [email, setEmail] = useState("");
   // password string initally empty
-  const [password, setPassword] = useState("Test1234");
+  const [password, setPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
   // google auth state
   const [signedIn, setSignedIn] = useState(false);
@@ -22,10 +22,6 @@ const AuthScreen = ({navigation}) => {
   const [name, setName] = useState("");
 
   useEffect(() => {
-    // firebase.auth();
-    // setSignedIn() will be used here eventually
-    // to check if a user is already logged in
-    // when starting up the app. 
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         console.log(user)
