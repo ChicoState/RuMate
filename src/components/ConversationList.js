@@ -66,7 +66,6 @@ const ConversationList = ({ navigation }) => {
             return(
               <Conversation
                 name={item.item.user.name}
-                // blurb={item.item.text}
                 navigation = {navigation}
               />
             )
@@ -88,7 +87,6 @@ const ConversationList = ({ navigation }) => {
 
   return (
     <View>
-      {/* put in flatlist eventually */}
       {renderConversations()}
     </View>
   )

@@ -24,9 +24,9 @@ const styles = StyleSheet.create({
     marginLeft: "40%",
     marginVertical: 10,
     borderWidth: 1,
-    borderColor: 'blue',
+    borderColor: '#0095ff',
     borderRadius: 15,
-    backgroundColor: 'blue',
+    backgroundColor: '#0095ff',
     paddingVertical: 10,
   },
   fromMsgWrapper: {
@@ -34,9 +34,9 @@ const styles = StyleSheet.create({
     marginRight: '40%',
     marginVertical: 10,
     borderWidth: 1,
-    borderColor: 'green',
+    borderColor: '#32a852',
     borderRadius: 15,
-    backgroundColor: 'green',
+    backgroundColor: '#32a852',
     paddingVertical: 10,
   },
   to: {

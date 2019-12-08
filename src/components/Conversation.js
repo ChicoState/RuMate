@@ -1,9 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import * as Haptics from 'expo-haptics';
 
 const Conversation = ({ name, blurb, navigation }) => {
   return (
     <TouchableOpacity onPress={() => {
+      Haptics.selectionAsync();
       navigation.navigate('Conversation', {name})
     }}>
       <View style={styles.container}>

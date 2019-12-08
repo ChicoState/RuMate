@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, KeyboardAvoidingView, View, TextInput } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView, View, TextInput, Platform } from 'react-native';
 import { Header } from 'react-native-elements';
 import firebase from 'firebase';
 import MessageList from '../components/MessageList';
 import Icon  from 'react-native-vector-icons/Ionicons';
-import * as Ani from 'react-native-animatable'
+import * as Haptics from 'expo-haptics'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const ConversationScreen = ({ navigation }) => {
@@ -14,47 +14,50 @@ const ConversationScreen = ({ navigation }) => {
   const [disabled, setDisabled] = useState(false);
 
   const submitMessage = () => {
-    let date = new Date();
-    let time = date.toLocaleString('en-US', { 
-      hour: 'numeric',
-      minute: 'numeric',
-      hour12: true 
-    })
-    let msg = firebase.database().ref().child('/messages').push();
-    let recipientID = "";
-    let from = "";
-    let response = firebase.database().ref('/users');
-    let haveSender = false;
-    let haveRec = false;
-    response.on('value', async (snapshot) => {
-      let data = await snapshot.val();
-      for (i in data) {
-        if (firebase.auth().currentUser.uid == data[i].uid) {
-          from = data[i].name;
-          haveSender = true;
+    if (input && input != " ") {
+      let date = new Date();
+      let time = date.toLocaleString('en-US', { 
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true 
+      })
+      let msg = firebase.database().ref().child('/messages').push();
+      let recipientID = "";
+      let from = "";
+      let response = firebase.database().ref('/users');
+      let haveSender = false;
+      let haveRec = false;
+      response.on('value', async (snapshot) => {
+        let data = await snapshot.val();
+        for (i in data) {
+          if (firebase.auth().currentUser.uid == data[i].uid) {
+            from = data[i].name;
+            haveSender = true;
+          }
+          if (name == data[i].name) {
+            recipientID = data[i].uid;
+            haveRec = true;
+          }
+          if (haveRec && haveSender) {
+            haveSender = haveRec = false;
+            msg.set({
+              to: name,
+              from: from,
+              time: time,
+              convID: firebase.auth().currentUser.uid + recipientID,
+              msgID: name + time + from + date.getMilliseconds(),
+              text: input,
+              senderID: firebase.auth().currentUser.uid
+            })
+            setConversationID(firebase.auth().currentUser.uid + recipientID);
+            setInput("");
+            Haptics.selectionAsync()
+            spamBlock();
+            break;
+          }
         }
-        if (name == data[i].name) {
-          recipientID = data[i].uid;
-          haveRec = true;
-        }
-        if (haveRec && haveSender) {
-          haveSender = haveRec = false;
-          msg.set({
-            to: name,
-            from: from,
-            time: time,
-            convID: firebase.auth().currentUser.uid + recipientID,
-            msgID: name + time + from + date.getMilliseconds(),
-            text: input,
-            senderID: firebase.auth().currentUser.uid
-          })
-          setConversationID(firebase.auth().currentUser.uid + recipientID);
-          setInput("");
-          spamBlock();
-          break;
-        }
-      }
-    })
+      })
+    } 
   }
 
   const spamBlock = () => {
@@ -87,7 +90,7 @@ const ConversationScreen = ({ navigation }) => {
           <TouchableOpacity
             onPress={submitMessage}
             disabled={disabled}
-            >
+          >
           <Icon style={styles.send} name="md-send" size={30}/>
           </TouchableOpacity>
           

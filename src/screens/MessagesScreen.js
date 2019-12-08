@@ -16,10 +16,6 @@ const MessageScreen = ({ navigation }) => {
     <View>
       <Header
         backgroundColor="#000"
-        // leftComponent={{
-        //   icon: 'arrow-back',
-        //   onPress: () => navigation.navigate('Home')
-        // }}
         centerComponent={{
           text: "Messages",
           style: { fontSize: 20, color: 'white' }

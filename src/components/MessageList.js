@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Message from '../components/Message';
 import { ScrollView, FlatList } from 'react-native-gesture-handler';
+import * as Ani from 'react-native-animatable'
 import firebase from 'firebase';
 
 const MessageList = ({ id, recipient }) => {
@@ -45,12 +46,19 @@ const MessageList = ({ id, recipient }) => {
           if (item.item.senderID == firebase.auth().currentUser.uid) {
             sentToMe = true;
           }
+          if (sentToMe) {
+            animation = "fadeInRight"
+          } else {
+            animation = "fadeInLeft"
+          }
           return (
-            <Message 
-              sentToMe={sentToMe}
-              msg={item.item.text}
-              time={item.item.time}
-            />
+            <Ani.View animation={animation} duration={500}>
+              <Message 
+                sentToMe={sentToMe}
+                msg={item.item.text}
+                time={item.item.time}
+              />
+            </Ani.View>
           )
         }}
       />
