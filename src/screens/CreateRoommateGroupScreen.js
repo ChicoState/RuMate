@@ -58,8 +58,13 @@ const CreateRoommateGroupScreen = ({navigation}) => {
         roomateList.set({
             gid: new_gid,
             name: groupName,
-            members: [cur_user]
         });
+
+        /*memberList.child(new_gid).set({
+            uid : cur_user.uid,
+            accepted : "true"
+        });
+        */
 
         //TODO - DL: would prefer for the invites to just be a subfield of the users
         //database as opposed to a new invites database
