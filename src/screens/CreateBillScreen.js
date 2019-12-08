@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 
@@ -10,9 +10,25 @@ const CreateBillScreen = ({navigation}) => {
   const [name, setName] = useState("");
   const [value, setValue] = useState("");
   const [date, setDate] = useState("");
-  const [selIndex, setSelIndex] = useState(null);
+  const [rid, setRID] = useState("");
+  const [selIndex, setSelIndex] = useState(-1);
 
   var buttons = ["Divide Evenly", "For Each"]
+
+  useEffect(() => {
+    const uid = firebase.auth().currentUser.uid;
+    let ref = firebase.database().ref('users');
+
+    ref.orderByChild("uid").equalTo(uid).once("value", (snapshot) => {
+      let data = snapshot.val();
+      for (let item in data)
+      {
+        setRID(data[item].rid);
+        ref.orderByChild("rid").equalTo(data[item].rid).once("value", (snapshot) => {
+        })
+      }
+    })
+  }, []);
 
   return (
     <View>
@@ -60,7 +76,8 @@ const CreateBillScreen = ({navigation}) => {
             date,
             uid: firebase.auth().currentUser.uid,
             billId: firebase.auth().currentUser.uid + value + name + date,
-            method: selIndex
+            method: selIndex,
+            rid : rid
           });
           navigation.navigate('Bills');
         }}

@@ -8,15 +8,44 @@ import * as Haptics from 'expo-haptics';
 
 const getBills = async (setBills) => {
   const bills = await firebase.database().ref('bills/');
-  bills.on('value', (snapshot) => {
-    const data = snapshot.val();
-    let list = [];
-    for (let item in data) {
-      if (firebase.auth().currentUser.uid == data[item].uid) {
-        list.push(data[item])
-      }
+  const users = firebase.database().ref("users/");
+
+  users.orderByChild("uid").equalTo(firebase.auth().currentUser.uid).on("value", (snapshot) => {
+    let data = snapshot.val();
+    let rid = -1;
+    for (let item in data)
+    {
+      rid = data[item].rid;
     }
-    setBills(list);
+
+    users.orderByChild("rid").equalTo(rid).once("value", (snapshot) => {
+      let data = snapshot.val();
+      let num = 0;
+      for (let item in data)
+      {
+        num = num + 1;
+      }
+
+      bills.on('value', (snapshot) => {
+        const data = snapshot.val();
+        let list = [];
+  
+        for (let item in data) {
+          if (data[item].method != -1 && data[item].rid == rid) //group bill
+          {
+            if (data[item].method == 0) //divide evenly amonst group
+            {
+              data[item].value = data[item].value / num;
+            }
+            list.push(data[item])
+          }
+          else if (firebase.auth().currentUser.uid == data[item].uid) {
+            list.push(data[item])
+          }
+        }
+        setBills(list);
+      })
+    });
   })
 }
 
