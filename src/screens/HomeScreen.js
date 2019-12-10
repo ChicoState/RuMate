@@ -95,10 +95,10 @@ const HomeScreen = ({ navigation }) => {
     tasks.once('value', (snapshot) => {
       const data = snapshot.val();
       for (let item in data) {
-        console.log(data[item].date)
+        //console.log(data[item].date)
         if (firebase.auth().currentUser.uid == data[item].uid && data[item].date < the_date)
         {
-          console.log(data[item].date + "is less than " + the_date)
+          //console.log(data[item].date + "is less than " + the_date)
           num_asmts = num_asmts + 1;
         }
       }
