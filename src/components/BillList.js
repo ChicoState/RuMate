@@ -8,7 +8,21 @@ import * as Haptics from 'expo-haptics';
 
 const getBills = async (setBills) => {
   const bills = await firebase.database().ref('bills/');
-  const users = firebase.database().ref("users/");
+
+  bills.on('value', (snapshot) => {
+    const data = snapshot.val();
+    let list = [];
+    for (let item in data) {
+      if (firebase.auth().currentUser.uid == data[item].uid) {
+        list.push(data[item])
+      }
+    }
+    setBills(list);
+  });
+}
+
+  
+  /*const users = firebase.database().ref("users/");
 
   users.orderByChild("uid").equalTo(firebase.auth().currentUser.uid).on("value", (snapshot) => {
     let data = snapshot.val();
@@ -47,7 +61,7 @@ const getBills = async (setBills) => {
       })
     });
   })
-}
+  */
 
 const payBill = (uid) => {
   let val = null

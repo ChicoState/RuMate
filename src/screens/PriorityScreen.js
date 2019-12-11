@@ -24,7 +24,6 @@ const PriorityScreen = ({navigation}) => {
   const the_date = year + "-" + month + "-" + date
 
   const getAssignments = () => {
-    console.log("here")
     the_assignments = [];
     var ref = firebase.database().ref('bills');
     ref.once('value', function(snapshot) {
@@ -78,7 +77,7 @@ const PriorityScreen = ({navigation}) => {
       {
         assignments.map((l, i) => (
           <ListItem
-            onPress={() => openDialog(l.gid)}
+            //onPress={() => {}}
             key={i}
             title={l.title}
             subtitle={l.subtitle}
