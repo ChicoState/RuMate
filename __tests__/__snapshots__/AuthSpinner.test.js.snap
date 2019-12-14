@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AuthSpinner /> renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#111",
+      "flex": 1,
+    }
+  }
+>
+  <View>
+    <Text
+      style={
+        Array [
+          Object {
+            "alignSelf": "center",
+          },
+          Object {
+            "color": "white",
+            "fontSize": 40,
+            "paddingBottom": "20%",
+            "paddingLeft": undefined,
+            "paddingRight": undefined,
+            "paddingTop": "20%",
+          },
+        ]
+      }
+    >
+      RuMate
+    </Text>
+  </View>
+  <Text
+    style={
+      Array [
+        Object {
+          "color": "white",
+        },
+        Object {
+          "alignSelf": "center",
+          "fontSize": 15,
+        },
+      ]
+    }
+  >
+    Just a sec, workin' on it ...
+  </Text>
+  <ActivityIndicator
+    animating={true}
+    color="#ccc"
+    hidesWhenStopped={true}
+    size={0}
+    style={
+      Object {
+        "alignContent": "center",
+        "paddingVertical": 50,
+      }
+    }
+  />
+</View>
+`;
