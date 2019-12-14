@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 
@@ -10,9 +10,83 @@ const CreateBillScreen = ({navigation}) => {
   const [name, setName] = useState("");
   const [value, setValue] = useState("");
   const [date, setDate] = useState("");
-  const [selIndex, setSelIndex] = useState(null);
+  const [rid, setRID] = useState("");
+  const [selIndex, setSelIndex] = useState(-1);
 
   var buttons = ["Divide Evenly", "For Each"]
+
+  useEffect(() => {
+    const uid = firebase.auth().currentUser.uid;
+    let ref = firebase.database().ref('users');
+
+    ref.orderByChild("uid").equalTo(uid).once("value", (snapshot) => {
+      let data = snapshot.val();
+      for (let item in data)
+      {
+        setRID(data[item].rid);
+        ref.orderByChild("rid").equalTo(data[item].rid).once("value", (snapshot) => {
+        })
+      }
+    })
+  }, []);
+
+  const addBill = () => {
+  //const bills = firebase.database().ref('bills/');
+  //const users = firebase.database().ref("users/");
+    let bill = firebase.database().ref().child('/bills').push();
+          bill.set({
+            name,
+            value,
+            date,
+            uid: firebase.auth().currentUser.uid,
+            billId: firebase.auth().currentUser.uid + value + name + date,
+            method: selIndex,
+            rid : rid
+    });
+    
+/*
+    users.orderByChild("uid").equalTo(firebase.auth().currentUser.uid).on("value", (snapshot) => {
+      console.log("here")
+      let data = snapshot.val();
+      let rid = -1;
+      for (let item in data)
+      {
+        rid = data[item].rid;
+      }
+      console.log("my RID" + rid)
+  
+      users.orderByChild("rid").equalTo(rid).once("value", (snapshot) => {
+        let data = snapshot.val();
+        let num = 0;
+        for (let item in data)
+        {
+          num = num + 1;
+        }
+        console.log(num)
+  
+        /*bills.on('value', (snapshot) => {
+          const data = snapshot.val();
+          let list = [];
+    
+          for (let item in data) {
+            if (data[item].method != -1 && data[item].rid == rid) //group bill
+            {
+              if (data[item].method == 0) //divide evenly amonst group
+              {
+                data[item].value = data[item].value / num;
+              }
+              list.push(data[item])
+            }
+            else if (firebase.auth().currentUser.uid == data[item].uid) {
+              list.push(data[item])
+            }
+          }
+          console.log(list);
+        })
+        */
+     // });
+//})
+  }
 
   return (
     <View>
@@ -44,24 +118,17 @@ const CreateBillScreen = ({navigation}) => {
         placeholder="select date"
         date={date}
       />
-      <Text>Method</Text>
+      {/*<Text>Method</Text>
       <ButtonGroup
       onPress={setSelIndex}
       buttons={buttons}
       selectedIndex={selIndex}
       />
+      */}
       <Button title="Submit"
         onPress={() => {
           console.log(selIndex)
-          let bill = firebase.database().ref().child('/bills').push();
-          bill.set({
-            name,
-            value,
-            date,
-            uid: firebase.auth().currentUser.uid,
-            billId: firebase.auth().currentUser.uid + value + name + date,
-            method: selIndex
-          });
+          addBill();
           navigation.navigate('Bills');
         }}
       />

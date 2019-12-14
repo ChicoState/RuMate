@@ -13,12 +13,20 @@ const PriorityScreen = ({navigation}) => {
   var date = new Date().getDate();
   var month = new Date().getMonth() + 1;
   var year = new Date().getFullYear();
+  if (date < 10)
+  {
+    date = "0" + date;
+  }
+  if (month < 10)
+  {
+    month = "0" + month;
+  }
   const the_date = year + "-" + month + "-" + date
 
   const getAssignments = () => {
     the_assignments = [];
     var ref = firebase.database().ref('bills');
-    ref.on('value', function(snapshot) {
+    ref.once('value', function(snapshot) {
         let data = snapshot.val();
         for (let item in data)
         {
@@ -35,7 +43,7 @@ const PriorityScreen = ({navigation}) => {
     });
 
     ref = firebase.database().ref('tasks');
-    ref.on('value', function(snapshot) {
+    ref.once('value', function(snapshot) {
         let data = snapshot.val();
         for (let item in data)
         {
@@ -69,7 +77,7 @@ const PriorityScreen = ({navigation}) => {
       {
         assignments.map((l, i) => (
           <ListItem
-            onPress={() => openDialog(l.gid)}
+            //onPress={() => {}}
             key={i}
             title={l.title}
             subtitle={l.subtitle}
