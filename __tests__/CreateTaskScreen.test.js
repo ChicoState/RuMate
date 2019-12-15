@@ -4,10 +4,10 @@ import App from '../App'
 import CreateTaskScreen from '../src/screens/CreateTaskScreen'
 
 describe('<CreateTaskScreen />', () => {
-  it('has 1 child', () => {
+  it('has 6 children', () => {
     <App />
     const tree = renderer.create(<CreateTaskScreen />).toJSON()
-    expect(tree.children.length).toBe(1)
+    expect(tree.children.length).toBe(6)
   });
   
   it('renders correctly', () => {

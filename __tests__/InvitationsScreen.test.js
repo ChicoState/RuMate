@@ -4,10 +4,10 @@ import App from '../App'
 import InvitationsScreen from '../src/screens/InvitationsScreen'
 
 describe('<InvitationsScreen />', () => {
-  it('has 1 child', () => {
+  it('has 2 child', () => {
     <App />
     const tree = renderer.create(<InvitationsScreen />).toJSON()
-    expect(tree.children.length).toBe(1)
+    expect(tree.children.length).toBe(2)
   });
   
   it('renders correctly', () => {

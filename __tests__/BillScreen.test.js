@@ -4,7 +4,7 @@ import App from '../App'
 import BillsScreen from '../src/screens/BillsScreen'
 
 describe('<BillsScreen />', () => {
-  it('has 2 child', () => {
+  it('has 2 children', () => {
     <App />
     const tree = renderer.create(<BillsScreen />).toJSON()
     expect(tree.children.length).toBe(2)

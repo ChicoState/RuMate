@@ -5,8 +5,6 @@ import App from '../App'
 import Register from '../src/components/Register';
 import AuthScreen from '../src/screens/AuthScreen';
 
-
-
 describe('<Register />', () => {
   <>
     <App />

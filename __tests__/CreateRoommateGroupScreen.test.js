@@ -4,10 +4,10 @@ import App from '../App'
 import CreateRoommateGroupScreen from '../src/screens/CreateRoommateGroupScreen'
 
 describe('<CreateRoommateGroupScreen />', () => {
-  it('has 1 child', () => {
+  it('has 5 child', () => {
     <App />
     const tree = renderer.create(<CreateRoommateGroupScreen />).toJSON()
-    expect(tree.children.length).toBe(1)
+    expect(tree.children.length).toBe(5)
   });
   
   it('renders correctly', () => {
