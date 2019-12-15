@@ -4,9 +4,6 @@ import firebase from 'firebase'
 import * as Haptic from 'expo-haptics';
 
 const Tile = ({ title, color, text, textColor, location, nav, params, run }) => {
-  if (!params) {
-    params = {}
-  }
   return (
     <TouchableOpacity onPress={() => {
       if (run == 'logout') {
