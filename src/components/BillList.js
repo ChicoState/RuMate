@@ -13,7 +13,7 @@ const BillList = () => {
   useEffect(() => {
     getBills(setBills);
   }, []);
-
+  
   const getBills = async (setBills) => {
     const bills = await firebase.database().ref('bills/');
     bills.on('value', (snapshot) => {
