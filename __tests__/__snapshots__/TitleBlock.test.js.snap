@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TitleBlock /> renders correctly 1`] = `
+<View>
+  <Text
+    style={
+      Array [
+        Object {
+          "alignSelf": "center",
+        },
+        Object {
+          "color": undefined,
+          "fontSize": undefined,
+          "paddingBottom": undefined,
+          "paddingLeft": undefined,
+          "paddingRight": undefined,
+          "paddingTop": undefined,
+        },
+      ]
+    }
+  />
+</View>
+`;
