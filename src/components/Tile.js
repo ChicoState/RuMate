@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import firebase from 'firebase'
 import * as Haptic from 'expo-haptics';
 
@@ -11,7 +11,7 @@ const Tile = ({ title, color, text, textColor, location, nav, params, run }) => 
     <TouchableOpacity onPress={() => {
       if (run == 'logout') {
         firebase.auth().signOut()
-        alert("Logged Out")
+        Alert.alert("Logged Out");
       } else if (run == 'haptic-select'){
         Haptic.selectionAsync()
       }
