@@ -73,7 +73,7 @@ const Login = ({
               onPress = {() => {
                 authenticateUser()
                 Haptics.selectionAsync()
-                }}>
+              }}>
               <Text style={[styles.darkText, styles.button]}>
                 Login
               </Text>

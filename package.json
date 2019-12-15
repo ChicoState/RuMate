@@ -11,6 +11,8 @@
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.2",
     "@react-native-community/datetimepicker": "^2.1.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.15.1",
     "expo": "^34.0.1",
     "expo-app-auth": "^6.0.0",
     "expo-haptics": "~6.0.0",
