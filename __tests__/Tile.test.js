@@ -4,10 +4,9 @@ import firebase from 'firebase';
 import { shallow, configure } from 'enzyme';
 import Tile from '../src/components/Tile';
 import Adapter from 'enzyme-adapter-react-16';
-import firebaseConfig from './Firebase.test.config';
+import firebaseConfig from './Firebase.config';
 
 describe('<Tile />', () => {
-
   it('has 1 child', () => {
     const tree = renderer.create(<Tile />).toJSON();
     console.log(tree.children.length);
