@@ -1,8 +1,19 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import { shallow } from 'enzyme';
+import firebase from 'firebase';
+import { shallow, configure } from 'enzyme';
 import Tile from '../src/components/Tile';
 import Adapter from 'enzyme-adapter-react-16';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA_ZWMR-MFG_ZHNK4_WuEeHoLP9vzsY_Vk",
+  authDomain: "rumate-faaeb.firebaseapp.com",
+  databaseURL: "https://rumate-faaeb.firebaseio.com",
+  projectId: "rumate-faaeb",
+  storageBucket: "",
+  messagingSenderId: "484837108351",
+  appId: "1:484837108351:web:53a875e9546d00aa2dad4a"
+};
 
 describe('<Tile />', () => {
 
@@ -17,36 +28,26 @@ describe('<Tile />', () => {
     expect(tree).toMatchSnapshot();
   });
   
-  // configure({ adapter: new Adapter() });
+  configure({ adapter: new Adapter() });
 
-  // test('test onPress functionality', () => {
-  //   const onPressEvent = jest.fn();
-  //   onPressEvent.mockReturnValue('Link on press invoked');
-  //   const wrapper = shallow(
-  //     <Tile 
-  //       onPress={onPressEvent}
-  //       text='Tile Component'
-  //     />);
-  //   wrapper.find(Text).first().props().onPress();
-  //   expect(onPressEvent.mock.calls.length).toBe(1);
-  // });
+  test('test onPress functionality', () => {
+    const navigation = { navigate: jest.fn() };
+    const wrapper = shallow(<Tile nav={navigation}/>);
+    console.log(wrapper.props().onPress());
+  });
 
-  // it('renders correctly', () => {
-  //   const tree = renderer.create(
-  //   <Tile
-  //     run="logout"
-  //   />).toJSON();
-  //   expect(tree).toMatchSnapshot();
-  // });
-
-  // it('renders correctly', () => {
-  //   const tree = renderer.create(
-  //   <Tile 
-  //     run="haptic-select"
-  //   />).toJSON();
-  //   expect(tree).toMatchSnapshot();
-  // });
-
+  test('test onPress Haptic', () => {
+    const navigation = { navigate: jest.fn() };
+    const wrapper = shallow(<Tile run="haptic-select" nav={navigation}/>);
+    console.log(wrapper.props().onPress());
+  });
+  
+  test('test onPress logout', () => {
+    firebase.initializeApp(firebaseConfig);
+    const navigation = { navigate: jest.fn() };
+    const wrapper = shallow(<Tile run="logout" nav={navigation}/>);
+    console.log(wrapper.props().onPress());
+  });
 
 });
 
