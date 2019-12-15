@@ -4,10 +4,10 @@ import App from '../App'
 import AccountScreen from '../src/screens/AccountScreen'
 
 describe('<AccountScreen />', () => {
-  it('has 1 child', () => {
+  it('has 2 children', () => {
     <App />
     const tree = renderer.create(<AccountScreen />).toJSON()
-    expect(tree.children.length).toBe(1)
+    expect(tree.children.length).toBe(2)
   });
   
   it('renders correctly', () => {

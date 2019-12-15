@@ -111,14 +111,6 @@ export default class CreateTaskScreen extends Component {
                 <RoommateSearch
                   nameHandler = {this.nameHandler}
                 />
-                {/*
-                <SearchBar
-                    value={this.state.name}
-                    onChangeText={(name) => this.setState({name})}
-                    onEndEditing={(name) => this.nameSearch({name})}
-                    placeholder="assignee name"
-                />
-                */}
                 <View style={styles.DescriptionSearch}>
                   <SearchBar
                       inputStyle={{backgroundColor: 'white', fontSize: 20, color: 'black'}}
