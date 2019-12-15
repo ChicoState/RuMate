@@ -10,7 +10,6 @@ import AuthScreen from '../src/screens/AuthScreen';
 describe('<Register />', () => {
   <>
     <App />
-
   </>
   
   it('has 2 child', () => {
