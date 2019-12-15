@@ -11,7 +11,7 @@ const Tile = ({ title, color, text, textColor, location, nav, params, run }) => 
     <TouchableOpacity onPress={() => {
       if (run == 'logout') {
         firebase.auth().signOut()
-        Alert("Logged Out")
+        Alert.alert("Logged Out");
       } else if (run == 'haptic-select'){
         Haptic.selectionAsync()
       }
