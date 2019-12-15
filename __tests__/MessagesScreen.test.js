@@ -4,10 +4,10 @@ import App from '../App'
 import MessagesScreen from '../src/screens/MessagesScreen'
 
 describe('<MessagesScreen />', () => {
-  it('has 1 child', () => {
+  it('has 2 child', () => {
     <App />
     const tree = renderer.create(<MessagesScreen />).toJSON()
-    expect(tree.children.length).toBe(1)
+    expect(tree.children.length).toBe(2)
   });
   
   it('renders correctly', () => {
