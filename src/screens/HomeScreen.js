@@ -124,7 +124,7 @@ const HomeScreen = ({ navigation }) => {
       return (
         <View style={styles.photo}>
           <Image
-            style={{ height: 100, width: 100, borderRadius: 50 }}
+            style={{ height: 150, width: 150, borderRadius: 75 }}
             source = {{uri: photo}}
           />
         </View>
@@ -133,7 +133,7 @@ const HomeScreen = ({ navigation }) => {
       return (
         <User style = {styles.userLogo}
           name = "user-circle"
-          size = {100}
+          size = {150}
         />
       )
     }

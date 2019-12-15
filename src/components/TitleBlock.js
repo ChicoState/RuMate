@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const TitleBlock = ({title, color, fontSize, paddingTop, paddingBottom}) => {
+const TitleBlock = ({title, color, fontSize, paddingTop, paddingBottom, paddingLeft, paddingRight}) => {
   return (
     <View>
       <Text 
@@ -9,7 +9,9 @@ const TitleBlock = ({title, color, fontSize, paddingTop, paddingBottom}) => {
           color, 
           fontSize,
           paddingTop,
-          paddingBottom
+          paddingBottom,
+          paddingLeft,
+          paddingRight
         }]}>
         {title}
       </Text>

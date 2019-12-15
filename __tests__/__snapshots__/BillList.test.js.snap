@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<BillList /> renders correctly 1`] = `
+<View>
+  <View>
+    <Text
+      style={
+        Object {
+          "alignSelf": "center",
+          "fontSize": 40,
+          "paddingTop": "30%",
+        }
+      }
+    >
+      No current bills
+    </Text>
+  </View>
+</View>
+`;

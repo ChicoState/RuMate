@@ -8,6 +8,7 @@ import Tile from '../components/Tile'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker'
 import * as Permissions from 'expo-permissions'
+import * as Ani from 'react-native-animatable'
 
 const AccountScreen = ({ navigation }) => {
   const [photo, setPhoto] = useState('')
@@ -48,7 +49,6 @@ const AccountScreen = ({ navigation }) => {
       aspect: [4, 3],
       quality: 1
     })
-    console.log(result)
     if (!result.cancelled) {
       let data = firebase.database().ref('users/')
       data.on('value', (snapshot) => {
@@ -78,18 +78,16 @@ const AccountScreen = ({ navigation }) => {
     console.log(photo)
     if (photo) {
       return (
-        <View style={styles.photo}>
-          <Image
-            style={{ height: 100, width: 100, borderRadius: 50 }}
-            source = {{uri: photo}}
-          />
-        </View>
+        <Image
+          style={{ height: 150, width: 150, borderRadius: 75 }}
+          source = {{uri: photo}}
+        />
       )
     } else {
       return (
         <User style = {styles.userLogo}
           name = "user-circle"
-          size = {100}
+          size = {150}
         />
       )
     }
@@ -103,13 +101,21 @@ const AccountScreen = ({ navigation }) => {
         centerComponent={{text: "My Account", style: {fontSize: 20, color: 'white'}}}
       />
       <ScrollView style={{height: '100%'}}>
-        <Text style={styles.welcomeBanner}>{getDisplayName()}</Text>
+      
         <TouchableOpacity onPress={ () => {
           pickImage()
         }}>
-          
+          <Ani.View 
+         animation={"bounce"}
+         duration={1000}
+         delay={1000}
+         style={styles.photo}>
           {renderPhoto()}
+          </Ani.View>
         </TouchableOpacity>
+        
+        <Text style={styles.welcomeBanner}>{getDisplayName()}</Text>
+
         {/* <Text style={{paddingBottom: '20%'}}>Change photo</Text> */}
         <Tile style={styles.tile}
           title="Change Display Name"
@@ -158,17 +164,19 @@ const AccountScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   userLogo: {
-    paddingBottom: '10%',
+    paddingTop: '10%',
     alignSelf: 'center'
   },
   photo: {
+    marginTop: '20%',
     alignSelf: 'center',
-    marginBottom: '10%',
+    marginBottom: '1%',
   },
   welcomeBanner: {
     fontSize: 30,
     alignSelf: 'center',
-    paddingTop: '20%',
+    paddingTop: '2%',
+    paddingBottom: '10%'
   }
 });
 

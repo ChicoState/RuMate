@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import AuthSpinner from './src/components/AuthSpinner';
+import AuthSpinner from '../src/components/AuthSpinner';
 
 describe('<AuthSpinner />', () => {
 

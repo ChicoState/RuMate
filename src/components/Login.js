@@ -47,7 +47,7 @@ const Login = ({
             <TitleBlock 
               title="RuMate" 
               color="white"
-              fontSize={40}
+              fontSize={50}
               paddingTop={"40%"}
               paddingBottom={"20%"}
             />

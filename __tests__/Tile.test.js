@@ -1,18 +1,18 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import Conversation from './src/components/Conversation';
+import Tile from '../src/components/Tile';
 
-describe('<App />', () => {
+describe('<Tile />', () => {
 
   it('has 1 child', () => {
-    const tree = renderer.create(<Conversation />).toJSON();
+    const tree = renderer.create(<Tile />).toJSON();
     console.log(tree.children.length)
     expect(tree.children.length).toBe(1);
   });
   
   it('renders correctly', () => {
-    const tree = renderer.create(<Conversation />).toJSON();
+    const tree = renderer.create(<Tile />).toJSON();
     expect(tree).toMatchSnapshot();
   });
   

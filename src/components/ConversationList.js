@@ -95,7 +95,7 @@ const ConversationList = ({ navigation }) => {
 const styles = StyleSheet.create({
   noConv: {
     alignSelf: 'center',
-    fontSize: 30,
+    fontSize: 40,
     paddingTop: "30%",
   }
 })

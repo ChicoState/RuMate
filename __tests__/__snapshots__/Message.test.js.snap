@@ -4,8 +4,8 @@ exports[`<Message /> renders correctly 1`] = `
 <View
   style={
     Object {
-      "backgroundColor": "green",
-      "borderColor": "green",
+      "backgroundColor": "#32a852",
+      "borderColor": "#32a852",
       "borderRadius": 15,
       "borderWidth": 1,
       "marginLeft": 20,

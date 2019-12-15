@@ -20,6 +20,8 @@ exports[`<AuthSpinner /> renders correctly 1`] = `
             "color": "white",
             "fontSize": 40,
             "paddingBottom": "20%",
+            "paddingLeft": undefined,
+            "paddingRight": undefined,
             "paddingTop": "20%",
           },
         ]
