@@ -15,6 +15,5 @@ describe('<BillList />', () => {
     const tree = renderer.create(<BillList />).toJSON();
     expect(tree).toMatchSnapshot();
   });
-  
 });
 
