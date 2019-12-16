@@ -77,7 +77,7 @@ export default class CreateTaskScreen extends Component {
         this.props.navigation.navigate('Tasks');
     }
 
-    closeDialog = () => {
+    closeDialog() {
         this.setState({
             dialogVisible: false
         })

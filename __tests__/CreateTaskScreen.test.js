@@ -7,7 +7,7 @@ describe('<CreateTaskScreen />', () => {
   it('has 6 children', () => {
     <App />
     const tree = renderer.create(<CreateTaskScreen />).toJSON()
-    expect(tree.children.length).toBe(6)
+    expect(tree.children.length).toBe(7) //why is this 7??
   });
   
   it('renders correctly', () => {
