@@ -62,7 +62,7 @@ const CreateConversationScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <>
+    <View>
       <Header
         backgroundColor="#000"
         leftComponent={{
@@ -86,7 +86,7 @@ const CreateConversationScreen = ({ navigation }) => {
         />
       </View>
       {renderRecipients()}
-    </>
+    </View>
   );
 }
 
