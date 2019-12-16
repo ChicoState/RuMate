@@ -1,5 +1,45 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<Bill /> checks payed 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "borderBottomColor": "#000",
+        "borderBottomWidth": 1,
+        "paddingLeft": 10,
+        "paddingVertical": 20,
+      },
+      Object {
+        "backgroundColor": "green",
+      },
+    ]
+  }
+>
+  <Text
+    style={
+      Object {
+        "fontSize": 18,
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "paddingLeft": 10,
+      }
+    }
+  >
+    <Text>
+      Amount: $
+    </Text>
+    <Text>
+      Due by: 
+    </Text>
+  </View>
+</View>
+`;
+
 exports[`<Bill /> renders correctly 1`] = `
 <View
   style={
