@@ -12,7 +12,7 @@ firebase.initializeApp(firebaseConfig);
 
 describe('<MessagesScreen />', () => {
   
-  it('has 2 child', () => {
+  it('has 2 children', () => {
     const navigation = { navigation: jest.fn() };
     const tree = renderer.create(
       <MessagesScreen navigation={navigation}/>

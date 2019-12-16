@@ -156,7 +156,7 @@ export default class TaskList extends Component {
 
 }//componentWillMount
 
-  markAsCompleted = () => {
+  markAsCompleted() {
     this.setState({
       dialogVisible: false
     });
@@ -173,7 +173,7 @@ export default class TaskList extends Component {
     });
   }
 
-  cancel = () => {
+  cancel() {
     this.setState({
       dialogVisible: false
     });

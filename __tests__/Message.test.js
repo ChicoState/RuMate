@@ -8,7 +8,7 @@ configure({ adapter: new Adapter() });
 
 describe('<Message />', () => {
 
-  it('has 1 child', () => {
+  it('has 2 children', () => {
     const navigation = {navigation: jest.fn()};
     const tree = renderer.create(<Message navigation={navigation}/>).toJSON();
     console.log(tree.children.length)

@@ -17,7 +17,7 @@ export default class AgendaScreen extends Component {
     this.markCalendar();
   }
 
-  markCalendar = () => {
+  markCalendar() {
     // console.log(this.state.taskDates);
   var obj = this.state.taskDates.reduce((c, v) => Object.assign(c, {[v]: {selected: true,marked: true}}), {});
   this.setState({ marked : obj});
