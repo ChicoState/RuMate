@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<CreateConversationScreen /> renders correctly 1`] = `
-Array [
+<View>
   <View
     accessibilityIgnoresInvertColors={true}
     style={
@@ -139,7 +139,7 @@ Array [
         }
       }
     />
-  </View>,
+  </View>
   <View
     style={
       Object {
@@ -168,7 +168,7 @@ Array [
       underlineColorAndroid="transparent"
       value=""
     />
-  </View>,
+  </View>
   <View
     style={
       Object {
@@ -187,6 +187,6 @@ Array [
     >
       Enter a name
     </Text>
-  </View>,
-]
+  </View>
+</View>
 `;

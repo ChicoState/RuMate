@@ -4,10 +4,10 @@ import App from '../App'
 import CreateConversationScreen from '../src/screens/CreateConversationScreen'
 
 describe('<CreateConversationScreen />', () => {
-  it('has 1 child', () => {
+  it('has 3 children', () => {
     <App />
     const tree = renderer.create(<CreateConversationScreen />).toJSON()
-    expect(tree.children.length).toBe(1)
+    expect(tree.children.length).toBe(3)
   });
   
   it('renders correctly', () => {
