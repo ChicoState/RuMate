@@ -4,7 +4,7 @@ import firebase from 'firebase';
 import { shallow, configure } from 'enzyme';
 import Tile from '../src/components/Tile';
 import Adapter from 'enzyme-adapter-react-16';
-import firebaseConfig from './Firebase.config';
+import firebaseConfig from '../config/Firebase.config';
 
 describe('<Tile />', () => {
   it('has 1 child', () => {
